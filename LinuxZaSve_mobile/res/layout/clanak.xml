@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
-        android:text="Komentari" 
+        android:text="@string/gumb_komentari" 
         android:onClick="sendMessage"/>
 
 </LinearLayout>
