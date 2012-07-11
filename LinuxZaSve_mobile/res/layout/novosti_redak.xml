@@ -26,7 +26,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="14dp"
         android:alpha="1"
-        android:text="TextView"
         android:textColor="@android:color/tertiary_text_light"
         android:textStyle="italic" />
 
@@ -40,7 +39,6 @@
         android:layout_marginLeft="160dp"
         android:layout_toRightOf="@id/datum"
         android:alpha="1"
-        android:text="TextView"
         android:textColor="@android:color/tertiary_text_light"
         android:textStyle="italic" />
 

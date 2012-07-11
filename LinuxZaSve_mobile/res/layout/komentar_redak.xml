@@ -11,7 +11,6 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/datum_komentar"
         android:alpha="1"
-        android:text="TextView"
         android:textColor="@android:color/black"
         android:textStyle="bold|italic" />
 
@@ -30,7 +29,6 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="14dp"
         android:alpha="1"
-        android:text="TextView"
         android:textColor="@android:color/black"
         android:textStyle="italic|bold" />
 
