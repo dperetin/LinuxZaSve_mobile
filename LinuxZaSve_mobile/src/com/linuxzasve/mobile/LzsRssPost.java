@@ -1,9 +1,5 @@
 package com.linuxzasve.mobile;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 public class LzsRssPost {
 	
 	private String title;
@@ -110,26 +106,6 @@ public class LzsRssPost {
 	public String getThumbUrl(){
 		return thumb_url;
 	}
-	
-
-	
-	/*public void setDescription(String description){
-		this.description = description;
-	}
-	
-	public void setLink(String link){
-		this.link = link;
-	}
-	
-	public void setPublishDate(String publishDate){
-		this.publishDate = publishDate;
-	}
-	
-	public void setTitle(String title){
-		this.title = title;
-	}*/
-	
-
 }
 
 
