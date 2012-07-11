@@ -2,7 +2,7 @@ package com.linuxzasve.mobile;
 
 import java.util.List;
 
-import com.dejanperetin.imgeview_test.MainActivity.MySimpleArrayAdapter;
+import com.linuxzasve.mobile.ListaNovosti.MySimpleArrayAdapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,7 +24,7 @@ public class ListaKomentara extends Activity {
 		private final List<LzsRssPost> values;
 
 		public MySimpleArrayAdapter(Context context, List<LzsRssPost> naslovi) {
-			super(context, R.layout.jedan_komentar, naslovi);
+			super(context, R.layout.komentar_redak, naslovi);
 			this.context = context;
 			this.values = naslovi;
 		}
@@ -33,7 +33,7 @@ public class ListaKomentara extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View rowView = inflater.inflate(R.layout.jedan_komentar, parent, false);
+			View rowView = inflater.inflate(R.layout.komentar_redak, parent, false);
 			WebView neki_tekst = (WebView) rowView.findViewById(R.id.teks_komentar );
 			TextView datum = (TextView) rowView.findViewById(R.id.datum_komentar);
 			TextView autor = (TextView) rowView.findViewById(R.id.autor_komentar);
@@ -58,10 +58,10 @@ public class ListaKomentara extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.komentari);
+        setContentView(R.layout.lista_komentara);
         
         Intent intent = getIntent();
-        String message = intent.getStringExtra(ActivityClanak.link);
+        String message = intent.getStringExtra(Clanak.link);
         
         ListView listView = (ListView) findViewById(R.id.komentari);
         
