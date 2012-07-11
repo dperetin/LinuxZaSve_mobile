@@ -33,7 +33,7 @@ import android.support.v4.app.NavUtils;
 
 
 
-public class MainActivity extends Activity {
+public class ListaNovosti extends Activity {
 	
 	public final static String link = "com.example.myapp.MESSAGE";
 	
@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
 		private final List<LzsRssPost> values;
 
 		public MySimpleArrayAdapter(Context context, List<LzsRssPost> naslovi) {
-			super(context, R.layout.jedan_redak, naslovi);
+			super(context, R.layout.novosti_redak, naslovi);
 			this.context = context;
 			this.values = naslovi;
 		}
@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View rowView = inflater.inflate(R.layout.jedan_redak, parent, false);
+			View rowView = inflater.inflate(R.layout.novosti_redak, parent, false);
 			TextView neki_tekst = (TextView) rowView.findViewById(R.id.neki_tekst );
 			TextView datum = (TextView) rowView.findViewById(R.id.datum);
 			TextView autor = (TextView) rowView.findViewById(R.id.autor);
@@ -68,7 +68,7 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.lista_novosti);
    
         
         
@@ -110,7 +110,7 @@ public class MainActivity extends Activity {
         	public void onItemClick(AdapterView<?> parent, View view,
         			int position, long id) {
         		
-        		Intent i = new Intent(getApplicationContext(), ActivityClanak.class);
+        		Intent i = new Intent(getApplicationContext(), Clanak.class);
         		
         		TextView neki_tekst = (TextView) view.findViewById(R.id.neki_tekst );
         		
@@ -127,7 +127,7 @@ public class MainActivity extends Activity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
+        getMenuInflater().inflate(R.menu.lista_novosti, menu);
         return true;
     } 
 }
