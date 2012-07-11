@@ -1,9 +1,6 @@
 package com.linuxzasve.mobile;
 
 import java.util.List;
-
-import com.linuxzasve.mobile.ListaNovosti.MySimpleArrayAdapter;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -44,10 +41,7 @@ public class ListaKomentara extends Activity {
 			
 			WebSettings settings = neki_tekst.getSettings();
 	      	settings.setDefaultTextEncodingName("utf-8");
-	      	neki_tekst.getSettings().setJavaScriptEnabled(true);
-	      	neki_tekst.getSettings().setBuiltInZoomControls(true);
-	      	
-	            // displaying selected product name
+
 	      	neki_tekst.loadData(values.get(values.size() - position - 1).getContent(), "text/html", null);
 	
 
@@ -66,26 +60,10 @@ public class ListaKomentara extends Activity {
         ListView listView = (ListView) findViewById(R.id.komentari);
         
         RssFeed lzs_feed = new RssFeed(message);
-        List<String> display_string = lzs_feed.getTitleList();
 
-        
-        /*String[] display_string = new String[] { "Android", "iPhone", "WindowsMobile",
-        		"Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-        		"Linux", "OS/2" };*/
-        
-        // First paramenter - Context
-        // Second parameter - Layout for the row
-        // Third parameter - ID of the View to which the data is written
-        // Forth - the Array of data
         MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, lzs_feed.lista_postova);
 
-        // Assign adapter to ListView
-        listView.setAdapter(adapter);
-        
-        
-        
-        
-        
+        listView.setAdapter(adapter); 
     }
 }
 

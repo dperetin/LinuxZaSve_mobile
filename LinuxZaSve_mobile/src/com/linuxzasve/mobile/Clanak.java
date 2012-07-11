@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.TextView;
 
 public class Clanak extends Activity {
 	
@@ -40,12 +39,7 @@ public class Clanak extends Activity {
         
         WebSettings settings = clanak.getSettings();
       	settings.setDefaultTextEncodingName("utf-8");
-      	clanak.getSettings().setJavaScriptEnabled(true);
-      	clanak.getSettings().setBuiltInZoomControls(true);
-      	
-            // displaying selected product name
-      	clanak.loadData(sadrzaj, "text/html", null);
 
-        
+      	clanak.loadData(sadrzaj, "text/html", null);       
     }
 }
