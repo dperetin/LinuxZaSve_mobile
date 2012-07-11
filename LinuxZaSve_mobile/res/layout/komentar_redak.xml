@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/autor_komentar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/datum_komentar"
+        android:alpha="1"
+        android:text="TextView"
+        android:textColor="@android:color/black"
+        android:textStyle="bold|italic" />
+
+    <WebView
+        android:id="@+id/teks_komentar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/autor_komentar" />
+
+    <TextView
+        android:id="@+id/datum_komentar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="14dp"
+        android:alpha="1"
+        android:text="TextView"
+        android:textColor="@android:color/black"
+        android:textStyle="italic|bold" />
+
+</RelativeLayout>
