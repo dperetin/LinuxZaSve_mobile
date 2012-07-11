@@ -15,7 +15,7 @@ public class Clanak extends Activity {
 	public final static String link = "com.example.myapp.MESSAGE";
 	
 	public void sendMessage(View view) {
-	    Intent intent = new Intent(this, komentar_activity.class);
+	    Intent intent = new Intent(this, ListaKomentara.class);
 	    
 	    intent.putExtra(link, naslov_clanka);
 	    startActivity(intent);
@@ -24,10 +24,10 @@ public class Clanak extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.clanak_activity);
+        setContentView(R.layout.clanak);
         
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.link);
+        String message = intent.getStringExtra(ListaNovosti.link);
         
         RssFeed lzs_feed = new RssFeed("http://feeds.feedburner.com/linuxzasve");
         String sadrzaj = lzs_feed.getContentByTitle(message);
