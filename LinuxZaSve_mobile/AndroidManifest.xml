@@ -2,7 +2,7 @@
     package="com.linuxzasve.mobile"
     android:versionCode="1"
     android:versionName="1.0" >
-
+	<uses-permission android:name="android.permission.INTERNET" /> 
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="15" />
@@ -20,6 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.linuxzasve.mobile.Clanak" />
+        <activity android:name="com.linuxzasve.mobile.ListaKomentara" />
     </application>
 
 </manifest>
