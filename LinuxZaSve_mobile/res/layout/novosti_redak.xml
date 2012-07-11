@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/neki_tekst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:ellipsize="marquee"
+        android:text="@+id/label"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+    <TextView
+        android:id="@+id/datum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/neki_tekst"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="14dp"
+        android:alpha="1"
+        android:text="TextView"
+        android:textColor="@android:color/tertiary_text_light"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/autor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/datum"
+        android:layout_alignBottom="@+id/datum"
+        android:layout_alignParentRight="false"
+        android:layout_marginLeft="160dp"
+        android:layout_toRightOf="@id/datum"
+        android:alpha="1"
+        android:text="TextView"
+        android:textColor="@android:color/tertiary_text_light"
+        android:textStyle="italic" />
+
+</RelativeLayout>
