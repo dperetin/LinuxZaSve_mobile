@@ -40,6 +40,8 @@ public class Clanak extends Activity {
         WebSettings settings = clanak.getSettings();
       	settings.setDefaultTextEncodingName("utf-8");
 
-      	clanak.loadData(sadrzaj, "text/html", null);       
+      	//clanak.loadData(sadrzaj, "text/html", null);
+      	clanak.loadDataWithBaseURL("file:///android_asset/", sadrzaj, "text/html", "UTF-8", null);
+
     }
 }

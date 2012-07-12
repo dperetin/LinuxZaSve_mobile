@@ -35,7 +35,7 @@ public class LzsRssPost {
 		this.link = link;
 		this.publishDate = publishDate;
 		this.creator = creator;
-		this.content = content;
+		this.content = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />" + content;
 		this.commentRss = commentRss;
 		this.no_comments = no_comments;
 		this.origLink = origLink;
