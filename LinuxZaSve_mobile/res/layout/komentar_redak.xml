@@ -9,6 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_toLeftOf="@+id/datum_komentar"
         android:alpha="1"
         android:textColor="@android:color/black"
@@ -30,6 +32,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/autor_komentar"/>
+        android:layout_below="@+id/autor_komentar"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textSize="16dp" />
 
 </RelativeLayout>

@@ -41,7 +41,6 @@ public class ListaNovosti extends Activity {
 			neki_tekst.setText(values.get(position).getTitle());
 			datum.setText(values.get(position).hrvatskiDatum());
 			autor.setText(values.get(position).getCreator());
-	
 
 			return rowView;
 		}

@@ -3,14 +3,10 @@ body {
 }
 
 h1 {
-	color:orange;
+	color:#000000;
 	text-align:center;
 }
 
 p {
 	font-family:"Times New Roman";
-}
-
-img {
-	width:100%;
 }
