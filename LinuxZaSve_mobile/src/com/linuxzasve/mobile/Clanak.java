@@ -29,7 +29,7 @@ public class Clanak extends Activity {
         String message = intent.getStringExtra(ListaNovosti.link);
         
         RssFeed lzs_feed = new RssFeed("http://feeds.feedburner.com/linuxzasve");
-        String sadrzaj = lzs_feed.getContentByTitle(message);
+        String sadrzaj = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />" + "<h1>" + message + "</h1>" + lzs_feed.getContentByTitle(message);
         
         String komentari_url = lzs_feed.getCommentsByTitle(message);
         

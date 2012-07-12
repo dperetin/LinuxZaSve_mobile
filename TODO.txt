@@ -3,3 +3,4 @@ Swipe na komentare
 Cache postova i komentara u bazu
 css kod prikaza clanaka
 naslov i autora u clanak
+submit komentara
