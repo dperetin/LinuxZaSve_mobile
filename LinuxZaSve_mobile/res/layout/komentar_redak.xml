@@ -14,13 +14,6 @@
         android:textColor="@android:color/black"
         android:textStyle="bold|italic" />
 
-    <WebView
-        android:id="@+id/teks_komentar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/autor_komentar" />
-
     <TextView
         android:id="@+id/datum_komentar"
         android:layout_width="wrap_content"
@@ -31,5 +24,12 @@
         android:alpha="1"
         android:textColor="@android:color/black"
         android:textStyle="italic|bold" />
+
+    <TextView
+        android:id="@+id/tekst_komentar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/autor_komentar"/>
 
 </RelativeLayout>

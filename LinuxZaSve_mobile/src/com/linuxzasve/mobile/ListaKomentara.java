@@ -5,11 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,7 +30,7 @@ public class ListaKomentara extends Activity {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View rowView = inflater.inflate(R.layout.komentar_redak, parent, false);
-			WebView neki_tekst = (WebView) rowView.findViewById(R.id.teks_komentar );
+			TextView neki_tekst = (TextView) rowView.findViewById(R.id.tekst_komentar );
 			TextView datum = (TextView) rowView.findViewById(R.id.datum_komentar);
 			TextView autor = (TextView) rowView.findViewById(R.id.autor_komentar);
 			
@@ -39,10 +38,8 @@ public class ListaKomentara extends Activity {
 			datum.setText(values.get(values.size() - position - 1).hrvatskiDatum());
 			autor.setText(values.get(values.size() - position - 1).getCreator());
 			
-			WebSettings settings = neki_tekst.getSettings();
-	      	settings.setDefaultTextEncodingName("utf-8");
 
-	      	neki_tekst.loadData(values.get(values.size() - position - 1).getContent(), "text/html", null);
+	      	neki_tekst.setText(Html.fromHtml(values.get(values.size() - position - 1).getContent()));
 	
 
 			return rowView;
