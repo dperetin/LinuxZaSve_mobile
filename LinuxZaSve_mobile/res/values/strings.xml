@@ -3,6 +3,6 @@
     <string name="app_name">LinuxZaSve</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_lista_novosti">Linux za sve</string>
+    <string name="title_activity_lista_novosti">LinuxZaSve</string>
 	<string name="gumb_komentari">Komentari</string>
 </resources>
