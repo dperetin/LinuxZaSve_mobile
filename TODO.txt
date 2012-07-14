@@ -5,3 +5,4 @@ css kod prikaza clanaka
 naslov i autora u clanak
 submit komentara
 odvojit style od layouta
+download clanka se odvija na glavnom threadu, ne radi na ndoridima >=3.0
