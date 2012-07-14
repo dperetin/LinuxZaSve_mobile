@@ -1,6 +1,8 @@
 package com.linuxzasve.mobile;
 
 import java.util.List;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -17,7 +19,42 @@ import android.widget.TextView;
 
 public class ListaNovosti extends Activity {
 	
+	// ovaj view je odvojen da mu se moze pristupiti iz background dretve
+	private ListView listaClanaka;
+	private ListaNovosti ovaAct;
 	public final static String link = "com.example.myapp.MESSAGE";
+	
+	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
+		@Override
+		protected RssFeed doInBackground(String... urls) {
+			RssFeed lzs_feed = new RssFeed("http://feeds.feedburner.com/linuxzasve");
+			
+			return lzs_feed;
+		}
+
+		@Override
+		protected void onPostExecute(RssFeed lzs_feed) {
+			MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(ovaAct, lzs_feed.lista_postova);
+
+	        // Assign adapter to ListView
+			listaClanaka.setAdapter(adapter);
+	        
+			listaClanaka.setOnItemClickListener(new OnItemClickListener(){
+	        	@Override
+	        	public void onItemClick(AdapterView<?> parent, View view,
+	        			int position, long id) {
+	        		
+	        		Intent i = new Intent(getApplicationContext(), Clanak.class);
+	        		
+	        		TextView neki_tekst = (TextView) view.findViewById(R.id.neki_tekst );
+	        		
+	        		i.putExtra(link, neki_tekst.getText());
+	        		startActivity(i);	
+	        		}
+	        });
+		}
+	}
+
 	
 	public class MySimpleArrayAdapter extends ArrayAdapter<LzsRssPost> {
 		private final Context context;
@@ -51,28 +88,12 @@ public class ListaNovosti extends Activity {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_novosti);
         
-        ListView listView = (ListView) findViewById(R.id.mylist);
-        
-        RssFeed lzs_feed = new RssFeed("http://feeds.feedburner.com/linuxzasve");
+        listaClanaka = (ListView) findViewById(R.id.mylist);
+        ovaAct = this;
+        //RssFeed lzs_feed = new RssFeed("http://feeds.feedburner.com/linuxzasve");
+        new DownloadRssFeed().execute("http://feeds.feedburner.com/linuxzasve");
 
-        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, lzs_feed.lista_postova);
-
-        // Assign adapter to ListView
-        listView.setAdapter(adapter);
         
-        listView.setOnItemClickListener(new OnItemClickListener(){
-        	@Override
-        	public void onItemClick(AdapterView<?> parent, View view,
-        			int position, long id) {
-        		
-        		Intent i = new Intent(getApplicationContext(), Clanak.class);
-        		
-        		TextView neki_tekst = (TextView) view.findViewById(R.id.neki_tekst );
-        		
-        		i.putExtra(link, neki_tekst.getText());
-        		startActivity(i);	
-        		}
-        });
 
     }
     @Override
