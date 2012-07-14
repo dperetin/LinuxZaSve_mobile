@@ -1,11 +1,15 @@
 package com.linuxzasve.mobile;
 
 import java.util.List;
+
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +17,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+
 public class ListaKomentara extends Activity {
+	
+	 private ListView listView;
+	 private ListaKomentara ovaAct;
 	
 	public class MySimpleArrayAdapter extends ArrayAdapter<LzsRssPost> {
 		private final Context context;
@@ -46,21 +54,40 @@ public class ListaKomentara extends Activity {
 		}
 	} 
 	
+	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
+		@Override
+		protected RssFeed doInBackground(String... urls) {
+			RssFeed lzs_feed = new RssFeed(urls[0]);
+			
+			return lzs_feed;
+		}
+
+		@Override
+		protected void onPostExecute(RssFeed lzs_feed) {
+			
+	        
+	        
+	        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(ovaAct, lzs_feed.lista_postova);
+
+	        listView.setAdapter(adapter); 
+		}
+	}
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_komentara);
+        ovaAct = this;
+        listView = (ListView) findViewById(R.id.komentari);
         
         Intent intent = getIntent();
         String message = intent.getStringExtra(Clanak.link);
         
-        ListView listView = (ListView) findViewById(R.id.komentari);
+        Log.i("poslani_link", message);
         
-        RssFeed lzs_feed = new RssFeed(message);
+        new DownloadRssFeed().execute(message);
 
-        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, lzs_feed.lista_postova);
-
-        listView.setAdapter(adapter); 
+        
     }
 }
 

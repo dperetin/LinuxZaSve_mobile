@@ -27,7 +27,7 @@ public class ListaNovosti extends Activity {
 	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
 		@Override
 		protected RssFeed doInBackground(String... urls) {
-			RssFeed lzs_feed = new RssFeed("http://feeds.feedburner.com/linuxzasve");
+			RssFeed lzs_feed = new RssFeed(urls[0]);
 			
 			return lzs_feed;
 		}
