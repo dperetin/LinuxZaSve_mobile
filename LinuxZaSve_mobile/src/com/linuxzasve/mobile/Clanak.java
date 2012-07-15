@@ -3,11 +3,11 @@ package com.linuxzasve.mobile;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -17,12 +17,6 @@ public class Clanak extends SherlockActivity {
 
 	public final static String link = "com.example.myapp.MESSAGE";
 	private WebView clanak;
-	public void sendMessage(View view) {
-	    Intent intent = new Intent(this, ListaKomentara.class);
-	    
-	    intent.putExtra(link, naslov_clanka);
-	    startActivity(intent);
-	}
 	
 	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
 		@Override
@@ -61,5 +55,28 @@ public class Clanak extends SherlockActivity {
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.clanak, menu);
         return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_pokazi_komentare:
+                Intent intent = new Intent(this, ListaKomentara.class);
+        	    
+        	    intent.putExtra(link, naslov_clanka);
+        	    startActivity(intent);
+                return true;
+            case R.id.menu_share:
+            	Intent intent2 = getIntent();
+    	        String message = intent2.getStringExtra(ListaNovosti.link);
+    	        
+            	Intent share = new Intent(Intent.ACTION_SEND);
+            	share.setType("text/plain");
+            	share.putExtra(Intent.EXTRA_TEXT, message);
+            	startActivity(Intent.createChooser(share, "Podijeli članak!"));
+            	return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
