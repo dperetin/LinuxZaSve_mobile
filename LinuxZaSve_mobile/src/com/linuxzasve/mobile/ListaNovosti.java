@@ -2,13 +2,13 @@ package com.linuxzasve.mobile;
 
 import java.util.List;
 
+import com.actionbarsherlock.app.SherlockActivity;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,7 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ListaNovosti extends Activity {
+public class ListaNovosti extends SherlockActivity {
 	
 	// ovaj view je odvojen da mu se moze pristupiti iz background dretve
 	private ListView listaClanaka;
@@ -95,10 +95,5 @@ public class ListaNovosti extends Activity {
 
         
 
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.lista_novosti, menu);
-        return true;
     } 
 }

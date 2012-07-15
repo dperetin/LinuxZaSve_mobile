@@ -1,6 +1,7 @@
 package com.linuxzasve.mobile;
 
-import android.app.Activity;
+import com.actionbarsherlock.app.SherlockActivity;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,7 +9,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-public class Clanak extends Activity {
+public class Clanak extends SherlockActivity {
 	
 	public static String naslov_clanka = "com.example.myapp.MESSAGE";
 

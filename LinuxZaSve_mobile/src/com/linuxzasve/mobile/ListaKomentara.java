@@ -2,8 +2,8 @@ package com.linuxzasve.mobile;
 
 import java.util.List;
 
+import com.actionbarsherlock.app.SherlockActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -18,7 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-public class ListaKomentara extends Activity {
+public class ListaKomentara extends SherlockActivity {
 	
 	 private ListView listView;
 	 private ListaKomentara ovaAct;
