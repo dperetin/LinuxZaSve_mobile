@@ -5,4 +5,8 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_lista_novosti">LinuxZaSve</string>
 	<string name="gumb_komentari">Komentari</string>
+	<string name="menu_refresh">Osvježi</string>
+	<string name="menu_search">Pretraži</string>
+	<string name="menu_share">Dijeli</string>
+	<string name="menu_new">Ostavi komentar</string>
 </resources>

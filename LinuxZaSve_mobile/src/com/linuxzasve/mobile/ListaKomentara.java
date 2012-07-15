@@ -3,6 +3,8 @@ package com.linuxzasve.mobile;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 
 import android.content.Context;
 import android.content.Intent;
@@ -88,6 +90,12 @@ public class ListaKomentara extends SherlockActivity {
         new DownloadRssFeed().execute(message);
 
         
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.lista_komentara, menu);
+        return true;
     }
 }
 

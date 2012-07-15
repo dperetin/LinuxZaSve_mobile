@@ -1,6 +1,8 @@
 package com.linuxzasve.mobile;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -52,5 +54,12 @@ public class Clanak extends SherlockActivity {
         setContentView(R.layout.clanak);
         
         new DownloadRssFeed().execute("http://feeds.feedburner.com/linuxzasve");
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.clanak, menu);
+        return true;
     }
 }

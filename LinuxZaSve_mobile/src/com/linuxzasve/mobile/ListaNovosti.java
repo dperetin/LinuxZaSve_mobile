@@ -3,6 +3,8 @@ package com.linuxzasve.mobile;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -96,4 +98,10 @@ public class ListaNovosti extends SherlockActivity {
         
 
     } 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.lista_novosti, menu);
+        return true;
+    }
 }
