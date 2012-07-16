@@ -5,6 +5,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,11 +15,16 @@ import android.webkit.WebView;
 public class Clanak extends SherlockActivity {
 	
 	public static String naslov_clanka = "com.example.myapp.MESSAGE";
-
+	private Clanak ovaAct;
 	public final static String link = "com.example.myapp.MESSAGE";
 	private WebView clanak;
-	
+	private ProgressDialog pDialog;
 	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
+		@Override
+		protected void onPreExecute() {
+	        pDialog = ProgressDialog.show(ovaAct,"Pričekajte trenutak ...", "Dohvaćam članak ...", true);
+	    }
+		
 		@Override
 		protected RssFeed doInBackground(String... urls) {
 			RssFeed lzs_feed = new RssFeed(urls[0]);
@@ -28,6 +34,7 @@ public class Clanak extends SherlockActivity {
 
 		@Override
 		protected void onPostExecute(RssFeed lzs_feed) {
+			pDialog.dismiss();
 			Intent intent = getIntent();
 	        String message = intent.getStringExtra(ListaNovosti.link);
 			String sadrzaj = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />" + "<h1>" + message + "</h1>" + lzs_feed.getContentByTitle(message);
@@ -46,7 +53,7 @@ public class Clanak extends SherlockActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.clanak);
-        
+        ovaAct = this;
         new DownloadRssFeed().execute("http://feeds.feedburner.com/linuxzasve");
     }
     

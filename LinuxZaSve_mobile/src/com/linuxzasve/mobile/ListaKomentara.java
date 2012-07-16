@@ -6,6 +6,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -24,7 +25,7 @@ public class ListaKomentara extends SherlockActivity {
 	
 	 private ListView listView;
 	 private ListaKomentara ovaAct;
-	
+	 private ProgressDialog pDialog;
 	public class MySimpleArrayAdapter extends ArrayAdapter<LzsRssPost> {
 		private final Context context;
 		private final List<LzsRssPost> values;
@@ -58,6 +59,11 @@ public class ListaKomentara extends SherlockActivity {
 	
 	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
 		@Override
+		protected void onPreExecute() {
+	        pDialog = ProgressDialog.show(ovaAct,"Pričekajte trenutak ...", "Dohvaćam komentare ...", true);
+	    }
+		
+		@Override
 		protected RssFeed doInBackground(String... urls) {
 			RssFeed lzs_feed = new RssFeed(urls[0]);
 			
@@ -67,7 +73,7 @@ public class ListaKomentara extends SherlockActivity {
 		@Override
 		protected void onPostExecute(RssFeed lzs_feed) {
 			
-	        
+			pDialog.dismiss();
 	        
 	        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(ovaAct, lzs_feed.lista_postova);
 

@@ -8,6 +8,7 @@ import com.actionbarsherlock.view.MenuInflater;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -25,17 +26,25 @@ public class ListaNovosti extends SherlockActivity {
 	private ListView listaClanaka;
 	private ListaNovosti ovaAct;
 	public final static String link = "com.example.myapp.MESSAGE";
-	
+	private ProgressDialog pDialog;
 	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
 		@Override
+		protected void onPreExecute() {
+	        pDialog = ProgressDialog.show(ovaAct,"Pričekajte trenutak ...", "Dohvaćam popis članaka ...", true);
+	    }
+		
+		@Override
 		protected RssFeed doInBackground(String... urls) {
+
 			RssFeed lzs_feed = new RssFeed(urls[0]);
-			
+
 			return lzs_feed;
 		}
 
 		@Override
 		protected void onPostExecute(RssFeed lzs_feed) {
+			pDialog.dismiss();
+
 			MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(ovaAct, lzs_feed.lista_postova);
 
 	        // Assign adapter to ListView
