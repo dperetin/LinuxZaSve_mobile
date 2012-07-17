@@ -51,7 +51,7 @@ public class ListaNovosti extends SherlockActivity {
 			listaClanaka.setAdapter(adapter);
 	        
 			listaClanaka.setOnItemClickListener(new OnItemClickListener(){
-	        	@Override
+	        	
 	        	public void onItemClick(AdapterView<?> parent, View view,
 	        			int position, long id) {
 	        		
