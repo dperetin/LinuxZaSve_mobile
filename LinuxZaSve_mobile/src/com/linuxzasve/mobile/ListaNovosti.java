@@ -31,7 +31,7 @@ public class ListaNovosti extends SherlockActivity {
 		@Override
 		protected void onPreExecute() {
 			pDialog = ProgressDialog.show(ovaAct, "Pričekajte trenutak ...", 
-					                      "Dohvaćam popis članaka ...", true);
+						"Dohvaćam popis članaka ...", true);
 		}
 		
 		@Override

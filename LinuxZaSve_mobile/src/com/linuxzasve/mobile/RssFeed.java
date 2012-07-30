@@ -39,13 +39,13 @@ public class RssFeed {
 	 * 
 	 * @param rss_feed URL rss feeda
 	 */
-	public  RssFeed (String rss_feed)	{
+	public  RssFeed (String rss_feed){
 		try {
 			URL linuxZaSveRssFeed = new URL(rss_feed);
 			InputStream in = linuxZaSveRssFeed.openStream();
-        	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		
-        	listaPostova = new ArrayList<LzsRssPost>();
+			listaPostova = new ArrayList<LzsRssPost>();
 
 			DocumentBuilder db = dbf.newDocumentBuilder();
 
@@ -126,11 +126,10 @@ public class RssFeed {
 		List<String> naslovi = new ArrayList<String>();
 		
 		Iterator<LzsRssPost> it=listaPostova.iterator();
-		while(it.hasNext())
-        {	
+		while(it.hasNext()){	
 			LzsRssPost value=(LzsRssPost)it.next();
 			naslovi.add(value.getTitle());
-        }
+		}
 		
 		return naslovi;
 	}
@@ -144,11 +143,10 @@ public class RssFeed {
 		List<String> naslovi = new ArrayList<String>();
 		
 		Iterator<LzsRssPost> it=listaPostova.iterator();
-		while(it.hasNext())
-        {	
+		while(it.hasNext()){
 			LzsRssPost value=(LzsRssPost)it.next();
 			naslovi.add(value.getPublishDate());
-        }
+		}
 		
 		return naslovi;
 	}
