@@ -27,6 +27,7 @@ public class ListaNovosti extends SherlockActivity {
 	private ListaNovosti ovaAct;
 	public final static String link = "com.example.myapp.MESSAGE";
 	private ProgressDialog pDialog;
+	public static List<LzsRssPost> values;
 	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
 		@Override
 		protected void onPreExecute() {
@@ -57,10 +58,17 @@ public class ListaNovosti extends SherlockActivity {
 	        		
 	        		Intent i = new Intent(getApplicationContext(), Clanak.class);
 	        		
-	        		TextView neki_tekst = (TextView) view.findViewById(R.id.neki_tekst );
+	        		/*TextView neki_tekst = (TextView) view.findViewById(R.id.neki_tekst );*/
 	        		
-	        		i.putExtra(link, neki_tekst.getText());
-	        		startActivity(i);	
+	        		i.putExtra(link, values.get(position).getTitle());
+	        		startActivity(i);
+	        		/*TextView neki_tekst = (TextView) view.findViewById(R.id.neki_tekst );
+	        		Intent i = new Intent(this, Clanak.class);
+	        		i.putExtra("Value1", "This value one for ActivityTwo ");
+	        		i.putExtra("Value2", "This value two ActivityTwo");
+	        		// Set the request code to any code you like, you can identify the
+	        		// callback via this code
+	        		startActivityForResult(i, REQUEST_CODE);*/
 	        		}
 	        });
 		}
@@ -69,12 +77,12 @@ public class ListaNovosti extends SherlockActivity {
 	
 	public class MySimpleArrayAdapter extends ArrayAdapter<LzsRssPost> {
 		private final Context context;
-		private final List<LzsRssPost> values;
+		
 
 		public MySimpleArrayAdapter(Context context, List<LzsRssPost> naslovi) {
 			super(context, R.layout.novosti_redak, naslovi);
 			this.context = context;
-			this.values = naslovi;
+			values = naslovi;
 		}
 
 		@Override
