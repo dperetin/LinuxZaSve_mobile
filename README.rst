@@ -3,6 +3,11 @@ Linux za sve Android App
 
 Android App za linuxzasve.com
 
+Najsvježiji build
+=================
+
+Najsvježiji build appa se može skinuti `ovdje <https://github.com/dperetin/LinuxZaSve_mobile/raw/master/LinuxZaSve_mobile/bin/LinuxZaSve_mobile.apk>`_
+
 App koristi ActionBarSherlock.
 
 https://github.com/JakeWharton/ActionBarSherlock
