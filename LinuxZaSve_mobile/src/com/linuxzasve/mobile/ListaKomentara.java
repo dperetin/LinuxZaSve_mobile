@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +22,10 @@ import android.widget.TextView;
 
 public class ListaKomentara extends SherlockActivity {
 	
-	 private ListView listView;
-	 private ListaKomentara ovaAct;
-	 private ProgressDialog pDialog;
+	private ListView listView;
+	private ListaKomentara ovaAct;
+	private ProgressDialog pDialog;
+	
 	public class MySimpleArrayAdapter extends ArrayAdapter<LzsRssPost> {
 		private final Context context;
 		private final List<LzsRssPost> values;
@@ -45,14 +45,13 @@ public class ListaKomentara extends SherlockActivity {
 			TextView datum = (TextView) rowView.findViewById(R.id.datum_komentar);
 			TextView autor = (TextView) rowView.findViewById(R.id.autor_komentar);
 			
-			//neki_tekst.setText(values.get(position).getContent());
-			datum.setText(values.get(values.size() - position - 1).hrvatskiDatum());
+			datum.setText(values.get(values.size() - position - 1).datumDdmmyyy());
 			autor.setText(values.get(values.size() - position - 1).getCreator());
 			
-
-	      	neki_tekst.setText(Html.fromHtml(values.get(values.size() - position - 1).getContent()));
-	
-
+			neki_tekst.setText(Html.fromHtml(
+					values.get(values.size() - position - 1).getContent())
+					);
+			
 			return rowView;
 		}
 	} 
@@ -60,8 +59,9 @@ public class ListaKomentara extends SherlockActivity {
 	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
 		@Override
 		protected void onPreExecute() {
-	        pDialog = ProgressDialog.show(ovaAct,"Pričekajte trenutak ...", "Dohvaćam komentare ...", true);
-	    }
+			pDialog = ProgressDialog.show(ovaAct, "Pričekajte trenutak ...", 
+					"Dohvaćam komentare ...", true);
+		}
 		
 		@Override
 		protected RssFeed doInBackground(String... urls) {
@@ -74,34 +74,31 @@ public class ListaKomentara extends SherlockActivity {
 		protected void onPostExecute(RssFeed lzs_feed) {
 			
 			pDialog.dismiss();
-	        
-	        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(ovaAct, lzs_feed.lista_postova);
+			
+			MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(ovaAct, lzs_feed.getPosts());
 
-	        listView.setAdapter(adapter); 
+			listView.setAdapter(adapter); 
 		}
 	}
 	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.lista_komentara);
-        ovaAct = this;
-        listView = (ListView) findViewById(R.id.komentari);
-        
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(Clanak.link);
-        
-        Log.i("poslani_link", message);
-        
-        new DownloadRssFeed().execute(message);
-
-        
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.lista_komentara, menu);
-        return true;
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.lista_komentara);
+		ovaAct = this;
+		listView = (ListView) findViewById(R.id.komentari);
+		
+		Intent intent = getIntent();
+		String message = intent.getStringExtra("komentari");
+		
+		new DownloadRssFeed().execute(message);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.lista_komentara, menu);
+		return true;
+	}
 }
 

@@ -22,23 +22,22 @@ import android.widget.TextView;
 
 public class ListaNovosti extends SherlockActivity {
 	
-	// ovaj view je odvojen da mu se moze pristupiti iz background dretve
 	private ListView listaClanaka;
 	private ListaNovosti ovaAct;
-	public final static String link = "com.example.myapp.MESSAGE";
 	private ProgressDialog pDialog;
 	public static List<LzsRssPost> values;
+	
 	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
 		@Override
 		protected void onPreExecute() {
-	        pDialog = ProgressDialog.show(ovaAct,"Pričekajte trenutak ...", "Dohvaćam popis članaka ...", true);
-	    }
+			pDialog = ProgressDialog.show(ovaAct, "Pričekajte trenutak ...", 
+					                      "Dohvaćam popis članaka ...", true);
+		}
 		
 		@Override
 		protected RssFeed doInBackground(String... urls) {
-
 			RssFeed lzs_feed = new RssFeed(urls[0]);
-
+	
 			return lzs_feed;
 		}
 
@@ -46,31 +45,25 @@ public class ListaNovosti extends SherlockActivity {
 		protected void onPostExecute(RssFeed lzs_feed) {
 			pDialog.dismiss();
 
-			MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(ovaAct, lzs_feed.lista_postova);
+			MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(ovaAct, 
+					lzs_feed.getPosts());
 
-	        // Assign adapter to ListView
 			listaClanaka.setAdapter(adapter);
-	        
+
 			listaClanaka.setOnItemClickListener(new OnItemClickListener(){
-	        	
-	        	public void onItemClick(AdapterView<?> parent, View view,
-	        			int position, long id) {
-	        		
-	        		Intent i = new Intent(getApplicationContext(), Clanak.class);
-	        		
-	        		/*TextView neki_tekst = (TextView) view.findViewById(R.id.neki_tekst );*/
-	        		
-	        		i.putExtra(link, values.get(position).getTitle());
-	        		startActivity(i);
-	        		/*TextView neki_tekst = (TextView) view.findViewById(R.id.neki_tekst );
-	        		Intent i = new Intent(this, Clanak.class);
-	        		i.putExtra("Value1", "This value one for ActivityTwo ");
-	        		i.putExtra("Value2", "This value two ActivityTwo");
-	        		// Set the request code to any code you like, you can identify the
-	        		// callback via this code
-	        		startActivityForResult(i, REQUEST_CODE);*/
-	        		}
-	        });
+			
+				public void onItemClick(AdapterView<?> parent, View view, 
+						int position, long id) {
+				
+				Intent i = new Intent(getApplicationContext(), Clanak.class);
+				
+				i.putExtra("naslov", values.get(position).getTitle());
+				i.putExtra("sadrzaj", values.get(position).getContent());
+				i.putExtra("komentari", values.get(position).getCommentRss());
+				i.putExtra("origLink", values.get(position).getOrigLink());
+				startActivity(i);
+				}
+			});
 		}
 	}
 
@@ -95,30 +88,27 @@ public class ListaNovosti extends SherlockActivity {
 			TextView autor = (TextView) rowView.findViewById(R.id.autor);
 			
 			neki_tekst.setText(values.get(position).getTitle());
-			datum.setText(values.get(position).hrvatskiDatum());
+			datum.setText(values.get(position).datumDdmmyyy());
 			autor.setText(values.get(position).getCreator());
 
 			return rowView;
 		}
 	} 
-	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
-        setContentView(R.layout.lista_novosti);
-        
-        listaClanaka = (ListView) findViewById(R.id.mylist);
-        ovaAct = this;
-        //RssFeed lzs_feed = new RssFeed("http://feeds.feedburner.com/linuxzasve");
-        new DownloadRssFeed().execute("http://feeds.feedburner.com/linuxzasve");
 
-        
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.lista_novosti);
 
-    } 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.lista_novosti, menu);
-        return true;
-    }
+		listaClanaka = (ListView) findViewById(R.id.mylist);
+		ovaAct = this;
+		new DownloadRssFeed().execute("http://feeds.feedburner.com/linuxzasve");
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.lista_novosti, menu);
+		return true;
+	}
 }

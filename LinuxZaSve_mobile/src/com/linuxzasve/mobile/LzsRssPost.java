@@ -1,5 +1,9 @@
 package com.linuxzasve.mobile;
 
+/**
+ * Klasa predstavlja jedan Linux za sve post dobiven iz informacija
+ * dostupnih na RSS feedu.
+ */
 public class LzsRssPost {
 	
 	private String title;
@@ -9,25 +13,36 @@ public class LzsRssPost {
 	private String creator;
 	private String content;
 	private String commentRss;
-	private String origLink;
 	private String no_comments;
-	private String thumb_url;
-	
+	private String origLink;
+	/**
+	 * Defaultni konstruktor
+	 */
 	public LzsRssPost(){
 		
 	}
 	
-	/* konstruktor */
-	public LzsRssPost(String title,    			// naslov
-					  String description,       // opis
-					  String link,              // url feeda clanka
-					  String publishDate,       // datum objave
-					  String creator,	        // objavio
-					  String content,           // sadrzaj
-					  String commentRss,        // feed komentara
-					  String no_comments,       // broj komentara
-					  String origLink,          // originalni url
-					  String thumb_url
+	/**
+	 * Konstruktor
+	 * 
+	 * @param title Naslov clanka
+	 * @param description Opis clanka
+	 * @param link URL feeda clanka
+	 * @param publishDate Datum objave
+	 * @param creator Osoba koja je objavila clanak
+	 * @param content Sadrzaj clanka
+	 * @param commentRss URL feeda komentara
+	 * @param no_comments Broj komentara
+	 */
+	public LzsRssPost(String title,
+					  String description,
+					  String link,
+					  String publishDate,
+					  String creator,
+					  String content,
+					  String commentRss,
+					  String no_comments,
+					  String origLink
 					  ){
 		
 		this.title = title;
@@ -39,24 +54,40 @@ public class LzsRssPost {
 		this.commentRss = commentRss;
 		this.no_comments = no_comments;
 		this.origLink = origLink;
-		this.thumb_url = thumb_url;
-		
-		
 	}
 	
+	/**
+	 * Funkcija vraca string koji sadrzi kratak opis clanka
+	 * 
+	 * @return kratak opis clanka
+	 */
 	public String getDescription(){
 		return description;
 	}
 	
+	/**
+	 * Funkcija vraca URL feeda clanka.
+	 * @return URL feeda clanka
+	 */
 	public String getLink(){
 		return link;
 	}
 	
+	/**
+	 * Funkcija vraca string koji sadrzi datum objave kako je zapisano u feed
+	 * 
+	 * @return datum objave u originalnom obliku
+	 */
 	public String getPublishDate(){
 		return publishDate;
 	}
 	
-	public String hrvatskiDatum(){
+	/**
+	 * Funkcija vraca datum objave u obliku dd.mm.yyyy (npr. 25.12.2012)
+	 * 
+	 * @return datum objave u obliku dd.mm.yyyy (npr. 25.12.2012)
+	 */
+	public String datumDdmmyyy(){
 		
 		String mjesec = publishDate.substring(8, 11);
 		
@@ -64,7 +95,7 @@ public class LzsRssPost {
 		
 		if (mjesec.equals("Jan")) idx = "01"; 
 		if (mjesec.equals("Feb")) idx = "02"; 
-		if (mjesec.equals("Mar"))idx = "03"; 
+		if (mjesec.equals("Mar")) idx = "03"; 
 		if (mjesec.equals("Apr")) idx = "04"; 
 		if (mjesec.equals("May")) idx = "05"; 
 		if (mjesec.equals("Jun")) idx = "06"; 
@@ -80,33 +111,57 @@ public class LzsRssPost {
 				publishDate.substring(12, 16);
 	}
 	
+	/**
+	 * Funkcija koja vraca naslov clanka
+	 * 
+	 * @return naslov clanka
+	 */
 	public String getTitle(){
 		return title;
 	}
 	
+	/**
+	 * Funkcija koja vraca ime osobe koja je objavila clanak
+	 * 
+	 * @return ime osobe koja je objavila clanak
+	 */
 	public String getCreator(){
 		return creator;
 	}
 	
+	/**
+	 * Funkcija koja vraca sadrzaj clanka
+	 * 
+	 * @return sadrzaj clanka
+	 */
 	public String getContent(){
 		return content;
 	}
 	
+	/**
+	 * Funkcija koja vraca URL feeda komentara
+	 * 
+	 * @return URL feeda komentara
+	 */
 	public String getCommentRss(){
 		return commentRss;
 	}
 	
+	/**
+	 * Funkcija koja vraca broj komentara na dani clanak
+	 * 
+	 * @return broj komentara na dani clanak
+	 */
 	public String getNoComments(){
 		return no_comments;
 	}
 	
+	/**
+	 * Funkcija vraca originalni URL do clanka
+	 * 
+	 * @return originalni URL do clanka
+	 */
 	public String getOrigLink(){
 		return origLink;
 	}
-	public String getThumbUrl(){
-		return thumb_url;
-	}
 }
-
-
-

@@ -16,49 +16,53 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * Dohvaca Linux za sve RSS feed, generira i odrzava listu postova.
+ *
+ */
 public class RssFeed {
 	
-	List<LzsRssPost> lista_postova;
+	private List<LzsRssPost> listaPostova;
 	
-	public List<LzsRssPost> getPosts()
-	{
-		return lista_postova;
+	/**
+	 * Funkcija vraca listu postova
+	 * 
+	 * @return listu postova
+	 */
+	public List<LzsRssPost> getPosts(){
+		return listaPostova;
 	}
 	
-	public  RssFeed (String rss_stream_url)
-	{
+	/**
+	 * Funkcija za dani URL rss feeda dohvaca taj feed i generira listu
+	 * koja sadrzi sve postove u tom feedu
+	 * 
+	 * @param rss_feed URL rss feeda
+	 */
+	public  RssFeed (String rss_feed)	{
 		try {
-			URL oracle = new URL(rss_stream_url);
-			InputStream in = oracle.openStream();
+			URL linuxZaSveRssFeed = new URL(rss_feed);
+			InputStream in = linuxZaSveRssFeed.openStream();
         	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		
-        	List<LzsRssPost> myEmpls=new ArrayList<LzsRssPost>();
+        	listaPostova = new ArrayList<LzsRssPost>();
 
-			//Using factory get an instance of document builder
 			DocumentBuilder db = dbf.newDocumentBuilder();
 
-			//parse using builder to get DOM representation of the XML file
 			Document dom = db.parse(in);
 		
-			//get the root element
 			org.w3c.dom.Element docEle = dom.getDocumentElement();
 				
 			NodeList nl = docEle.getElementsByTagName("item");
 			if(nl != null && nl.getLength() > 0) {
 				for(int i = 0 ; i < nl.getLength();i++) {
-
-					//get the employee element
 					org.w3c.dom.Element el = (org.w3c.dom.Element) nl.item(i);
 
-					//get the Employee object
 					LzsRssPost e = getRssItem(el);
 
-					//add it to list
-					myEmpls.add(e);
+					listaPostova.add(e);
 				}
 			}
-			
-			this.lista_postova = myEmpls;
 		}
 		catch(ParserConfigurationException pce) {
 			pce.printStackTrace();
@@ -69,14 +73,18 @@ public class RssFeed {
 		catch(IOException ioe) {
 			ioe.printStackTrace();
 		}
-		
-		
-
-	};
+	}
 	
-	public static String getTextValue(org.w3c.dom.Element el2, String tagName) {
+	/**
+	 * Funkcija u danom XML elementu trazi vrijednost za dani tag.
+	 * @param element
+	 * @param tagName
+	 * 
+	 * @return vraca vrijednost taga u zadanom elemntu
+	 */
+	public static String getTextValue(org.w3c.dom.Element element, String tag) {
 		String textVal = null;
-		NodeList nl = (el2).getElementsByTagName(tagName);
+		NodeList nl = (element).getElementsByTagName(tag);
 		if(nl != null && nl.getLength() > 0) {
 			org.w3c.dom.Element el = (org.w3c.dom.Element)nl.item(0);
 			textVal = ((Node) el).getFirstChild().getNodeValue();
@@ -85,80 +93,63 @@ public class RssFeed {
 		return textVal;
 	}
 	
-	public static LzsRssPost getRssItem(org.w3c.dom.Element el) {
-
-		//for each <employee> element get text or int values of
-		//name ,id, age and name
-		String title = getTextValue(el,"title");
-		String desc = getTextValue(el,"description");
-		String date = getTextValue(el,"pubDate");
-		String link = getTextValue(el,"link");
+	/**
+	 * Iz danog XML elementa kreira linux za sve rss post.
+	 * 
+	 * @param element
+	 * @return vraca linux za sve rss post
+	 */
+	public static LzsRssPost getRssItem(org.w3c.dom.Element element) {
+		String title = getTextValue(element,"title");
+		String desc = getTextValue(element,"description");
+		String date = getTextValue(element,"pubDate");
+		String link = getTextValue(element,"link");
 		
-		String creator = getTextValue(el,"dc:creator");
-		String content = getTextValue(el,"content:encoded");
-		String commentRss = getTextValue(el,"wfw:commentRss");
-		String no_comments = getTextValue(el,"slash:comments");
-		String origLink = getTextValue(el,"feedburner:origLink");
-		String thumb_url = getTextValue(el,"thumb_url");
-
-
+		String creator = getTextValue(element,"dc:creator");
+		String content = getTextValue(element,"content:encoded");
+		String commentRss = getTextValue(element,"wfw:commentRss");
+		String no_comments = getTextValue(element, "slash:comments");
+		String origLink = getTextValue(element, "feedburner:origLink");
 		
-		LzsRssPost e = new LzsRssPost(title, desc, link, date, creator, content, commentRss, no_comments, origLink, thumb_url);
+		LzsRssPost e = new LzsRssPost(title, desc, link, date, creator, content,
+				commentRss, no_comments, origLink);
 
 		return e;
 	}
 	
+	/**
+	 * Funkcija vraca listu koja sadrzi naslove svih clanaka u feedu.
+	 * 
+	 * @return listu koja sadrzi naslove svih clanaka u feedu
+	 */
 	public List<String> getTitleList(){
 		List<String> naslovi = new ArrayList<String>();
 		
-		Iterator<LzsRssPost> it=lista_postova.iterator();
+		Iterator<LzsRssPost> it=listaPostova.iterator();
 		while(it.hasNext())
         {	
 			LzsRssPost value=(LzsRssPost)it.next();
-			//naslovi.add(value.getPublishDate().substring(0, 16) + " " + value.getCreator() + "\n" + value.getTitle() + '\n' + value.getThumbUrl());
 			naslovi.add(value.getTitle());
         }
 		
 		return naslovi;
 	}
 	
+	/**
+	 * Funkcija vraca listu koja sadrzi datume objave svih clanaka u feedu.
+	 * 
+	 * @return listu koja sadrzi datume objave svih clanaka u feedu
+	 */
 	public List<String> getDateList(){
 		List<String> naslovi = new ArrayList<String>();
 		
-		Iterator<LzsRssPost> it=lista_postova.iterator();
+		Iterator<LzsRssPost> it=listaPostova.iterator();
 		while(it.hasNext())
         {	
 			LzsRssPost value=(LzsRssPost)it.next();
-			//naslovi.add(value.getPublishDate().substring(0, 16) + " " + value.getCreator() + "\n" + value.getTitle() + '\n' + value.getThumbUrl());
 			naslovi.add(value.getPublishDate());
         }
 		
 		return naslovi;
 	}
-	
-	public String getContentByTitle(String title){
-		Iterator<LzsRssPost> it=lista_postova.iterator();
-		while(it.hasNext())
-        {	
-			LzsRssPost value=(LzsRssPost)it.next();
-			if (value.getTitle().equals(title)) {
-				return value.getContent();
-			}
-        }
-		return "";
-	}
-	
-	public String getCommentsByTitle(String title){
-		Iterator<LzsRssPost> it=lista_postova.iterator();
-		while(it.hasNext())
-        {	
-			LzsRssPost value=(LzsRssPost)it.next();
-			if (value.getTitle().equals(title)) {
-				return value.getCommentRss();
-			}
-        }
-		return "";
-	}
 }
-
-
