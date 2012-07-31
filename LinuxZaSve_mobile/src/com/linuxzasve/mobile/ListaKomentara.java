@@ -107,7 +107,7 @@ public class ListaKomentara extends SherlockActivity {
 
 		Intent intent2 = getIntent();
 		String komentari = intent2.getStringExtra("komentari");
-		String origLink = intent2.getStringExtra("origLink");
+	//	String origLink = intent2.getStringExtra("origLink");
 
 		switch (item.getItemId()) {
 		case R.id.menu_new:

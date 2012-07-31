@@ -10,4 +10,8 @@
 	<string name="menu_share">Dijeli</string>
 	<string name="menu_new">Ostavi komentar</string>
 	<string name="menu_send">Pošalji komentar</string>
+	<string name="novi_komentar_ime">Ime:</string>
+	<string name="novi_komentar_email">E-mail (neće biti prikazano):</string>
+	<string name="novi_komentar_url">Web stranica:</string>
+	<string name="novi_komentar_komentar">Komentar:</string>
 </resources>

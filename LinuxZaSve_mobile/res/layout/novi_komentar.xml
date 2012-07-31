@@ -11,7 +11,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="Ime:"
+            android:text="@string/novi_komentar_ime"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -24,7 +24,8 @@
             android:layout_marginLeft="0dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:ems="10" >
+            android:ems="10"
+            android:inputType="text" >
 
             <requestFocus />
         </EditText>
@@ -36,7 +37,7 @@
             android:layout_alignLeft="@+id/editText1"
             android:layout_below="@+id/editText1"
             android:layout_marginTop="20dp"
-            android:text="E-mail (neće biti prikazano):"
+            android:text="@string/novi_komentar_email"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -58,7 +59,7 @@
             android:layout_alignLeft="@+id/editText2"
             android:layout_below="@id/editText2"
             android:layout_marginTop="20dp"
-            android:text="Web stranica:"
+            android:text="@string/novi_komentar_url"
             android:textSize="15dp"
             android:textStyle="bold" />
         
@@ -71,7 +72,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:ems="10" />
+            android:ems="10"
+            android:inputType="textUri" />
 
         <TextView
             android:id="@+id/textView4"
@@ -80,7 +82,7 @@
             android:layout_alignLeft="@+id/editText3"
             android:layout_below="@+id/editText3"
             android:layout_marginTop="20dp"
-            android:text="Komentar:"
+            android:text="@string/novi_komentar_komentar"
             android:textSize="15dp"
             android:textStyle="bold" />
 

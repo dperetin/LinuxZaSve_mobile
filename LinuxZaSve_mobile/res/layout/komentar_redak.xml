@@ -14,7 +14,7 @@
         android:layout_toLeftOf="@+id/datum_komentar"
         android:alpha="1"
         android:textColor="@android:color/black"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/datum_komentar"
@@ -25,7 +25,7 @@
         android:layout_marginRight="14dp"
         android:alpha="1"
         android:textColor="@android:color/black"
-        android:textStyle="italic|bold" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tekst_komentar"
