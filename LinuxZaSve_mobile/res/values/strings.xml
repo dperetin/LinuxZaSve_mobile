@@ -9,4 +9,5 @@
 	<string name="menu_search">Pretraži</string>
 	<string name="menu_share">Dijeli</string>
 	<string name="menu_new">Ostavi komentar</string>
+	<string name="menu_send">Pošalji komentar</string>
 </resources>

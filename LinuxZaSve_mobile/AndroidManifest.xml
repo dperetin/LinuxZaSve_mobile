@@ -22,6 +22,7 @@
         </activity>
         <activity android:name="com.linuxzasve.mobile.Clanak" />
         <activity android:name="com.linuxzasve.mobile.ListaKomentara" />
+        <activity android:name="com.linuxzasve.mobile.NoviKomentar" />
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ import java.util.List;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -99,6 +100,26 @@ public class ListaKomentara extends SherlockActivity {
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.lista_komentara, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		Intent intent2 = getIntent();
+		String komentari = intent2.getStringExtra("komentari");
+		String origLink = intent2.getStringExtra("origLink");
+
+		switch (item.getItemId()) {
+		case R.id.menu_new:
+			Intent intent = new Intent(this, NoviKomentar.class);
+
+			intent.putExtra("komentari", komentari);
+			startActivity(intent);
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 }
 
