@@ -47,6 +47,7 @@ public class Clanak extends SherlockActivity {
 		Intent intent2 = getIntent();
 		String komentari = intent2.getStringExtra("komentari");
 		String origLink = intent2.getStringExtra("origLink");
+		String naslov = intent2.getStringExtra("naslov");
 
 		switch (item.getItemId()) {
 		case R.id.menu_pokazi_komentare:
@@ -59,7 +60,8 @@ public class Clanak extends SherlockActivity {
 		case R.id.menu_share:
 			Intent share = new Intent(Intent.ACTION_SEND);
 			share.setType("text/plain");
-			share.putExtra(Intent.EXTRA_TEXT, origLink);	
+			share.putExtra(Intent.EXTRA_TEXT, origLink);
+			share.putExtra(Intent.EXTRA_SUBJECT, naslov);
 			startActivity(Intent.createChooser(share, "Podijeli članak!"));
 			return true;
 
