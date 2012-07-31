@@ -46,7 +46,7 @@ Staviti compiler compliance level na 1.6
 
 	git clone https://github.com/dperetin/LinuxZaSve_mobile.git
 
-5. Napraviti novi Eclipse projekt:
+5. Napraviti novi Eclipse projekt
 	File -> New -> Android Project From Existing Code
 	Za root folder odabrati LinuxZaSve_mobile
 
