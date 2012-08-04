@@ -3,6 +3,9 @@ package com.linuxzasve.mobile;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
+import android.content.Intent;
 import android.os.Bundle;
 
 public class NoviKomentar extends SherlockActivity {
@@ -20,7 +23,23 @@ public class NoviKomentar extends SherlockActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.novi_komentar, menu);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			Intent intent3 = new Intent(this, ListaKomentara.class);
+			intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent3);
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 }

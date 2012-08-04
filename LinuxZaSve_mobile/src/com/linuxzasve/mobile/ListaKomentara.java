@@ -99,6 +99,7 @@ public class ListaKomentara extends SherlockActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.lista_komentara, menu);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		return true;
 	}
 	
@@ -110,6 +111,12 @@ public class ListaKomentara extends SherlockActivity {
 	//	String origLink = intent2.getStringExtra("origLink");
 
 		switch (item.getItemId()) {
+		case android.R.id.home:
+			Intent intent3 = new Intent(this, Clanak.class);
+			intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent3);
+			return true;
+			
 		case R.id.menu_new:
 			Intent intent = new Intent(this, NoviKomentar.class);
 

@@ -38,6 +38,8 @@ public class Clanak extends SherlockActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.clanak, menu);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		
 		return true;
 	}
 
@@ -50,6 +52,13 @@ public class Clanak extends SherlockActivity {
 		String naslov = intent2.getStringExtra("naslov");
 
 		switch (item.getItemId()) {
+		
+		case android.R.id.home:
+			Intent intent3 = new Intent(this, ListaNovosti.class);
+			intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent3);
+			return true;
+		
 		case R.id.menu_pokazi_komentare:
 			Intent intent = new Intent(this, ListaKomentara.class);
 
