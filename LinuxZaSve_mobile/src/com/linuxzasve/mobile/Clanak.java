@@ -54,9 +54,7 @@ public class Clanak extends SherlockActivity {
 		switch (item.getItemId()) {
 		
 		case android.R.id.home:
-			Intent intent3 = new Intent(this, ListaNovosti.class);
-			intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent3);
+			onBackPressed();
 			return true;
 		
 		case R.id.menu_pokazi_komentare:

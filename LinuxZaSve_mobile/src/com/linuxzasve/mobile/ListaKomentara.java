@@ -112,9 +112,7 @@ public class ListaKomentara extends SherlockActivity {
 
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			Intent intent3 = new Intent(this, Clanak.class);
-			intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent3);
+			onBackPressed();
 			return true;
 			
 		case R.id.menu_new:
