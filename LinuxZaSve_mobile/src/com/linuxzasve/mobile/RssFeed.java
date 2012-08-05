@@ -1,6 +1,7 @@
 package com.linuxzasve.mobile;
 
 import java.io.IOException;
+import java.util.regex.*;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -111,7 +112,9 @@ public class RssFeed {
 		String no_comments = getTextValue(element, "slash:comments");
 		String origLink = getTextValue(element, "feedburner:origLink");
 		
-		LzsRssPost e = new LzsRssPost(title, desc, link, date, creator, content,
+		String clanak = ClanakRemoveHardcodedDim(content);
+		
+		LzsRssPost e = new LzsRssPost(title, desc, link, date, creator, clanak,
 				commentRss, no_comments, origLink);
 
 		return e;
@@ -149,5 +152,33 @@ public class RssFeed {
 		}
 		
 		return naslovi;
+	}
+	
+	public static String ClanakRemoveHardcodedDim(String clanak) {
+		String filtriraniClanak = clanak;
+		
+		List<Pattern> uzorciZaIzbaciti = new ArrayList<Pattern>();
+		
+		uzorciZaIzbaciti.add(Pattern.compile("width=\"\\d+\""));
+		uzorciZaIzbaciti.add(Pattern.compile("height=\"\\d+\""));
+		uzorciZaIzbaciti.add(Pattern.compile("\"width: \\d+px\""));
+		
+		Iterator<Pattern> it = uzorciZaIzbaciti.iterator();
+		while(it.hasNext()){
+			Pattern uzorak = it.next();
+			Matcher htmlClanka = uzorak.matcher(filtriraniClanak);
+			
+			while (htmlClanka.find()) {
+				int poc = htmlClanka.start();
+				int kraj = htmlClanka.end();
+
+				filtriraniClanak = filtriraniClanak.substring(0, poc) + 
+						filtriraniClanak.substring(kraj);
+				htmlClanka = uzorak.matcher(filtriraniClanak);
+			}
+			
+		}
+
+		return filtriraniClanak;
 	}
 }

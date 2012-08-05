@@ -5,7 +5,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 public class NoviKomentar extends SherlockActivity {
