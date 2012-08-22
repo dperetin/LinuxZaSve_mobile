@@ -1,18 +1,18 @@
-Linux za sve Android App
+Linux za sve Android aplikacija
 ========================
 
-Android App za linuxzasve.com
+Android aplikacija za linuxzasve.com
 
 Najsvježiji build
 =================
 
-Najsvježiji build appa se može skinuti `ovdje <https://github.com/dperetin/LinuxZaSve_mobile/raw/master/LinuxZaSve_mobile/bin/LinuxZaSve_mobile.apk>`_
+Najsvježiji build appa se može preuzeti `ovdje <https://github.com/dperetin/LinuxZaSve_mobile/raw/master/LinuxZaSve_mobile/bin/LinuxZaSve_mobile.apk>`_
 
 
 
 .. image:: http://chart.googleapis.com/chart?cht=qr&chs=150x150&choe=UTF-8&chld=H&chl=http://goo.gl/f7cYs
 
-Kako buildat
+Kako buildati
 ============
 
 App koristi ActionBarSherlock: https://github.com/JakeWharton/ActionBarSherlock
@@ -28,7 +28,7 @@ Potrebno je imati instalirano sljedeće:
 
 * `ADT plugin <http://developer.android.com/sdk/installing/installing-adt.html>`_
 
-Upute za bildanje
+Upute za buildanje
 -----------------
 
 1. Skinuti ActionBarSherlock ::
