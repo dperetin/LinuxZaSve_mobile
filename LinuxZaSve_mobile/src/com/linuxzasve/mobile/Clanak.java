@@ -4,9 +4,8 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-
 import android.content.Intent;
-
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -33,6 +32,36 @@ public class Clanak extends SherlockActivity {
 		clanak.loadDataWithBaseURL("file:///android_asset/", sadrzaj, 
 				"text/html", "UTF-8", null);
 	}
+	
+	private class SkratiUrl extends AsyncTask<String, Void, String> {
+		
+		@Override
+		protected String doInBackground(String... urls) {
+			String skraceniUrl = GoogleUrlShortener.ShortenUrl(urls[0]);
+			return skraceniUrl;
+		}
+
+		@Override
+		protected void onPostExecute(String skraceniUrl) {
+			Intent intent2 = getIntent();
+			String naslov = intent2.getStringExtra("naslov");
+			Intent share = new Intent(Intent.ACTION_SEND);
+			share.setType("text/plain");
+			
+			
+			// kreiram naslov za dijeljenje
+			String shareNaslov = "LZS | " + naslov; 
+			
+			// kreiram tekst za dijeljenje
+			String shareText = "Linux za sve | " + naslov + " " + skraceniUrl;
+			
+			
+			share.putExtra(Intent.EXTRA_TEXT, shareText);
+			share.putExtra(Intent.EXTRA_SUBJECT, shareNaslov);
+			startActivity(Intent.createChooser(share, "Podijeli članak!"));
+			
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -49,7 +78,7 @@ public class Clanak extends SherlockActivity {
 		Intent intent2 = getIntent();
 		String komentari = intent2.getStringExtra("komentari");
 		String origLink = intent2.getStringExtra("origLink");
-		String naslov = intent2.getStringExtra("naslov");
+		
 
 		switch (item.getItemId()) {
 		
@@ -65,11 +94,8 @@ public class Clanak extends SherlockActivity {
 			return true;
 
 		case R.id.menu_share:
-			Intent share = new Intent(Intent.ACTION_SEND);
-			share.setType("text/plain");
-			share.putExtra(Intent.EXTRA_TEXT, origLink);
-			share.putExtra(Intent.EXTRA_SUBJECT, naslov);
-			startActivity(Intent.createChooser(share, "Podijeli članak!"));
+			new SkratiUrl().execute(origLink);
+
 			return true;
 
 		default:
