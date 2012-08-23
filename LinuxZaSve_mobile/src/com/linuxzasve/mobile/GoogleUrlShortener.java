@@ -10,8 +10,17 @@ import java.net.URLConnection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Skracuje url koristeci Google URL shortener (goo.gl)
+ *
+ */
 public class GoogleUrlShortener {
 	
+	/**
+	 * Funkcija skracuje url dugiUrl
+	 *
+	 * @return skraceni URL, oblika http://goo.gl/...
+	 */
 	public static String ShortenUrl(String dugiUrl) {
 		
 		// Saljem POST na https://www.googleapis.com/urlshortener/v1/url
