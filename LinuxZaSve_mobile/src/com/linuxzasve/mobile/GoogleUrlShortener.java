@@ -22,53 +22,52 @@ public class GoogleUrlShortener {
 	 * @return skraceni URL, oblika http://goo.gl/...
 	 */
 	public static String ShortenUrl(String dugiUrl) {
-		
+
 		// Saljem POST na https://www.googleapis.com/urlshortener/v1/url
 		String postUrl = "https://www.googleapis.com/urlshortener/v1/url";
 		
 		// string koji treba skratiti se salje kao JSON, npr:
-        // {"longUrl": "http://www.google.com/"}
-        String jsonLongUrl = "{\"longUrl\":\"" + dugiUrl + "\"}";
-        
-        String skraceniUrl = "";
+		// {"longUrl": "http://www.google.com/"}
+		String jsonLongUrl = "{\"longUrl\":\"" + dugiUrl + "\"}";
 
-        try
-        {
-            URLConnection conn = new URL(postUrl).openConnection();
-            conn.setDoOutput(true);
-            
-            // Content-Type: application/json
-            conn.setRequestProperty("Content-Type", "application/json");
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(jsonLongUrl);
-            wr.flush();
+		String skraceniUrl = "";
 
-            BufferedReader rd =  new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line;
+		try
+		{
+			URLConnection conn = new URL(postUrl).openConnection();
+			conn.setDoOutput(true);
 
-            while ((line = rd.readLine()) != null)
-            {
-            	// "id": "http://goo.gl/fbsS",
-                Pattern p = Pattern.compile("id\": \"(.*)\",");
-                Matcher m = p.matcher(line);
-                if (m.find()) {
-                	skraceniUrl = m.group(1);
-                	break;
-                }
-            }
+			// Content-Type: application/json
+			conn.setRequestProperty("Content-Type", "application/json");
+			OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+			wr.write(jsonLongUrl);
+			wr.flush();
 
-            wr.close();
-            rd.close();
-        }
-        catch (MalformedURLException ex)
-        {
+			BufferedReader rd =  new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line;
 
-        }
-        catch (IOException ex)
-        {
+			while ((line = rd.readLine()) != null) {
+				// "id": "http://goo.gl/fbsS",
+				Pattern p = Pattern.compile("id\": \"(.*)\",");
+				Matcher m = p.matcher(line);
+				if (m.find()) {
+					skraceniUrl = m.group(1);
+					break;
+				}
+			}
 
-        }
-        
-        return skraceniUrl;
+			wr.close();
+			rd.close();
+		}
+		catch (MalformedURLException ex)
+		{
+
+		}
+		catch (IOException ex)
+		{
+
+		}
+
+		return skraceniUrl;
 	}
 }
