@@ -20,7 +20,7 @@ App koristi ActionBarSherlock: https://github.com/JakeWharton/ActionBarSherlock
 Potrebno je imati instalirano sljedeće:
 
 * `Eclipse <http://www.eclipse.org/downloads/packages/eclipse-classic-42/junor>`_
-* `Andorid SDK <http://developer.android.com/sdk/index.html>`_
+* `Android SDK <http://developer.android.com/sdk/index.html>`_
 
     - Obavezno instalirati platformu Android 4.0 (API 14)
     - Obavezno instalirati platformu Android 4.03 (API 15)
