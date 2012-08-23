@@ -39,17 +39,12 @@ public class GoogleUrlShortener {
 
             while ((line = rd.readLine()) != null)
             {
-                if (line.indexOf("id") > -1)
-                {
-                    // "id": "http://goo.gl/fbsS",
-                    Pattern p = Pattern.compile("id\": \"(.*)\",");
-                    Matcher m = p.matcher(line);
-                    if (m.find()) {
-
-                    	skraceniUrl = m.group(1);
-                        break;
-                    }
-
+            	// "id": "http://goo.gl/fbsS",
+                Pattern p = Pattern.compile("id\": \"(.*)\",");
+                Matcher m = p.matcher(line);
+                if (m.find()) {
+                	skraceniUrl = m.group(1);
+                	break;
                 }
             }
 
@@ -64,6 +59,7 @@ public class GoogleUrlShortener {
         {
 
         }
+        
         return skraceniUrl;
 	}
 }
