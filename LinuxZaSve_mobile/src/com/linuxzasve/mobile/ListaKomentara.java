@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class ListaKomentara extends SherlockActivity {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View rowView = inflater.inflate(R.layout.komentar_redak, parent, false);
 			TextView neki_tekst = (TextView) rowView.findViewById(R.id.tekst_komentar );
+			neki_tekst.setMovementMethod(LinkMovementMethod.getInstance());
 			TextView datum = (TextView) rowView.findViewById(R.id.datum_komentar);
 			TextView autor = (TextView) rowView.findViewById(R.id.autor_komentar);
 			
