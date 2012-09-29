@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,12 @@ public class ListaNovosti extends SherlockActivity {
 			neki_tekst.setText(values.get(position).getTitle());
 			datum.setText(values.get(position).datumDdmmyyy());
 			autor.setText(values.get(position).getCreator());
+			
+			Typeface tf = Typeface.createFromAsset(getAssets(),
+			        "Roboto-Bold.ttf");
+			neki_tekst.setTypeface(tf);
+			datum.setTypeface(tf);
+			autor.setTypeface(tf);
 
 			return rowView;
 		}
