@@ -93,7 +93,7 @@ public class ListaNovosti extends SherlockActivity {
 			autor.setText(values.get(position).getCreator());
 			
 			Typeface tf = Typeface.createFromAsset(getAssets(),
-			        "Roboto-Bold.ttf");
+			        "Roboto-Regular.ttf");
 			neki_tekst.setTypeface(tf);
 			datum.setTypeface(tf);
 			autor.setTypeface(tf);
