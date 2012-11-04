@@ -68,6 +68,11 @@ public class ListaNovosti extends SherlockActivity {
 		}
 	}
 
+	static class ViewHolder {
+		TextView neki_tekst;
+		TextView datum;
+		TextView autor;
+	}
 	
 	public class MySimpleArrayAdapter extends ArrayAdapter<LzsRssPost> {
 		private final Context context;
@@ -81,24 +86,31 @@ public class ListaNovosti extends SherlockActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			ViewHolder holder;
+			
 			if (convertView == null) {
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				convertView = inflater.inflate(R.layout.novosti_redak, parent, false);
+				holder = new ViewHolder();
+			
+				holder.neki_tekst = (TextView) convertView.findViewById(R.id.neki_tekst );
+				holder.datum = (TextView) convertView.findViewById(R.id.datum);
+				holder.autor = (TextView) convertView.findViewById(R.id.autor);
+			
+				convertView.setTag(holder);
+			} else {
+				holder = (ViewHolder) convertView.getTag();
 			}
-			TextView neki_tekst = (TextView) convertView.findViewById(R.id.neki_tekst );
-			TextView datum = (TextView) convertView.findViewById(R.id.datum);
-			TextView autor = (TextView) convertView.findViewById(R.id.autor);
+			holder.neki_tekst.setText(values.get(position).getTitle());
+			holder.datum.setText(values.get(position).datumDdmmyyy());
+			holder.autor.setText(values.get(position).getCreator());
 			
-			neki_tekst.setText(values.get(position).getTitle());
-			datum.setText(values.get(position).datumDdmmyyy());
-			autor.setText(values.get(position).getCreator());
-			
-			Typeface tf = Typeface.createFromAsset(getAssets(),
+		/*	Typeface tf = Typeface.createFromAsset(getAssets(),
 			        "Roboto-Regular.ttf");
-			neki_tekst.setTypeface(tf);
-			datum.setTypeface(tf);
-			autor.setTypeface(tf);
+			holder.neki_tekst.setTypeface(tf);
+			holder.datum.setTypeface(tf);
+			holder.autor.setTypeface(tf);*/
 
 			return convertView;
 		}
