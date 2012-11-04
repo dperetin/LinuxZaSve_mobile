@@ -81,12 +81,14 @@ public class ListaNovosti extends SherlockActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = (LayoutInflater) context
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View rowView = inflater.inflate(R.layout.novosti_redak, parent, false);
-			TextView neki_tekst = (TextView) rowView.findViewById(R.id.neki_tekst );
-			TextView datum = (TextView) rowView.findViewById(R.id.datum);
-			TextView autor = (TextView) rowView.findViewById(R.id.autor);
+			if (convertView == null) {
+				LayoutInflater inflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = inflater.inflate(R.layout.novosti_redak, parent, false);
+			}
+			TextView neki_tekst = (TextView) convertView.findViewById(R.id.neki_tekst );
+			TextView datum = (TextView) convertView.findViewById(R.id.datum);
+			TextView autor = (TextView) convertView.findViewById(R.id.autor);
 			
 			neki_tekst.setText(values.get(position).getTitle());
 			datum.setText(values.get(position).datumDdmmyyy());
@@ -98,7 +100,7 @@ public class ListaNovosti extends SherlockActivity {
 			datum.setTypeface(tf);
 			autor.setTypeface(tf);
 
-			return rowView;
+			return convertView;
 		}
 	} 
 
