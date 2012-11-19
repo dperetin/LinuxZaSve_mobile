@@ -10,7 +10,7 @@ Najsvježiji build appa se može preuzeti `ovdje <https://github.com/linuxzasve/
 
 
 
-.. image:: http://chart.googleapis.com/chart?cht=qr&chs=150x150&choe=UTF-8&chld=H&chl=https://github.com/linuxzasve/androidApp/blob/master/LinuxZaSve_mobile/bin/LinuxZaSve_mobile.apk
+.. image:: http://chart.googleapis.com/chart?cht=qr&chs=150x150&choe=UTF-8&chld=H&chl=http://goo.gl/Oqroz
 
 Kako buildati
 ============
