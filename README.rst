@@ -15,6 +15,6 @@ Najsvježiji build appa se može preuzeti `ovdje <https://github.com/dperetin/Li
 Kako buildati
 ============
 
-Upute za buildanje su dostupne na https://github.com/dperetin/LinuxZaSve_mobile/wiki/Upute-za-buildanje
+Upute za buildanje su dostupne na https://github.com/linuxzasve/androidApp/wiki/Upute-za-buildanje
 
 
