@@ -3,20 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <ImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/thumbnail"
+        android:src="@drawable/app_icon" />
+    
     <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/neki_tekst"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/thumbnail"
         android:ellipsize="marquee"
         android:text="@+id/label"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/primary_text_light"
         android:textSize="20dp"
-        android:textStyle="bold"
         android:typeface="sans" />
 
     <TextView
@@ -38,5 +49,5 @@
         android:layout_marginRight="14dp"
         android:alpha="1"
         android:textColor="@android:color/tertiary_text_light"/>
-
+    
 </RelativeLayout>

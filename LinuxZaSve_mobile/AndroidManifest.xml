@@ -6,7 +6,7 @@
 	<uses-permission android:name="android.permission.INTERNET" /> 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="15" />
+        android:targetSdkVersion="17" />
 
     <application
         android:icon="@drawable/app_icon"
