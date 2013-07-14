@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:paddingBottom="5dp" >
 
     <ImageView
         android:id="@+id/thumbnail"
@@ -34,6 +35,7 @@
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/neki_tekst"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/neki_tekst"
         android:layout_marginBottom="5dp"
         android:alpha="1"
@@ -44,6 +46,7 @@
         android:id="@+id/datum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/neki_tekst"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"
@@ -58,6 +61,7 @@
         android:id="@+id/broj_komentara"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/neki_tekst"
         android:layout_below="@+id/neki_tekst"
         android:text="0000"
@@ -66,8 +70,9 @@
 
     <ImageView
         android:id="@+id/ikona_komentara"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/neki_tekst"
         android:layout_toLeftOf="@+id/broj_komentara"
         android:src="@drawable/komentari" />
