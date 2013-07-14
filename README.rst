@@ -6,11 +6,11 @@ Android aplikacija za linuxzasve.com
 Najsvježiji build
 =================
 
-Najsvježiji build appa se može preuzeti `ovdje <https://github.com/linuxzasve/androidApp/blob/master/LinuxZaSve_mobile/bin/LinuxZaSve_mobile.apk>`_
+Najsvježiji build appa se može preuzeti `ovdje <goo.gl/hU2ul>`_
 
 
 
-.. image:: http://chart.googleapis.com/chart?cht=qr&chs=150x150&choe=UTF-8&chld=H&chl=http://goo.gl/Oqroz
+.. image:: https://chart.googleapis.com/chart?cht=qr&chs=150x150&choe=UTF-8&chld=H&chl=https://goo.gl/hU2ul
 
 Kako buildati
 ============
