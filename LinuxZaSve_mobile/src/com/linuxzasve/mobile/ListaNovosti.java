@@ -85,6 +85,7 @@ public class ListaNovosti extends SherlockActivity {
 		TextView neki_tekst;
 		TextView datum;
 		TextView autor;
+		TextView broj_komentara;
 		ImageView thumbnail;
 		boolean isSet=false;
 	}
@@ -112,6 +113,7 @@ public class ListaNovosti extends SherlockActivity {
 				holder.neki_tekst = (TextView) convertView.findViewById(R.id.neki_tekst);
 				holder.datum = (TextView) convertView.findViewById(R.id.datum);
 				holder.autor = (TextView) convertView.findViewById(R.id.autor);
+				holder.broj_komentara = (TextView) convertView.findViewById(R.id.broj_komentara);
 				holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
 
 				convertView.setTag(holder);
@@ -121,6 +123,7 @@ public class ListaNovosti extends SherlockActivity {
 			holder.neki_tekst.setText(values.get(position).getTitle());
 			holder.datum.setText(values.get(position).datumDdmmyyy());
 			holder.autor.setText(values.get(position).getCreator());
+			holder.broj_komentara.setText(values.get(position).getNoComments());
 			
 			UrlImageViewHelper
 					.setUrlDrawable(holder.thumbnail, values.get(position)
