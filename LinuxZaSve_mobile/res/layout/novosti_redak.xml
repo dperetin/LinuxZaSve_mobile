@@ -5,14 +5,15 @@
 
     <ImageView
         android:id="@+id/thumbnail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_toRightOf="@id/thumbnail"
-        android:src="@drawable/app_icon" />
+        android:src="@drawable/placeholder" 
+        android:contentDescription="@+id/neki_tekst"
+        android:padding="5dp"/>
     
     <TextView
         android:id="@+id/neki_tekst"
@@ -27,7 +28,7 @@
         android:text="@+id/label"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/primary_text_light"
-        android:textSize="20dp"
+        android:textSize="16sp"
         android:typeface="sans" />
 
     <TextView
@@ -36,9 +37,11 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/neki_tekst"
         android:layout_below="@+id/neki_tekst"
-        android:layout_marginLeft="14dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
         android:alpha="1"
-        android:textColor="@android:color/tertiary_text_light" />
+        android:textColor="@android:color/tertiary_text_light"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/datum"
@@ -46,8 +49,10 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/neki_tekst"
         android:layout_below="@+id/neki_tekst"
+        android:layout_marginBottom="5dp"
         android:layout_marginRight="14dp"
         android:alpha="1"
-        android:textColor="@android:color/tertiary_text_light"/>
+        android:textColor="@android:color/tertiary_text_light"
+        android:textSize="12sp" />
     
 </RelativeLayout>

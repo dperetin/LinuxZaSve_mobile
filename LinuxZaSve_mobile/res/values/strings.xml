@@ -1,5 +1,4 @@
 <resources>
-
 	<string name="app_name">Linux za sve</string>
 	<string name="title_activity_lista_novosti">Linux za sve</string>
 	<string name="gumb_komentari">Komentari</string>
@@ -12,4 +11,5 @@
 	<string name="novi_komentar_email">E-mail (neće biti prikazano):</string>
 	<string name="novi_komentar_url">Web stranica:</string>
 	<string name="novi_komentar_komentar">Komentar:</string>
+	<string name="nedostupan_internet">Internet je nedostupan!</string>
 </resources>

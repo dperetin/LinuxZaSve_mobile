@@ -1,5 +1,6 @@
 package com.linuxzasve.mobile;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -7,7 +8,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -18,15 +18,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class ListaKomentara extends SherlockActivity {
 	
 	private ListView listView;
 	private ListaKomentara ovaAct;
-	private ProgressDialog pDialog;
+	LinearLayout komentariProgressLayout;
+	String message;
+	private MenuItem refresh;
 	
 	public class MySimpleArrayAdapter extends ArrayAdapter<LzsRssPost> {
 		private final Context context;
@@ -40,8 +44,7 @@ public class ListaKomentara extends SherlockActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = (LayoutInflater) context
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View rowView = inflater.inflate(R.layout.komentar_redak, parent, false);
 			TextView neki_tekst = (TextView) rowView.findViewById(R.id.tekst_komentar );
 			neki_tekst.setMovementMethod(LinkMovementMethod.getInstance());
@@ -51,9 +54,7 @@ public class ListaKomentara extends SherlockActivity {
 			datum.setText(values.get(values.size() - position - 1).datumDdmmyyy());
 			autor.setText(values.get(values.size() - position - 1).getCreator());
 			
-			neki_tekst.setText(Html.fromHtml(
-					values.get(values.size() - position - 1).getContent())
-					);
+			neki_tekst.setText(Html.fromHtml(values.get(values.size() - position - 1).getContent()));
 			
 			return rowView;
 		}
@@ -62,21 +63,28 @@ public class ListaKomentara extends SherlockActivity {
 	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
 		@Override
 		protected void onPreExecute() {
-			pDialog = ProgressDialog.show(ovaAct, "Pričekajte trenutak ...", 
-					"Dohvaćam komentare ...", true);
 		}
 		
 		@Override
 		protected RssFeed doInBackground(String... urls) {
-			RssFeed lzs_feed = new RssFeed(urls[0]);
+			RssFeed lzs_feed=null;
+			try {
+				lzs_feed = new RssFeed(urls[0]);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			return lzs_feed;
 		}
 
 		@Override
 		protected void onPostExecute(RssFeed lzs_feed) {
-			
-			pDialog.dismiss();
+			komentariProgressLayout.setVisibility(View.GONE);
+			refresh.setActionView(null);
 			
 			MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(ovaAct, lzs_feed.getPosts());
 
@@ -90,11 +98,11 @@ public class ListaKomentara extends SherlockActivity {
 		setContentView(R.layout.lista_komentara);
 		ovaAct = this;
 		listView = (ListView) findViewById(R.id.komentari);
-		
+		komentariProgressLayout = (LinearLayout) findViewById(R.id.komentariProgressLayout);
 		Intent intent = getIntent();
-		String message = intent.getStringExtra("komentari");
-		
-		new DownloadRssFeed().execute(message);
+		message = intent.getStringExtra("komentari");
+		komentariProgressLayout.setVisibility(View.VISIBLE);
+		fetchArticles();
 	}
 	
 	@Override
@@ -102,30 +110,38 @@ public class ListaKomentara extends SherlockActivity {
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.lista_komentara, menu);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		refresh = menu.findItem(R.id.menu_refresh);
 		return true;
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		Intent intent2 = getIntent();
-		String komentari = intent2.getStringExtra("komentari");
-	//	String origLink = intent2.getStringExtra("origLink");
-
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			onBackPressed();
 			return true;
 			
-		case R.id.menu_new:
-			Intent intent = new Intent(this, NoviKomentar.class);
-
-			intent.putExtra("komentari", komentari);
-			startActivity(intent);
+		case R.id.menu_refresh:
+			refresh.setActionView(R.layout.actionbar_indeterminate_progress);
+			fetchArticles();
 			return true;
 
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+	public void fetchArticles() {
+		if (ActivityHelper.isOnline(this)) {
+			new DownloadRssFeed().execute(message);
+		} else {
+			Toast toast = Toast.makeText(getBaseContext(), R.string.nedostupan_internet, Toast.LENGTH_LONG);
+			toast.show();
+			if (komentariProgressLayout != null)
+				komentariProgressLayout.setVisibility(View.GONE);
+			
+			if (refresh != null)
+				refresh.setActionView(null);
 		}
 	}
 }

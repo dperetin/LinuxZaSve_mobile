@@ -1,8 +1,15 @@
 package com.linuxzasve.mobile;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.regex.*;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +19,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -39,8 +51,11 @@ public class RssFeed {
 	 * koja sadrzi sve postove u tom feedu
 	 * 
 	 * @param rss_feed URL rss feeda
+	 * @throws IOException 
+	 * @throws IllegalStateException 
 	 */
-	public  RssFeed (String rss_feed){
+	public  RssFeed (String rss_feed) throws IllegalStateException, IOException{
+		String cijeliClanak = dohvatiClanak("http://www.linuxzasve.com");
 		try {
 			URL linuxZaSveRssFeed = new URL(rss_feed);
 			InputStream in = linuxZaSveRssFeed.openStream();
@@ -60,7 +75,7 @@ public class RssFeed {
 					org.w3c.dom.Element el = (org.w3c.dom.Element) nl.item(i);
 
 					LzsRssPost e = getRssItem(el);
-
+					e.setThumbnail(cijeliClanak);
 					listaPostova.add(e);
 				}
 			}
@@ -74,6 +89,7 @@ public class RssFeed {
 		catch(IOException ioe) {
 			ioe.printStackTrace();
 		}
+		
 	}
 	
 	/**
@@ -178,7 +194,45 @@ public class RssFeed {
 			}
 			
 		}
-
 		return filtriraniClanak;
+	}
+
+	private String dohvatiClanak(String urlClanka)
+			throws IllegalStateException, IOException {
+		HttpResponse response = null;
+		try {
+			HttpClient client = new DefaultHttpClient();
+			HttpGet request = new HttpGet();
+			request.setURI(new URI(urlClanka));
+			response = client.execute(request);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		InputStream inputStream = response.getEntity().getContent();
+
+		if (inputStream != null) {
+			Writer writer = new StringWriter();
+
+			char[] buffer = new char[1024];
+			try {
+				Reader reader = new BufferedReader(new InputStreamReader(
+						inputStream, "UTF-8"), 1024);
+				int n;
+				while ((n = reader.read(buffer)) != -1) {
+					writer.write(buffer, 0, n);
+				}
+			} finally {
+				inputStream.close();
+			}
+			return writer.toString();
+		} else {
+			return "";
+		}
 	}
 }

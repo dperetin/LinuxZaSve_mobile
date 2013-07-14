@@ -1,5 +1,8 @@
 package com.linuxzasve.mobile;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Klasa predstavlja jedan Linux za sve post dobiven iz informacija
  * dostupnih na RSS feedu.
@@ -15,6 +18,8 @@ public class LzsRssPost {
 	private String commentRss;
 	private String no_comments;
 	private String origLink;
+	private String thumbnail;
+	
 	/**
 	 * Defaultni konstruktor
 	 */
@@ -54,7 +59,7 @@ public class LzsRssPost {
 		this.commentRss = commentRss;
 		this.no_comments = no_comments;
 		this.origLink = origLink;
-	}
+		}
 	
 	/**
 	 * Funkcija vraca string koji sadrzi kratak opis clanka
@@ -163,5 +168,25 @@ public class LzsRssPost {
 	 */
 	public String getOrigLink(){
 		return origLink;
+	}
+
+	public void setThumbnail(String sadrzajClanka) {
+		Pattern p = Pattern.compile("<a href=\"" + origLink
+				+ "\" rel=\"bookmark\"><img class=\"thumb\" src=\"(.*?)\"");
+		Matcher m = p.matcher(sadrzajClanka);
+
+		if (m.find()) {
+			String cijeliThumbUrl = m.group(1);
+			if (cijeliThumbUrl != null) {
+				this.thumbnail = cijeliThumbUrl.replace("\t", "")
+						.replace("h=125", "h=50").replace("w=200", "w=80")
+						.replace("amp;", "");
+			}
+
+		}
+	}
+
+	public String getThumbnail() {
+		return this.thumbnail;
 	}
 }
