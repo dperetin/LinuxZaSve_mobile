@@ -6,7 +6,7 @@ Android aplikacija za linuxzasve.com
 Najsvježiji build
 =================
 
-Najsvježiji build appa se može preuzeti `ovdje <goo.gl/hU2ul>`_
+Najsvježiji build appa se može preuzeti `ovdje <http://goo.gl/hU2ul>`_
 
 
 
