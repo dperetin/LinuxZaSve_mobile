@@ -5,6 +5,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry exported="true" kind="lib" path="/home/dejan/Desktop/urlimageviewhelper-1.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/dejan/Desktop/jsoup-1.7.2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/actionbarsherlock"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/UrlImageViewHelper"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
