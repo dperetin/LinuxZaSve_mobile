@@ -133,6 +133,13 @@ public class ListaKomentara extends SherlockActivity {
 			refresh.setActionView(R.layout.actionbar_indeterminate_progress);
 			fetchArticles();
 			return true;
+			
+		case R.id.menu_new_comment:
+			Intent intent = new Intent(this, NoviKomentar.class);
+			
+			//intent.putExtra("komentari", komentari);
+			startActivity(intent);
+			return true;
 
 		default:
 			return super.onOptionsItemSelected(item);

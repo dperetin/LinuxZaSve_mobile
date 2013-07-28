@@ -28,6 +28,7 @@
         android:id="@+id/datum_komentar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/autor_komentar"
         android:layout_below="@id/autor_komentar"
         android:layout_marginRight="14dp"
         android:layout_toRightOf="@id/komentarThumbnail"

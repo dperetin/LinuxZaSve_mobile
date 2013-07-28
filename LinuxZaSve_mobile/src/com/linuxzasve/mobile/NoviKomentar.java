@@ -6,16 +6,31 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.os.Bundle;
+import android.widget.EditText;
 
 public class NoviKomentar extends SherlockActivity {
-
+	private String name;
+	private String email;
+	private String url;
+	private String text;
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.novi_komentar);
 		
-
+		EditText et1 = (EditText) findViewById(R.id.editText1);
+		name = et1.getText().toString();
+		
+		EditText et2 = (EditText) findViewById(R.id.editText2);
+		email = et2.getText().toString();
+		
+		EditText et3 = (EditText) findViewById(R.id.editText3);
+		url = et3.getText().toString();
+		
+		EditText et4 = (EditText) findViewById(R.id.editText4);
+		text = et4.getText().toString();
 	}
 	
 	@Override
@@ -31,6 +46,11 @@ public class NoviKomentar extends SherlockActivity {
 
 		switch (item.getItemId()) {
 		case android.R.id.home:
+			onBackPressed();
+			return true;
+			
+		case R.id.menu_send:
+			
 			onBackPressed();
 			return true;
 
