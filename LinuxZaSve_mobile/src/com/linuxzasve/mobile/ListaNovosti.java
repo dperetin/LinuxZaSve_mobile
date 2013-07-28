@@ -75,7 +75,7 @@ public class ListaNovosti extends SherlockActivity {
 				
 				i.putExtra("naslov", values.get(position).getTitle());
 				i.putExtra("sadrzaj", values.get(position).getContent());
-				i.putExtra("komentari", values.get(position).getCommentRss());
+				i.putExtra("komentari", values.get(position).getOrigLink());
 				i.putExtra("origLink", values.get(position).getOrigLink());
 				startActivity(i);
 				}

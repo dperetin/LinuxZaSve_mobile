@@ -87,6 +87,10 @@ public class LzsRssPost {
 		return publishDate;
 	}
 	
+	public void setPublishDate(String publishDate){
+		this.publishDate = publishDate;
+	}
+	
 	/**
 	 * Funkcija vraca datum objave u obliku dd.mm.yyyy (npr. 25.12.2012)
 	 * 
@@ -134,6 +138,11 @@ public class LzsRssPost {
 		return creator;
 	}
 	
+	
+	public void setCreator(String creator){
+		this.creator = creator;
+	}
+	
 	/**
 	 * Funkcija koja vraca sadrzaj clanka
 	 * 
@@ -141,6 +150,10 @@ public class LzsRssPost {
 	 */
 	public String getContent(){
 		return content;
+	}
+	
+	public void setContent(String content) {
+		this.content = content;
 	}
 	
 	/**
@@ -184,6 +197,10 @@ public class LzsRssPost {
 			}
 
 		}
+	}
+	
+	public void setThumbnailUrl(String url) {
+		this.thumbnail = url;
 	}
 
 	public String getThumbnail() {

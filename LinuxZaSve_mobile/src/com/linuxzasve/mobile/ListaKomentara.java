@@ -7,6 +7,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,11 +34,11 @@ public class ListaKomentara extends SherlockActivity {
 	String message;
 	private MenuItem refresh;
 	
-	public class MySimpleArrayAdapter extends ArrayAdapter<LzsRssPost> {
+	public class MySimpleArrayAdapter extends ArrayAdapter<Komentar> {
 		private final Context context;
-		private final List<LzsRssPost> values;
+		private final List<Komentar> values;
 
-		public MySimpleArrayAdapter(Context context, List<LzsRssPost> naslovi) {
+		public MySimpleArrayAdapter(Context context, List<Komentar> naslovi) {
 			super(context, R.layout.komentar_redak, naslovi);
 			this.context = context;
 			this.values = naslovi;
@@ -50,26 +52,31 @@ public class ListaKomentara extends SherlockActivity {
 			neki_tekst.setMovementMethod(LinkMovementMethod.getInstance());
 			TextView datum = (TextView) rowView.findViewById(R.id.datum_komentar);
 			TextView autor = (TextView) rowView.findViewById(R.id.autor_komentar);
-			
-			datum.setText(values.get(values.size() - position - 1).datumDdmmyyy());
+			ImageView thumbnail = (ImageView) rowView.findViewById(R.id.komentarThumbnail);
+//			datum.setText(values.get(values.size() - position - 1).datumDdmmyyy());
+			datum.setText(values.get(values.size() - position - 1).getPublishDate());
 			autor.setText(values.get(values.size() - position - 1).getCreator());
 			
 			neki_tekst.setText(Html.fromHtml(values.get(values.size() - position - 1).getContent()));
+			
+			UrlImageViewHelper
+			.setUrlDrawable(thumbnail, values.get(values.size() - position - 1)
+					.getThumbnail(), R.drawable.placeholder);
 			
 			return rowView;
 		}
 	} 
 	
-	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
+	private class DownloadRssFeed extends AsyncTask<String, Void, WordpressCommentParser> {
 		@Override
 		protected void onPreExecute() {
 		}
 		
 		@Override
-		protected RssFeed doInBackground(String... urls) {
-			RssFeed lzs_feed=null;
+		protected WordpressCommentParser doInBackground(String... urls) {
+			WordpressCommentParser lzs_feed=null;
 			try {
-				lzs_feed = new RssFeed(urls[0]);
+				lzs_feed = new WordpressCommentParser(urls[0]);
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -82,7 +89,7 @@ public class ListaKomentara extends SherlockActivity {
 		}
 
 		@Override
-		protected void onPostExecute(RssFeed lzs_feed) {
+		protected void onPostExecute(WordpressCommentParser lzs_feed) {
 			komentariProgressLayout.setVisibility(View.GONE);
 			refresh.setActionView(null);
 			
