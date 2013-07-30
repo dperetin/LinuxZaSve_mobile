@@ -192,7 +192,7 @@ public class LzsRssPost {
 			String cijeliThumbUrl = m.group(1);
 			if (cijeliThumbUrl != null) {
 				this.thumbnail = cijeliThumbUrl.replace("\t", "")
-						.replace("h=125", "h=50").replace("w=200", "w=80")
+						.replace("h=125", "h=256").replace("w=200", "w=256")
 						.replace("amp;", "");
 			}
 

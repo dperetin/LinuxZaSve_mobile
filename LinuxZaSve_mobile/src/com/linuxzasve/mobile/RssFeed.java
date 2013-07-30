@@ -201,40 +201,5 @@ public class RssFeed {
 			throws IllegalStateException, IOException {
 		org.jsoup.nodes.Document doc = Jsoup.connect(urlClanka).get();
 		return doc.toString();
-//		HttpResponse response = null;
-//		try {
-//			HttpClient client = new DefaultHttpClient();
-//			HttpGet request = new HttpGet();
-//			request.setURI(new URI(urlClanka));
-//			response = client.execute(request);
-//		} catch (URISyntaxException e) {
-//			e.printStackTrace();
-//		} catch (ClientProtocolException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		InputStream inputStream = response.getEntity().getContent();
-//
-//		if (inputStream != null) {
-//			Writer writer = new StringWriter();
-//
-//			char[] buffer = new char[1024];
-//			try {
-//				Reader reader = new BufferedReader(new InputStreamReader(
-//						inputStream, "UTF-8"), 1024);
-//				int n;
-//				while ((n = reader.read(buffer)) != -1) {
-//					writer.write(buffer, 0, n);
-//				}
-//			} finally {
-//				inputStream.close();
-//			}
-//			return writer.toString();
-//		} else {
-//			return "";
-//		}
 	}
 }

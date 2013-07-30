@@ -1,34 +1,36 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="5dp" >
+    android:layout_height="match_parent" >
 
     <ImageView
         android:id="@+id/thumbnail"
-        android:layout_width="80dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginLeft="0dp"
+        
         android:layout_toRightOf="@id/thumbnail"
         android:contentDescription="@+id/neki_tekst"
-        android:src="@drawable/placeholder" />
+        android:src="@drawable/placeholder" 
+        />
     
     <TextView
         android:id="@+id/neki_tekst"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/thumbnail"
-        android:ellipsize="marquee"
+        android:ellipsize="end"
         android:text="@+id/label"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/primary_text_light"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#c000"
         android:textSize="16sp"
-        android:typeface="sans" />
+        android:fontFamily="sans-serif-condensed" 
+        android:maxLines="2"
+        />
 
     <TextView
         android:id="@+id/autor"
@@ -39,8 +41,10 @@
         android:layout_below="@+id/neki_tekst"
         android:layout_marginBottom="5dp"
         android:alpha="1"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="12sp" />
+        android:textColor="#6000"
+        android:textSize="12sp" 
+        android:fontFamily="sans-serif-condensed"
+        android:textAllCaps="true"/>
 
     <TextView
         android:id="@+id/datum"
@@ -54,8 +58,9 @@
         android:layout_marginRight="14dp"
         android:layout_toRightOf="@id/autor"
         android:alpha="1"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="12sp" />
+        android:textColor="#6000"
+        android:textSize="12sp" 
+        android:fontFamily="sans-serif-condensed"/>
 
     <TextView
         android:id="@+id/broj_komentara"
@@ -65,8 +70,9 @@
         android:layout_alignRight="@+id/neki_tekst"
         android:layout_below="@+id/neki_tekst"
         android:text="0000"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="12sp" />
+        android:textColor="#6000"
+        android:textSize="12sp" 
+        android:fontFamily="sans-serif-condensed"/>
 
     <ImageView
         android:id="@+id/ikona_komentara"
@@ -75,6 +81,7 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/neki_tekst"
         android:layout_toLeftOf="@+id/broj_komentara"
-        android:src="@drawable/komentari" />
+        android:src="@drawable/komentari" 
+        android:fontFamily="sans-serif-condensed"/>
     
 </RelativeLayout>

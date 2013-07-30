@@ -1,14 +1,17 @@
 body {
 	background-color:#ffffff;
+	font-family:"sans-serif-condensed";
 }
 
 h1 {
 	color:#000000;
 	text-align:center;
+	font-family:"sans-serif-condensed";
+	font-size:175%;
 }
 
 p {
-	font-family:"Roboto";
+	font-family:"sans-serif-condensed";
 }
 
 img {

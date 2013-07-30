@@ -1,14 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content" >
 
     <ImageView
         android:id="@+id/komentarThumbnail"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="0dp"
         android:contentDescription="@+id/neki_tekst"
         android:src="@drawable/abs__ab_stacked_transparent_light_holo" />
     
@@ -20,9 +20,10 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_toRightOf="@id/komentarThumbnail"
-        android:alpha="1"
         android:textColor="@android:color/black"
-        android:textStyle="bold" />
+        android:textStyle="bold" 
+        android:fontFamily="sans-serif-condensed"
+        android:textAllCaps="true"/>
 
     <TextView
         android:id="@+id/datum_komentar"
@@ -31,19 +32,20 @@
         android:layout_alignLeft="@id/autor_komentar"
         android:layout_below="@id/autor_komentar"
         android:layout_marginRight="14dp"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/komentarThumbnail"
-        android:alpha="1"
-        android:textColor="@android:color/darker_gray"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="#6000"
         android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tekst_komentar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/datum_komentar"
+        android:layout_below="@id/komentarThumbnail"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_toRightOf="@id/komentarThumbnail"
+        android:fontFamily="sans-serif-condensed"
         android:textSize="16sp" />
 
 </RelativeLayout>

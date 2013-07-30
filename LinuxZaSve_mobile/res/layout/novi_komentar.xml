@@ -17,7 +17,21 @@
             android:layout_marginTop="20dp"
             android:text="@string/novi_komentar_ime"
             android:textSize="15dp"
-            android:textStyle="bold" />
+            android:textStyle="bold" 
+            android:fontFamily="sans-serif-condensed"/>
+
+        <TextView
+            android:id="@+id/label_broj_komentara_obavezno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/label_broj_komentara"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/novi_komentar_ime_obavezno"
+            android:textSize="15dp"
+            android:textStyle="bold" 
+            android:textColor="#FF0000"/>
 
         <EditText
             android:id="@+id/editText1"
@@ -30,7 +44,8 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="text"
-            android:singleLine="true" >
+            android:singleLine="true" 
+            android:fontFamily="sans-serif-condensed">
 
             <requestFocus />
         </EditText>
@@ -44,6 +59,21 @@
             android:layout_marginTop="20dp"
             android:text="@string/novi_komentar_email"
             android:textSize="15dp"
+            android:textStyle="bold" 
+            android:fontFamily="sans-serif-condensed"/>
+        
+        <TextView
+            android:id="@+id/textView2Obavezno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText1"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/textView2"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/novi_komentar_email_obavezno"
+            android:textColor="#FF0000"
+            android:textSize="15dp"
             android:textStyle="bold" />
 
         <EditText
@@ -56,7 +86,8 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:singleLine="true" />
+            android:singleLine="true" 
+            android:fontFamily="sans-serif-condensed"/>
 
         <TextView
             android:id="@+id/textView3"
@@ -67,7 +98,8 @@
             android:layout_marginTop="20dp"
             android:text="@string/novi_komentar_url"
             android:textSize="15dp"
-            android:textStyle="bold" />
+            android:textStyle="bold" 
+            android:fontFamily="sans-serif-condensed"/>
         
         <EditText
             android:id="@+id/editText3"
@@ -80,7 +112,8 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="textUri"
-            android:singleLine="true" />
+            android:singleLine="true" 
+            android:fontFamily="sans-serif-condensed"/>
 
         <TextView
             android:id="@+id/textView4"
@@ -91,7 +124,8 @@
             android:layout_marginTop="20dp"
             android:text="@string/novi_komentar_komentar"
             android:textSize="15dp"
-            android:textStyle="bold" />
+            android:textStyle="bold" 
+            android:fontFamily="sans-serif-condensed"/>
 
         <EditText
             android:id="@+id/editText4"
@@ -107,7 +141,8 @@
             android:singleLine="false"
             android:lines="4"
             android:gravity="top|left"
-            android:scrollHorizontally="false"  />
+            android:scrollHorizontally="false"  
+            android:fontFamily="sans-serif-condensed"/>
         
     </RelativeLayout>
 </ScrollView>
