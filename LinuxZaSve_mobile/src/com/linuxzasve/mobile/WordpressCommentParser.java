@@ -32,6 +32,9 @@ public class WordpressCommentParser {
 	private static final String AUTHOR_WITH_URL_PATTERN = "rel=\"external nofollow\" class=\"url\">(.*?)</a>";
 	private static final String THUMBNAIL_PATTERN = "src=\"(.*?)\"";
 	private static final String PUBLISHED_TIME_PATTERN = ">(.*)</a>";
+	private static final String COMMENT_POST_ID_PATTERN = "<input type=\"hidden\" name=\"comment_post_ID\" value=\"(.*?)\" />";
+	
+	private static final String AKSIMET_PATTERN = "<input type=\"hidden\" id=\"akismet_comment_nonce\" name=\"akismet_comment_nonce\" value=\"(.*?)\" />";
 	
 	public WordpressCommentParser(String url) throws IOException {
 		listaKomentara = new ArrayList<Komentar>();
@@ -51,6 +54,9 @@ public class WordpressCommentParser {
 			komentar.setThumbnailUrl(parseInput(THUMBNAIL_PATTERN, e.select(".comment-author").toString()));
 			komentar.setPublishDate(parseInput(PUBLISHED_TIME_PATTERN, e.select(".comment-meta").toString()));
 			komentar.setContent(e.select("p").toString());
+			
+			komentar.setAkismetCommentNounce(parseInput(AKSIMET_PATTERN, doc.select("#commentform").toString()));
+			komentar.setCommentPostId(parseInput(COMMENT_POST_ID_PATTERN, doc.select("#commentform").toString()));
 			
 			listaKomentara.add(0, komentar);
 		}

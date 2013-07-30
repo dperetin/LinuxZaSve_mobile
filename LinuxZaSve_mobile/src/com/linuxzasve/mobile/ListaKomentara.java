@@ -32,7 +32,10 @@ public class ListaKomentara extends SherlockActivity {
 	private ListaKomentara ovaAct;
 	LinearLayout komentariProgressLayout;
 	String message;
+	String post_id;
+	String akismet;
 	private MenuItem refresh;
+	
 	
 	public class MySimpleArrayAdapter extends ArrayAdapter<Komentar> {
 		private final Context context;
@@ -42,6 +45,8 @@ public class ListaKomentara extends SherlockActivity {
 			super(context, R.layout.komentar_redak, naslovi);
 			this.context = context;
 			this.values = naslovi;
+			post_id = naslovi.get(0).getCommentPostId();
+			akismet = naslovi.get(0).getAkismetCommentNounce();
 		}
 
 		@Override
@@ -137,7 +142,9 @@ public class ListaKomentara extends SherlockActivity {
 		case R.id.menu_new_comment:
 			Intent intent = new Intent(this, NoviKomentar.class);
 			
-			//intent.putExtra("komentari", komentari);
+			intent.putExtra("post_id", post_id);
+			intent.putExtra("akismet", akismet);
+			intent.putExtra("orig_url", message);
 			startActivity(intent);
 			return true;
 

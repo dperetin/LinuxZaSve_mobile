@@ -19,6 +19,8 @@ public class Komentar {
 	private String no_comments;
 	private String origLink;
 	private String thumbnail;
+	private String akismetCommentNonce;
+	private String commentPostId;
 	
 	/**
 	 * Defaultni konstruktor
@@ -38,6 +40,22 @@ public class Komentar {
 	
 	public void setPublishDate(String publishDate){
 		this.publishDate = publishDate;
+	}
+	
+	public void setCommentPostId(String id) {
+		commentPostId = id;
+	}
+	
+	public String getCommentPostId() {
+		return commentPostId;
+	}
+	
+	public void setAkismetCommentNounce(String id) {
+		akismetCommentNonce = id;
+	}
+	
+	public String getAkismetCommentNounce() {
+		return akismetCommentNonce;
 	}
 	
 	/**
