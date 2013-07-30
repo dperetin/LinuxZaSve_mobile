@@ -45,8 +45,10 @@ public class ListaKomentara extends SherlockActivity {
 			super(context, R.layout.komentar_redak, naslovi);
 			this.context = context;
 			this.values = naslovi;
-			post_id = naslovi.get(0).getCommentPostId();
-			akismet = naslovi.get(0).getAkismetCommentNounce();
+			if (naslovi.size() > 0) {
+				post_id = naslovi.get(0).getCommentPostId();
+				akismet = naslovi.get(0).getAkismetCommentNounce();
+			}
 		}
 
 		@Override

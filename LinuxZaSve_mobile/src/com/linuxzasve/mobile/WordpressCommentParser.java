@@ -44,7 +44,11 @@ public class WordpressCommentParser {
 		
 		Elements komentari = doc.select(".comment-body");
 		
-		
+		if (komentari.size() == 0) {
+			Komentar komentar = new Komentar();
+			komentar.setAkismetCommentNounce(parseInput(AKSIMET_PATTERN, doc.select("#commentform").toString()));
+			komentar.setCommentPostId(parseInput(COMMENT_POST_ID_PATTERN, doc.select("#commentform").toString()));
+		}
 		
 		for (Element e : komentari) {
 			Komentar komentar = new Komentar();
@@ -76,7 +80,7 @@ public class WordpressCommentParser {
 	      Matcher m = r.matcher(input);
 	      if (m.find( )) {
 	    	  return m.group(1);
-	      }		
+	      }
 		return "";
 	}
 }
