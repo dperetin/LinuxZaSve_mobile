@@ -17,11 +17,11 @@ Testna verzija aplikacije je dostupna i na Google Play trgovini. Kako bi ju inst
 
 1. izbrisati app ako je prije instaliran iz apk datoteke
 
-2. uclaniti se u ovaj community: https://plus.google.com/communities/111 ... 7826296615
+2. uclaniti se u ovaj community: https://plus.google.com/communities/111628927417826296615
 
-3. ovdje pristupiti testu: https://play.google.com/apps/testing/co ... sve.mobile
+3. ovdje pristupiti testu: https://play.google.com/apps/testing/com.linuxzasve.mobile
 
-4. ovdje skinuti app: https://play.google.com/store/apps/deta ... sve.mobile
+4. ovdje skinuti app: https://play.google.com/store/apps/details?id=com.linuxzasve.mobile
 
 
 Kako buildati
