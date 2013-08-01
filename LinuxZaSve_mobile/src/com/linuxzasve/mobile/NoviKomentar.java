@@ -1,7 +1,6 @@
 package com.linuxzasve.mobile;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.jsoup.helper.StringUtil;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -34,7 +32,7 @@ public class NoviKomentar extends SherlockActivity {
 	private String post_id;
 	private String akismet;
 	private String orig_url;
-	private static final Integer RETURN_NOK = new Integer(500);
+	private static final Integer RETURN_NOK = Integer.valueOf(500);
 	
 	
 	@Override
@@ -135,7 +133,7 @@ public class NoviKomentar extends SherlockActivity {
 
 		    }
 		    
-		    return new Integer(response.getStatusLine().getStatusCode());
+		    return Integer.valueOf(response.getStatusLine().getStatusCode());
 	    }
 
 	    protected void onPostExecute(Integer result) {

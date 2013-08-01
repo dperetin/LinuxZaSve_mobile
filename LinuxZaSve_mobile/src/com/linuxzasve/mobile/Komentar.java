@@ -1,23 +1,20 @@
 package com.linuxzasve.mobile;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Klasa predstavlja jedan Linux za sve post dobiven iz informacija
  * dostupnih na RSS feedu.
  */
 public class Komentar {
 	
-	private String title;
-	private String description;
-	private String link;
+//	private String title;
+//	private String description;
+//	private String link;
 	private String publishDate;
 	private String creator;
 	private String content;
-	private String commentRss;
-	private String no_comments;
-	private String origLink;
+//	private String commentRss;
+//	private String no_comments;
+//	private String origLink;
 	private String thumbnail;
 	private String akismetCommentNonce;
 	private String commentPostId;

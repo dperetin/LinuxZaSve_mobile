@@ -1,15 +1,6 @@
 package com.linuxzasve.mobile;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -24,7 +15,7 @@ import org.jsoup.select.Elements;
 
 public class WordpressCommentParser {
 	private String pageUrl;
-	private String fullPageContent = "";
+//	private String fullPageContent = "";
 	
 	private List<Komentar> listaKomentara;
 	
@@ -44,10 +35,13 @@ public class WordpressCommentParser {
 		
 		Elements komentari = doc.select(".comment-body");
 		
+		String akismet = parseInput(AKSIMET_PATTERN, doc.select("#commentform").toString());
+		String postId = parseInput(COMMENT_POST_ID_PATTERN, doc.select("#commentform").toString());
+		
 		if (komentari.size() == 0) {
 			Komentar komentar = new Komentar();
-			komentar.setAkismetCommentNounce(parseInput(AKSIMET_PATTERN, doc.select("#commentform").toString()));
-			komentar.setCommentPostId(parseInput(COMMENT_POST_ID_PATTERN, doc.select("#commentform").toString()));
+			komentar.setAkismetCommentNounce(akismet);
+			komentar.setCommentPostId(postId);
 		}
 		
 		for (Element e : komentari) {
@@ -57,10 +51,11 @@ public class WordpressCommentParser {
 					: parseInput(AUTHOR_PATTERN, e.select(".comment-author").toString()));
 			komentar.setThumbnailUrl(parseInput(THUMBNAIL_PATTERN, e.select(".comment-author").toString()));
 			komentar.setPublishDate(parseInput(PUBLISHED_TIME_PATTERN, e.select(".comment-meta").toString()));
-			komentar.setContent(e.select("p").toString());
+			String textKomentara = e.select("p").toString();
+			komentar.setContent(textKomentara.substring(3, textKomentara.length() - 4));
 			
-			komentar.setAkismetCommentNounce(parseInput(AKSIMET_PATTERN, doc.select("#commentform").toString()));
-			komentar.setCommentPostId(parseInput(COMMENT_POST_ID_PATTERN, doc.select("#commentform").toString()));
+			komentar.setAkismetCommentNounce(akismet);
+			komentar.setCommentPostId(postId);
 			
 			listaKomentara.add(0, komentar);
 		}
