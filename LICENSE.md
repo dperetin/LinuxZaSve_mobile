@@ -3,7 +3,7 @@ Linux za Sve Android aplikacija i njen izvorni kod su objavljeni pod Apache v2 l
 ------
 
 
- Copyright 2013 Linux za Sve i suradnici
+ Copyright 2013 Linux za Sve and contributors
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
