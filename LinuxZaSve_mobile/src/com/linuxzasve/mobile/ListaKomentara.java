@@ -45,10 +45,10 @@ public class ListaKomentara extends SherlockActivity {
 			super(context, R.layout.komentar_redak, naslovi);
 			this.context = context;
 			this.values = naslovi;
-			if (naslovi.size() > 0) {
-				post_id = naslovi.get(0).getCommentPostId();
-				akismet = naslovi.get(0).getAkismetCommentNounce();
-			}
+
+			post_id = naslovi.get(0).getCommentPostId();
+			akismet = naslovi.get(0).getAkismetCommentNounce();
+
 		}
 
 		@Override
@@ -68,7 +68,7 @@ public class ListaKomentara extends SherlockActivity {
 			
 			UrlImageViewHelper
 			.setUrlDrawable(thumbnail, values.get(values.size() - position - 1)
-					.getThumbnail(), R.drawable.placeholder);
+					.getThumbnail());
 			
 			return rowView;
 		}

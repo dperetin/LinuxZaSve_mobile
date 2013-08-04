@@ -40,8 +40,13 @@ public class WordpressCommentParser {
 		
 		if (komentari.size() == 0) {
 			Komentar komentar = new Komentar();
+			komentar.setCreator("");
+			komentar.setThumbnailUrl("");
+			komentar.setPublishDate("");
+			komentar.setContent("Još nitko nije komentirao ovaj članak.");
 			komentar.setAkismetCommentNounce(akismet);
 			komentar.setCommentPostId(postId);
+			listaKomentara.add(0, komentar);
 		}
 		
 		for (Element e : komentari) {
