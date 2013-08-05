@@ -66,16 +66,16 @@ public class NoviKomentar extends SherlockActivity {
 			return true;
 			
 		case R.id.menu_send:
-			EditText et1 = (EditText) findViewById(R.id.editText1);
+			EditText et1 = (EditText) findViewById(R.id.novi_komentar_name);
 			name = et1.getText().toString();
 			
-			EditText et2 = (EditText) findViewById(R.id.editText2);
+			EditText et2 = (EditText) findViewById(R.id.novi_komentar_email);
 			email = et2.getText().toString();
 			
-			EditText et3 = (EditText) findViewById(R.id.editText3);
+			EditText et3 = (EditText) findViewById(R.id.novi_komentar_url);
 			url = et3.getText().toString();
 			
-			EditText et4 = (EditText) findViewById(R.id.editText4);
+			EditText et4 = (EditText) findViewById(R.id.novi_komentar_tekst);
 			text = et4.getText().toString();
 			
 			if (email == null || name == null || email.equals("") || name.equals("") ) {
