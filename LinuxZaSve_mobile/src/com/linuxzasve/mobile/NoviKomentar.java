@@ -17,10 +17,17 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.linuxzasve.mobile.NewCommentEmailContract.NewCommentEmail;
+import com.linuxzasve.mobile.NewCommentNameContract.NewCommentName;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -34,6 +41,11 @@ public class NoviKomentar extends SherlockActivity {
 	private String orig_url;
 	private static final Integer RETURN_NOK = Integer.valueOf(500);
 	
+//	names used in previous posts, used for name autocomplete
+	private String[] usedNames;
+	
+//	emails used in previous posts, used for email autocomplete
+	private String[] usedEmails;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +58,9 @@ public class NoviKomentar extends SherlockActivity {
 		post_id = intent.getStringExtra("post_id");
 		akismet = intent.getStringExtra("akismet");
 		orig_url = intent.getStringExtra("orig_url");
+		
+		usedNames = getUsedNames();
+		usedEmails = getUsedEmails();
 
 	}
 	
@@ -54,6 +69,14 @@ public class NoviKomentar extends SherlockActivity {
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.novi_komentar, menu);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usedNames);
+		AutoCompleteTextView et1 = (AutoCompleteTextView) findViewById(R.id.novi_komentar_name);
+		et1.setAdapter(adapter);
+		
+		ArrayAdapter<String> adapterEmails = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usedEmails);
+		AutoCompleteTextView et2 = (AutoCompleteTextView) findViewById(R.id.novi_komentar_email);
+		et2.setAdapter(adapterEmails);
 		return true;
 	}
 	
@@ -66,10 +89,10 @@ public class NoviKomentar extends SherlockActivity {
 			return true;
 			
 		case R.id.menu_send:
-			EditText et1 = (EditText) findViewById(R.id.novi_komentar_name);
+			AutoCompleteTextView et1 = (AutoCompleteTextView) findViewById(R.id.novi_komentar_name);
 			name = et1.getText().toString();
 			
-			EditText et2 = (EditText) findViewById(R.id.novi_komentar_email);
+			AutoCompleteTextView et2 = (AutoCompleteTextView) findViewById(R.id.novi_komentar_email);
 			email = et2.getText().toString();
 			
 			EditText et3 = (EditText) findViewById(R.id.novi_komentar_url);
@@ -92,6 +115,53 @@ public class NoviKomentar extends SherlockActivity {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private String[] getUsedNames() {
+		String[] allNames;
+		NewCommentNameDbHelper mDbHelper = new NewCommentNameDbHelper(getBaseContext());
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+			
+		String[] projection = {NewCommentName._ID, NewCommentName.COLUMN_NAME_IME};
+		
+		List<String> popisImena = new ArrayList<String>();
+		
+		Cursor c = db.query(NewCommentName.TABLE_NAME, projection, null, null, null, null, null);
+		
+		while(c.moveToNext()) {
+			popisImena.add(c.getString(c.getColumnIndex(NewCommentName.COLUMN_NAME_IME)));
+		}
+		allNames = new String[popisImena.size()];
+		allNames = popisImena.toArray(allNames);
+		
+		return allNames;
+	}
+	
+	/**
+	 * 	Populates email autocomplete field
+	 */
+	private String[] getUsedEmails() {
+		String[] allEmails;
+		NewCommentEmailDbHelper mDbHelper = new NewCommentEmailDbHelper(getBaseContext());
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+			
+		String[] projection = {NewCommentEmail._ID, NewCommentEmail.COLUMN_NAME_EMAIL};
+		
+		List<String> popisImena = new ArrayList<String>();
+		
+		Cursor c = db.query(NewCommentEmail.TABLE_NAME, projection, null, null, null, null, null);
+		
+		while(c.moveToNext()) {
+			popisImena.add(c.getString(c.getColumnIndex(NewCommentEmail.COLUMN_NAME_EMAIL)));
+		}
+		allEmails = new String[popisImena.size()];
+		allEmails = popisImena.toArray(allEmails);
+		
+		return allEmails;
 	}
 	
 	private class CommentPoster extends AsyncTask<String, Integer, Integer> {
@@ -127,26 +197,92 @@ public class NoviKomentar extends SherlockActivity {
 
 		        response = httpclient.execute(httppost);
 		        
-		    } catch (ClientProtocolException e) {
+		    } 
+		        catch (ClientProtocolException e) {
 
-		    } catch (IOException e) {
+		    } 
+		    catch (IOException e) {
 
+		    }
+
+		    if (!Integer.valueOf(response.getStatusLine().getStatusCode()).equals(RETURN_NOK)) {
+		    	insertEmailIfNew(urls[1]);
+		    	insertNameIfNew(urls[0]);
 		    }
 		    
 		    return Integer.valueOf(response.getStatusLine().getStatusCode());
 	    }
 
-	    protected void onPostExecute(Integer result) {
-	    	if (!result.equals(RETURN_NOK)) {
-	    		Toast toast = Toast.makeText(getBaseContext(), "Komentar je poslan.", Toast.LENGTH_LONG);
+		protected void onPostExecute(Integer result) {
+			if (!result.equals(RETURN_NOK)) {
+				
+				Toast toast = Toast.makeText(getBaseContext(), "Komentar je poslan.", Toast.LENGTH_LONG);
 				toast.show();
-	    	}
-	    	else {
-	    		Toast toast = Toast.makeText(getBaseContext(), "Slanje komentara nije uspjelo.", Toast.LENGTH_LONG);
+			} 
+			else {
+
+				Toast toast = Toast.makeText(getBaseContext(),
+						"Slanje komentara nije uspjelo.", Toast.LENGTH_LONG);
 				toast.show();
-	    	}
-	    	
-	    }
+			}
+		}
+
+		private void insertEmailIfNew(String email) {
+			if(usedEmails.length == 0) {
+				insertEmail(email);
+				return;
+			}
+			for(String s : usedEmails) {
+				if (s != null && s.equals(email)) {
+					return;
+				} else {
+					insertEmail(email);
+				}
+			}
+			
+		}
+
+		private void insertEmail(String email) {
+			NewCommentEmailDbHelper mDbHelper = new NewCommentEmailDbHelper(getBaseContext());
+			SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+			ContentValues values = new ContentValues();
+			values.put(NewCommentEmail.COLUMN_NAME_EMAIL, email);
+
+			db.insert(NewCommentEmail.TABLE_NAME, null, values);
+		}
+
+		/**
+		 * Checks if name is in database, if not inserts it.
+		 * @param name
+		 */
+		private void insertNameIfNew(String name) {
+			if(usedNames.length == 0) {
+				insertName(name);
+				return;
+			}
+			for(String s : usedNames) {
+				if (s != null && s.equals(name)) {
+					return;
+				} else {
+					insertName(name);
+				}
+			}	
+		}
+
+		/**
+		 * Inserts name in database
+		 * @param name
+		 */
+		private void insertName(String name) {
+			NewCommentNameDbHelper mDbHelper = new NewCommentNameDbHelper(getBaseContext());
+			SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+			ContentValues values = new ContentValues();
+			values.put(NewCommentName.COLUMN_NAME_IME, name);
+
+			db.insert(NewCommentName.TABLE_NAME, null, values);
+		}
 	}
 }
 

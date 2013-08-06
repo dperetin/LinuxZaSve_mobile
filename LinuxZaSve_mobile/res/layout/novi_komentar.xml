@@ -7,7 +7,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <EditText
+       <AutoCompleteTextView
             android:id="@+id/novi_komentar_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,12 +20,12 @@
             android:fontFamily="sans-serif-condensed"
             android:hint="@string/novi_komentar_hint_name"
             android:inputType="text"
-            android:singleLine="true" >
+            android:singleLine="true" 
+            android:imeOptions="actionNext" 
+            android:textColor="#c000" />
 
-            <requestFocus />
-        </EditText>
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/novi_komentar_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +37,9 @@
             android:fontFamily="sans-serif-condensed"
             android:hint="@string/novi_komentar_hint_email"
             android:inputType="textEmailAddress"
-            android:singleLine="true" />
+            android:singleLine="true" 
+            android:imeOptions="actionNext"
+            android:textColor="#c000" />
 
         <EditText
             android:id="@+id/novi_komentar_url"
