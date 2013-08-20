@@ -127,7 +127,7 @@ public class ListaNovosti extends SherlockActivity {
 			
 			UrlImageViewHelper
 					.setUrlDrawable(holder.thumbnail, values.get(position)
-							.getThumbnail(), R.drawable.placeholder);
+							.getThumbnail());
 
 			return convertView;
 		}
