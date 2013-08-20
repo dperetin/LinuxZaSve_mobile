@@ -193,7 +193,7 @@ public class NoviKomentar extends SherlockActivity {
 		        nameValuePairs.add(new BasicNameValuePair("comment_parent", "0"));
 		        nameValuePairs.add(new BasicNameValuePair("akismet_comment_nonce", urls[5]));
 
-		        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
 		        response = httpclient.execute(httppost);
 		        
@@ -239,7 +239,6 @@ public class NoviKomentar extends SherlockActivity {
 					insertEmail(email);
 				}
 			}
-			
 		}
 
 		private void insertEmail(String email) {
