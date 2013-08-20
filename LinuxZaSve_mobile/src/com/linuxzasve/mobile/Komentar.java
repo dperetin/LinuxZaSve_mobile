@@ -1,5 +1,17 @@
 package com.linuxzasve.mobile;
 
+import java.io.InputStream;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.Html.ImageGetter;
+import android.text.Spanned;
+import android.util.Log;
+
 /**
  * Klasa predstavlja jedan Linux za sve post dobiven iz informacija
  * dostupnih na RSS feedu.
@@ -18,6 +30,7 @@ public class Komentar {
 	private String thumbnail;
 	private String akismetCommentNonce;
 	private String commentPostId;
+	private Spanned ig;
 	
 	/**
 	 * Defaultni konstruktor
@@ -108,6 +121,29 @@ public class Komentar {
 	}
 	
 	public void setContent(String content) {
+		
+		ig = Html.fromHtml(content, new ImageGetter() {
+			   @Override public Drawable getDrawable(String source) {
+				      Drawable drawFromPath;
+				      
+				      String urldisplay = source;
+				        Bitmap mIcon11 = null;
+				        try {
+				            InputStream in = new java.net.URL(urldisplay).openStream();
+				            mIcon11 = BitmapFactory.decodeStream(in);
+				        } catch (Exception e) {
+				            Log.e("Error", e.getMessage());
+				            e.printStackTrace();
+				        }
+				       
+				        drawFromPath = new BitmapDrawable(c.getResources(), mIcon11);
+				      
+				     /* drawFromPath.setBounds(0, 0, drawFromPath.getIntrinsicWidth(),
+				         drawFromPath.getIntrinsicHeight());*/
+				      return drawFromPath;
+				   }
+				}, null);
+		
 		this.content = content;
 	}
 	
