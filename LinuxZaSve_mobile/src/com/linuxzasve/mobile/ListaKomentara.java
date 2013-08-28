@@ -8,12 +8,15 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
-
+import android.graphics.drawable.BitmapDrawable;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Html.ImageGetter;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +67,38 @@ public class ListaKomentara extends SherlockActivity {
 			datum.setText(values.get(values.size() - position - 1).getPublishDate());
 			autor.setText(values.get(values.size() - position - 1).getCreator());
 			
-			neki_tekst.setText(Html.fromHtml(values.get(values.size() - position - 1).getContent()));
+//			neki_tekst.setText(Html.fromHtml(values.get(values.size() - position - 1).getContent()));
+			
+			neki_tekst.setText(Html.fromHtml(
+					values.get(values.size() - position - 1).getContent(),
+					new ImageGetter() {
+						@Override
+						public Drawable getDrawable(String source) {
+							
+							/* Dohvacam ID slike. Ako nema takovg smajla, vracam null */
+							Integer id = EmoticonDrawables.getDrawableId(source);
+							
+							if (id == null) {
+								return null;
+							}
+							
+							Drawable drawable = context.getResources().getDrawable(id);
+							Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+
+							final float scale = context.getResources().getDisplayMetrics().scaledDensity;
+							// Convert the dps to pixels, based on density scale
+							int size = (int) (16 * scale * scale);
+
+							// 24;
+
+							Drawable d = new BitmapDrawable(Bitmap.createScaledBitmap(bitmap, size, size, false));
+							int dWidth = d.getIntrinsicWidth();
+							int dHeight = d.getIntrinsicHeight();
+
+							d.setBounds(0, -dHeight, dWidth, 0);
+							return d;
+						}
+					}, null));
 			
 			UrlImageViewHelper
 			.setUrlDrawable(thumbnail, values.get(values.size() - position - 1)

@@ -30,7 +30,6 @@ public class Komentar {
 	private String thumbnail;
 	private String akismetCommentNonce;
 	private String commentPostId;
-	private Spanned ig;
 	
 	/**
 	 * Defaultni konstruktor
@@ -121,29 +120,6 @@ public class Komentar {
 	}
 	
 	public void setContent(String content) {
-		
-		ig = Html.fromHtml(content, new ImageGetter() {
-			   @Override public Drawable getDrawable(String source) {
-				      Drawable drawFromPath;
-				      
-				      String urldisplay = source;
-				        Bitmap mIcon11 = null;
-				        try {
-				            InputStream in = new java.net.URL(urldisplay).openStream();
-				            mIcon11 = BitmapFactory.decodeStream(in);
-				        } catch (Exception e) {
-				            Log.e("Error", e.getMessage());
-				            e.printStackTrace();
-				        }
-				       
-				        drawFromPath = new BitmapDrawable(c.getResources(), mIcon11);
-				      
-				     /* drawFromPath.setBounds(0, 0, drawFromPath.getIntrinsicWidth(),
-				         drawFromPath.getIntrinsicHeight());*/
-				      return drawFromPath;
-				   }
-				}, null);
-		
 		this.content = content;
 	}
 	
