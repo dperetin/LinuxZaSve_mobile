@@ -23,27 +23,38 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import com.linuxzasve.mobile.rest.LzsRestApi;
+import com.linuxzasve.mobile.rest.LzsRestResponse;
+import com.linuxzasve.mobile.rest.Post;
 
 public class ListaNovosti extends SherlockActivity {
 	
 	private ListView listaClanaka;
 	private ListaNovosti ovaAct;
-	public static List<LzsRssPost> values;
+	public static List<Post> values;
 	LinearLayout novostiProgressLayout;
 	private MenuItem refresh;
 
 	
-	private class DownloadRssFeed extends AsyncTask<String, Void, RssFeed> {
+	private class DownloadRssFeed extends AsyncTask<String, Void, LzsRestResponse> {
 		@Override
 		protected void onPreExecute() {
 		}
 		
 		@Override
-		protected RssFeed doInBackground(String... urls) {
-			RssFeed lzs_feed = null;
+		protected LzsRestResponse doInBackground(String... urls) {
+			LzsRestResponse obj2 = null;
+			LzsRestApi api = null;
 			try {
-				lzs_feed = new RssFeed(urls[0]);
+				api = new LzsRestApi();
+				
+				String json = api.getRecentPosts();
+				
+				Gson gson = new Gson();
+				obj2 = gson.fromJson(json, LzsRestResponse.class); 
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -52,15 +63,14 @@ public class ListaNovosti extends SherlockActivity {
 				e.printStackTrace();
 			}
 	
-			return lzs_feed;
+			return obj2;
 		}
 
 		@Override
-		protected void onPostExecute(RssFeed lzs_feed) {
+		protected void onPostExecute(LzsRestResponse lzs_feed) {
 			novostiProgressLayout.setVisibility(View.GONE);
 			refresh.setActionView(null);
-			MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(ovaAct, 
-					lzs_feed.getPosts());
+			MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(ovaAct, lzs_feed.getPosts());
 
 			listaClanaka.setAdapter(adapter);
 
@@ -73,8 +83,8 @@ public class ListaNovosti extends SherlockActivity {
 				
 				i.putExtra("naslov", values.get(position).getTitle());
 				i.putExtra("sadrzaj", values.get(position).getContent());
-				i.putExtra("komentari", values.get(position).getOrigLink());
-				i.putExtra("origLink", values.get(position).getOrigLink());
+				i.putExtra("komentari", values.get(position).getUrl());
+				i.putExtra("origLink", values.get(position).getUrl());
 				startActivity(i);
 				}
 			});
@@ -90,11 +100,11 @@ public class ListaNovosti extends SherlockActivity {
 		boolean isSet=false;
 	}
 	
-	public class MySimpleArrayAdapter extends ArrayAdapter<LzsRssPost> {
+	public class MySimpleArrayAdapter extends ArrayAdapter<Post> {
 		private final Context context;
 		
 
-		public MySimpleArrayAdapter(Context context, List<LzsRssPost> naslovi) {
+		public MySimpleArrayAdapter(Context context, List<Post> naslovi) {
 			super(context, R.layout.novosti_redak, naslovi);
 			this.context = context;
 			values = naslovi;
@@ -121,9 +131,9 @@ public class ListaNovosti extends SherlockActivity {
 				holder = (ViewHolder) convertView.getTag();
 			}
 			holder.neki_tekst.setText(values.get(position).getTitle());
-			holder.datum.setText(values.get(position).datumDdmmyyy());
-			holder.autor.setText(values.get(position).getCreator());
-			holder.broj_komentara.setText(values.get(position).getNoComments());
+			holder.datum.setText(values.get(position).getDate());
+			holder.autor.setText(values.get(position).getAuthor().getNickname());
+			holder.broj_komentara.setText(Integer.toString(values.get(position).getComment_count()));
 			
 			UrlImageViewHelper
 					.setUrlDrawable(holder.thumbnail, values.get(position)
