@@ -6,17 +6,23 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 //import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 
@@ -43,16 +49,42 @@ public class LzsRestApi {
 			"thumbnail"
 	};
 	
-	public String getRecentPosts() throws IOException {
+	/**
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	public String getRecentPosts() throws IOException { 
+		/* prepare the query string */
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+		nameValuePairs.add(new BasicNameValuePair("include", generateInclude(include)));
+	
+		/* generate request url */
+		String url = generateRequestString(baseUrl, "get_recent_posts/", nameValuePairs);
 		
-		String jsonResult = getContent(baseUrl + "get_recent_posts/" + generateInclude(include));
+		/* submit query, get json data */
+		String jsonResult = getContent(url);
 		
 		return jsonResult;
 	}
 	
-public String getSearchResult(String search) throws IOException {
+	/**
+	 * 
+	 * @param search
+	 * @return
+	 * @throws IOException
+	 */
+	public String getSearchResult(String search) throws IOException {
+		/* prepare the query string */
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+		nameValuePairs.add(new BasicNameValuePair("include", generateInclude(include)));
+		nameValuePairs.add(new BasicNameValuePair("search", search));
 		
-		String jsonResult = getContent(baseUrl + "get_recent_posts/" + generateInclude(include));
+		/* generate request url */
+		String url = generateRequestString(baseUrl, "get_search_results/", nameValuePairs);
+		
+		/* submit query, get json data */
+		String jsonResult = getContent(url);
 		
 		return jsonResult;
 	}
@@ -107,13 +139,41 @@ public String getSearchResult(String search) throws IOException {
  
 	}
 	
+	/**
+	 * Comma separated values
+	 * @param includes
+	 * @return
+	 */
 	private String generateInclude(String includes[]) {
-		String result = "?include=";
+		String result = "";
 		int i;
 		for (i = 0; i < includes.length - 1; i++)
 			result += (includes[i] + ",");
 		result += includes[i];
 		return result;
 		
+	}
+	
+	/**
+	 * Method generates url on for fetching content
+	 * @param baseUrl base url, must begin with http:// and end with /
+	 * @param method name of the method to be used, must end with /
+	 * @param parameters
+	 * @return
+	 */
+	private String generateRequestString(String baseUrl, String method, List<NameValuePair> parameters) {
+		String url = "";
+		
+		/* add base url */
+		url += baseUrl;
+		
+		/* add method */
+		url += method;
+		
+		/* generate query string */
+		String queryString = URLEncodedUtils.format(parameters, "UTF-8");
+		url += ("?" + queryString);
+				
+		return url;
 	}
 }
