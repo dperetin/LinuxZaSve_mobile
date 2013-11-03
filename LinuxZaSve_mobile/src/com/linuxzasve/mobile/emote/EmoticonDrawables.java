@@ -3,7 +3,6 @@ package com.linuxzasve.mobile.emote;
 import java.util.HashMap;
 
 import com.linuxzasve.mobile.R;
-import com.linuxzasve.mobile.R.drawable;
 
 public class EmoticonDrawables {
 
@@ -31,7 +30,6 @@ public class EmoticonDrawables {
 	private static String MRGREEN_IMAGE_NAME = "icon_mrgreen.gif";
 	private static String COOL_IMAGE_NAME = "icon_cool.gif";
 	private static String CONFUSED_IMAGE_NAME = "icon_confused.gif";
-	
 
 	private static Integer SMILE_DRAWABLE = Integer.valueOf(R.drawable.icon_smile);
 	private static Integer BIGGRIN_DRAWABLE = Integer.valueOf(R.drawable.icon_biggrin);
@@ -60,7 +58,7 @@ public class EmoticonDrawables {
 
 	static {
 		emoticons = new HashMap<String, Integer>();
-		
+
 		emoticons.put(ROOT_URL + SMILE_IMAGE_NAME, SMILE_DRAWABLE);
 		emoticons.put(ROOT_URL + BIGGRIN_IMAGE_NAME, BIGGRIN_DRAWABLE);
 		emoticons.put(ROOT_URL + SAD_IMAGE_NAME, SAD_DRAWABLE);
@@ -85,9 +83,10 @@ public class EmoticonDrawables {
 		emoticons.put(ROOT_URL + CONFUSED_IMAGE_NAME, CONFUSED_DRAWABLE);
 	}
 
-	public static Integer getDrawableId(String path) {
-		 if (emoticons.containsKey(path))
-			 return emoticons.get(path);
-		 return null;
+	public static Integer getDrawableId(final String path) {
+		if (emoticons.containsKey(path)) {
+			return emoticons.get(path);
+		}
+		return null;
 	}
 }
