@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.text.Html;
+
 public class Post {
 	private int id;
 	private String type;
@@ -29,253 +31,208 @@ public class Post {
 	private CustomFiels custom_fields;
 	private String thumbnail_size;
 	private Thumbnail thumbnail_images;
-	
-	
+
 	public int getId() {
 		return id;
 	}
 
-
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
-
 
 	public String getType() {
 		return type;
 	}
 
-
-	public void setType(String type) {
+	public void setType(final String type) {
 		this.type = type;
 	}
-
 
 	public String getSlug() {
 		return slug;
 	}
 
-
-	public void setSlug(String slug) {
+	public void setSlug(final String slug) {
 		this.slug = slug;
 	}
-
 
 	public String getUrl() {
 		return url;
 	}
 
-
-	public void setUrl(String url) {
+	public void setUrl(final String url) {
 		this.url = url;
 	}
-
 
 	public String getStatus() {
 		return status;
 	}
 
-
-	public void setStatus(String status) {
+	public void setStatus(final String status) {
 		this.status = status;
 	}
 
-
 	public String getTitle() {
-		return title;
+		return Html.fromHtml(title).toString();
 	}
 
-
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
-
 
 	public String getTitle_plain() {
 		return title_plain;
 	}
 
-
-	public void setTitle_plain(String title_plain) {
+	public void setTitle_plain(final String title_plain) {
 		this.title_plain = title_plain;
 	}
-
 
 	public String getContent() {
 		return ClanakRemoveHardcodedDim(content);
 	}
 
-
-	public void setContent(String content) {
+	public void setContent(final String content) {
 		this.content = content;
 	}
-
 
 	public String getExcerpt() {
 		return excerpt;
 	}
 
-
-	public void setExcerpt(String excerpt) {
+	public void setExcerpt(final String excerpt) {
 		this.excerpt = excerpt;
 	}
-
 
 	public String getDate() {
 		return date;
 	}
 
-
-	public void setDate(String date) {
+	public void setDate(final String date) {
 		this.date = date;
 	}
-
 
 	public String getModified() {
 		return modified;
 	}
 
-
-	public void setModified(String modified) {
+	public void setModified(final String modified) {
 		this.modified = modified;
 	}
-
 
 	public List<Category> getCategories() {
 		return categories;
 	}
 
-
-	public void setCategories(List<Category> categories) {
+	public void setCategories(final List<Category> categories) {
 		this.categories = categories;
 	}
-
 
 	public List<Tag> getTags() {
 		return tags;
 	}
 
-
-	public void setTags(List<Tag> tags) {
+	public void setTags(final List<Tag> tags) {
 		this.tags = tags;
 	}
-
 
 	public Author getAuthor() {
 		return author;
 	}
 
-
-	public void setAuthor(Author author) {
+	public void setAuthor(final Author author) {
 		this.author = author;
 	}
-
 
 	public List<Comment> getComments() {
 		return comments;
 	}
 
-
-	public void setComments(List<Comment> comments) {
+	public void setComments(final List<Comment> comments) {
 		this.comments = comments;
 	}
-
 
 	public List<Attachment> getAttachments() {
 		return attachments;
 	}
 
-
-	public void setAttachments(List<Attachment> attachments) {
+	public void setAttachments(final List<Attachment> attachments) {
 		this.attachments = attachments;
 	}
-
 
 	public int getComment_count() {
 		return comment_count;
 	}
 
-
-	public void setComment_count(int comment_count) {
+	public void setComment_count(final int comment_count) {
 		this.comment_count = comment_count;
 	}
-
 
 	public String getComment_status() {
 		return comment_status;
 	}
 
-
-	public void setComment_status(String comment_status) {
+	public void setComment_status(final String comment_status) {
 		this.comment_status = comment_status;
 	}
-
 
 	public String getThumbnail() {
 		return thumbnail;
 	}
 
-
-	public void setThumbnail(String thumbnail) {
+	public void setThumbnail(final String thumbnail) {
 		this.thumbnail = thumbnail;
 	}
-
 
 	public CustomFiels getCustom_fields() {
 		return custom_fields;
 	}
 
-
-	public void setCustom_fields(CustomFiels custom_fields) {
+	public void setCustom_fields(final CustomFiels custom_fields) {
 		this.custom_fields = custom_fields;
 	}
-
 
 	public String getThumbnail_size() {
 		return thumbnail_size;
 	}
 
-
-	public void setThumbnail_size(String thumbnail_size) {
+	public void setThumbnail_size(final String thumbnail_size) {
 		this.thumbnail_size = thumbnail_size;
 	}
-
 
 	public Thumbnail getThumbnail_images() {
 		return thumbnail_images;
 	}
 
-
-	public void setThumbnail_images(Thumbnail thumbnail_images) {
+	public void setThumbnail_images(final Thumbnail thumbnail_images) {
 		this.thumbnail_images = thumbnail_images;
 	}
 
+	public Post() {
+	}
 
-	public Post() {}
-	
-	private String ClanakRemoveHardcodedDim(String clanak) {
+	private String ClanakRemoveHardcodedDim(final String clanak) {
 		String filtriraniClanak = clanak;
-		
+
 		List<Pattern> uzorciZaIzbaciti = new ArrayList<Pattern>();
-		
+
 		uzorciZaIzbaciti.add(Pattern.compile("width=\"\\d+\""));
 		uzorciZaIzbaciti.add(Pattern.compile("height=\"\\d+\""));
 		uzorciZaIzbaciti.add(Pattern.compile("\"width: \\d+px\""));
-		
+
 		Iterator<Pattern> it = uzorciZaIzbaciti.iterator();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			Pattern uzorak = it.next();
 			Matcher htmlClanka = uzorak.matcher(filtriraniClanak);
-			
+
 			while (htmlClanka.find()) {
 				int poc = htmlClanka.start();
 				int kraj = htmlClanka.end();
 
-				filtriraniClanak = filtriraniClanak.substring(0, poc) + 
-						filtriraniClanak.substring(kraj);
+				filtriraniClanak = filtriraniClanak.substring(0, poc) + filtriraniClanak.substring(kraj);
 				htmlClanka = uzorak.matcher(filtriraniClanak);
 			}
-			
+
 		}
 		return filtriraniClanak;
 	}
