@@ -1,4 +1,4 @@
-package com.linuxzasve.mobile;
+package com.linuxzasve.mobile.db;
 
 import android.provider.BaseColumns;
 

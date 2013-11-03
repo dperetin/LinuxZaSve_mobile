@@ -1,4 +1,4 @@
-package com.linuxzasve.mobile;
+package com.linuxzasve.mobile.googl;
 
 import java.io.BufferedReader;
 import java.io.IOException;

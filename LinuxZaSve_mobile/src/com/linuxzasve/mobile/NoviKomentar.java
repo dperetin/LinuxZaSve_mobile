@@ -17,8 +17,10 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.linuxzasve.mobile.NewCommentEmailContract.NewCommentEmail;
-import com.linuxzasve.mobile.NewCommentNameContract.NewCommentName;
+import com.linuxzasve.mobile.db.NewCommentEmailDbHelper;
+import com.linuxzasve.mobile.db.NewCommentNameDbHelper;
+import com.linuxzasve.mobile.db.NewCommentEmailContract.NewCommentEmail;
+import com.linuxzasve.mobile.db.NewCommentNameContract.NewCommentName;
 
 import android.content.ContentValues;
 import android.content.Intent;

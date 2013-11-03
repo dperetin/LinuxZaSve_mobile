@@ -1,4 +1,4 @@
-package com.linuxzasve.mobile;
+package com.linuxzasve.mobile.wp_comment;
 
 import java.io.InputStream;
 

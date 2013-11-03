@@ -1,6 +1,9 @@
-package com.linuxzasve.mobile;
+package com.linuxzasve.mobile.emote;
 
 import java.util.HashMap;
+
+import com.linuxzasve.mobile.R;
+import com.linuxzasve.mobile.R.drawable;
 
 public class EmoticonDrawables {
 

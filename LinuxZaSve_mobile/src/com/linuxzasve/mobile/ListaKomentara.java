@@ -8,6 +8,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import com.linuxzasve.mobile.emote.EmoticonDrawables;
+import com.linuxzasve.mobile.wp_comment.Komentar;
+import com.linuxzasve.mobile.wp_comment.WordpressCommentParser;
+
 import android.graphics.drawable.BitmapDrawable;
 import android.content.Context;
 import android.content.Intent;
