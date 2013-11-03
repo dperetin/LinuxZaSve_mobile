@@ -25,9 +25,34 @@ public class LzsRestApi {
 
 	String baseUrl = "http://www.linuxzasve.com/api/";
 	
+	/* number of posts to fetch */
+	Integer numberOfPosts = Integer.valueOf(10);
+	
+	/* post id to fetch */
+	Integer postId = null;
+	
+	/* list of basic fields to include */
+	String[] include = {
+			"author",
+			"url",
+			"content",
+			"title",
+			"date",
+			"author",
+			"comment_count",
+			"thumbnail"
+	};
+	
 	public String getRecentPosts() throws IOException {
 		
-		String jsonResult = getContent(baseUrl + "get_recent_posts/");
+		String jsonResult = getContent(baseUrl + "get_recent_posts/" + generateInclude(include));
+		
+		return jsonResult;
+	}
+	
+public String getSearchResult(String search) throws IOException {
+		
+		String jsonResult = getContent(baseUrl + "get_recent_posts/" + generateInclude(include));
 		
 		return jsonResult;
 	}
@@ -80,5 +105,15 @@ public class LzsRestApi {
  
 		return sb.toString();
  
+	}
+	
+	private String generateInclude(String includes[]) {
+		String result = "?include=";
+		int i;
+		for (i = 0; i < includes.length - 1; i++)
+			result += (includes[i] + ",");
+		result += includes[i];
+		return result;
+		
 	}
 }
