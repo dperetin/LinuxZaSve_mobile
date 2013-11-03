@@ -4,4 +4,8 @@
           android:icon="@drawable/ic_refresh"
           android:title="@string/menu_refresh"
           android:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/action_search"
+          android:title="@string/menu_search"
+          android:icon="@drawable/ic_search"
+          android:showAsAction="ifRoom|withText" />
 </menu>
