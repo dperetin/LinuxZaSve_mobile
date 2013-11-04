@@ -12,7 +12,7 @@
 	<string name="novi_komentar_hint_email">E-mail (neće biti prikazano) *</string>
 	<string name="novi_komentar_hint_url">Web stranica</string>
 	<string name="novi_komentar_hint_komentar">Komentar</string>
-	<string name="search_hint">Pretraži Linux za sve članke</string>
+	<string name="search_hint">Pretraži Linux za sve</string>
 	<string name="app_label">Linux za sve</string>
 
 </resources>

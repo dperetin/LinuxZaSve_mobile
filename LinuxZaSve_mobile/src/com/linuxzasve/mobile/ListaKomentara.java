@@ -3,6 +3,7 @@ package com.linuxzasve.mobile;
 import java.io.IOException;
 import java.util.List;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -154,6 +155,11 @@ public class ListaKomentara extends SherlockActivity {
 		Intent intent = getIntent();
 		message = intent.getStringExtra("komentari");
 		komentariProgressLayout.setVisibility(View.VISIBLE);
+		
+		ActionBar ab = getSupportActionBar();
+		String naslov = intent.getStringExtra("naslov");
+		ab.setSubtitle("Komentari na članak: " + naslov);
+		
 		fetchArticles();
 	}
 	

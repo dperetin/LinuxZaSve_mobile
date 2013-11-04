@@ -3,6 +3,7 @@ package com.linuxzasve.mobile;
 import java.io.IOException;
 import java.util.List;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -31,10 +32,10 @@ import com.linuxzasve.mobile.rest.LzsRestResponse;
 import com.linuxzasve.mobile.rest.Post;
 import com.linuxzasve.mobile.timthumb.TimThumb;
 
-public class ListaNovosti extends SherlockActivity {
+public class SearchActivity extends SherlockActivity {
 
 	private ListView listaClanaka;
-	private ListaNovosti ovaAct;
+	private SearchActivity ovaAct;
 	public static List<Post> values;
 	LinearLayout novostiProgressLayout;
 	private MenuItem refresh;
@@ -51,7 +52,7 @@ public class ListaNovosti extends SherlockActivity {
 			try {
 				api = new LzsRestApi();
 
-				String json = api.getRecentPosts();
+				String json = api.getSearchResult(urls[0]);
 
 				Gson gson = new Gson();
 				obj2 = gson.fromJson(json, LzsRestResponse.class);
@@ -152,10 +153,15 @@ public class ListaNovosti extends SherlockActivity {
 		ovaAct = this;
 		novostiProgressLayout.setVisibility(View.VISIBLE);
 
-		ActionBar ab = getSupportActionBar();
-	    ab.setSubtitle("Najnoviji članci"); 
+		Intent intent = getIntent();
+		String query = null;
+	    if (Intent.ACTION_SEARCH.equals(intent.getAction()))
+	      query = intent.getStringExtra(SearchManager.QUERY);
 		
-		fetchArticles();
+	    ActionBar ab = getSupportActionBar();
+	    ab.setSubtitle("Tražim: " + query); 
+	    
+		fetchArticles(query);
 
 	}
 
@@ -163,6 +169,7 @@ public class ListaNovosti extends SherlockActivity {
 	public boolean onCreateOptionsMenu(final Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.lista_novosti, menu);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		refresh = menu.findItem(R.id.menu_refresh);
 
 		return true;
@@ -173,11 +180,10 @@ public class ListaNovosti extends SherlockActivity {
 
 		switch (item.getItemId()) {
 
-			case R.id.menu_refresh:
-				refresh.setActionView(R.layout.actionbar_indeterminate_progress);
-				fetchArticles();
+			case android.R.id.home:
+				onBackPressed();
 				return true;
-
+		
 			case R.id.action_search:
 				onSearchRequested();
 				return true;
@@ -187,9 +193,9 @@ public class ListaNovosti extends SherlockActivity {
 		}
 	}
 
-	public void fetchArticles() {
+	public void fetchArticles(String search) {
 		if (ActivityHelper.isOnline(this)) {
-			new DownloadRssFeed().execute("http://feeds.feedburner.com/linuxzasve");
+			new DownloadRssFeed().execute(search);
 		}
 		else {
 			Toast toast = Toast.makeText(getBaseContext(), R.string.nedostupan_internet, Toast.LENGTH_LONG);

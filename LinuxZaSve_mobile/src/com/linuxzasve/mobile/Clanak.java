@@ -1,5 +1,6 @@
 package com.linuxzasve.mobile;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -33,6 +34,9 @@ public class Clanak extends SherlockActivity {
 
 		clanak.loadDataWithBaseURL("file:///android_asset/", sadrzaj, 
 				"text/html", "UTF-8", null);
+		
+		ActionBar ab = getSupportActionBar();
+		ab.setSubtitle(message); 
 	}
 	
 	private class SkratiUrl extends AsyncTask<String, Void, String> {
@@ -80,7 +84,7 @@ public class Clanak extends SherlockActivity {
 		Intent intent2 = getIntent();
 		String komentari = intent2.getStringExtra("komentari");
 		String origLink = intent2.getStringExtra("origLink");
-		
+		String naslov = intent2.getStringExtra("naslov");
 
 		switch (item.getItemId()) {
 		
@@ -92,6 +96,7 @@ public class Clanak extends SherlockActivity {
 			Intent intent = new Intent(this, ListaKomentara.class);
 
 			intent.putExtra("komentari", komentari);
+			intent.putExtra("naslov", naslov);
 			startActivity(intent);
 			return true;
 
