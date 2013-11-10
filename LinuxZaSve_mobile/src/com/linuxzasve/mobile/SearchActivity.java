@@ -129,7 +129,7 @@ public class SearchActivity extends SherlockActivity {
 				holder = (ViewHolder)convertView.getTag();
 			}
 			holder.neki_tekst.setText(values.get(position).getTitle());
-			holder.datum.setText(values.get(position).getDate());
+			holder.datum.setText(values.get(position).getDate("dd.MM.yyyy"));
 			holder.autor.setText(values.get(position).getAuthor().getNickname());
 			holder.broj_komentara.setText(Integer.toString(values.get(position).getComment_count()));
 
