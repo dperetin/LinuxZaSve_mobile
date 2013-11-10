@@ -1,11 +1,16 @@
 package com.linuxzasve.mobile.rest;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.text.ParseException;
 import android.text.Html;
 
 public class Post {
@@ -235,5 +240,22 @@ public class Post {
 
 		}
 		return filtriraniClanak;
+	}
+	
+	public String getDate(String format) {
+		Date date;
+		String result = "";
+		try {
+			
+			date = (Date) new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(this.date);
+			
+		    SimpleDateFormat date_format = new SimpleDateFormat(format);
+		    result = date_format.format(date);
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return result;
 	}
 }

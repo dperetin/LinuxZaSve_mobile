@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/autor"
-        android:layout_width="75dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/neki_tekst"
         android:layout_alignParentBottom="true"
@@ -47,19 +47,19 @@
 
     <TextView
         android:id="@+id/datum"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/neki_tekst"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="14dp"
+        android:layout_marginRight="20dp"
         android:layout_toRightOf="@id/autor"
         android:alpha="1"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
         android:textColor="#6000"
-        android:textSize="12sp" 
-        android:fontFamily="sans-serif-condensed"/>
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/broj_komentara"
