@@ -6,8 +6,10 @@ import com.linuxzasve.mobile.R;
 
 public class EmoticonDrawables {
 
+	/* root of the path that will be found in comment content */
 	private static String ROOT_URL = "http://www.linuxzasve.com/wp-includes/images/smilies/";
 
+	/* emoticon gifs that will be found in comment content */
 	private static String SMILE_IMAGE_NAME = "icon_smile.gif";
 	private static String BIGGRIN_IMAGE_NAME = "icon_biggrin.gif";
 	private static String SAD_IMAGE_NAME = "icon_sad.gif";
@@ -18,7 +20,7 @@ public class EmoticonDrawables {
 	private static String NEUTRAL_IMAGE_NAME = "icon_neutral.gif";
 	private static String WINK_IMAGE_NAME = "icon_wink.gif";
 	private static String LOL_IMAGE_NAME = "icon_lol.gif";
-	private static String REDFACE_IMAGE_NAME = "icon_redface.gif";
+//	private static String REDFACE_IMAGE_NAME = "icon_redface.gif";
 	private static String CRY_IMAGE_NAME = "icon_cry.gif";
 	private static String EVIL_IMAGE_NAME = "icon_evil.gif";
 	private static String TWISTED_IMAGE_NAME = "icon_twisted.gif";
@@ -31,28 +33,28 @@ public class EmoticonDrawables {
 	private static String COOL_IMAGE_NAME = "icon_cool.gif";
 	private static String CONFUSED_IMAGE_NAME = "icon_confused.gif";
 
-	private static Integer SMILE_DRAWABLE = Integer.valueOf(R.drawable.icon_smile);
-	private static Integer BIGGRIN_DRAWABLE = Integer.valueOf(R.drawable.icon_biggrin);
-	private static Integer SAD_DRAWABLE = Integer.valueOf(R.drawable.icon_sad);
-	private static Integer SURPRISED_DRAWABLE = Integer.valueOf(R.drawable.icon_surprised);
-	private static Integer EEK_DRAWABLE = Integer.valueOf(R.drawable.icon_eek);
-	private static Integer MAD_DRAWABLE = Integer.valueOf(R.drawable.icon_mad);
-	private static Integer RAZZ_DRAWABLE = Integer.valueOf(R.drawable.icon_razz);
-	private static Integer NEUTRAL_DRAWABLE = Integer.valueOf(R.drawable.icon_neutral);
-	private static Integer WINK_DRAWABLE = Integer.valueOf(R.drawable.icon_wink);
-	private static Integer LOL_DRAWABLE = Integer.valueOf(R.drawable.icon_lol);
-	private static Integer REDFACE_DRAWABLE = Integer.valueOf(R.drawable.icon_redface);
-	private static Integer CRY_DRAWABLE = Integer.valueOf(R.drawable.icon_cry);
-	private static Integer EVIL_DRAWABLE = Integer.valueOf(R.drawable.icon_evil);
-	private static Integer TWISTED_DRAWABLE = Integer.valueOf(R.drawable.icon_twisted);
-	private static Integer ROLLEYES_DRAWABLE = Integer.valueOf(R.drawable.icon_rolleyes);
-	private static Integer EXCLAIM_DRAWABLE = Integer.valueOf(R.drawable.icon_exclaim);
-	private static Integer QUESTION_DRAWABLE = Integer.valueOf(R.drawable.icon_question);
-	private static Integer IDEA_DRAWABLE = Integer.valueOf(R.drawable.icon_idea);
-	private static Integer ARROW_DRAWABLE = Integer.valueOf(R.drawable.icon_arrow);
-	private static Integer MRGREEN_DRAWABLE = Integer.valueOf(R.drawable.icon_mrgreen);
-	private static Integer COOL_DRAWABLE = Integer.valueOf(R.drawable.icon_cool);
-	private static Integer CONFUSED_DRAWABLE = Integer.valueOf(R.drawable.icon_confused);
+	private static Integer SMILE_DRAWABLE = Integer.valueOf(R.drawable.smiley);
+	private static Integer BIGGRIN_DRAWABLE = Integer.valueOf(R.drawable.smiley);
+	private static Integer SAD_DRAWABLE = Integer.valueOf(R.drawable.sad);
+	private static Integer SURPRISED_DRAWABLE = Integer.valueOf(R.drawable.shocked);
+	private static Integer EEK_DRAWABLE = Integer.valueOf(R.drawable.shocked);
+	private static Integer MAD_DRAWABLE = Integer.valueOf(R.drawable.angry);
+	private static Integer RAZZ_DRAWABLE = Integer.valueOf(R.drawable.tongue);
+	private static Integer NEUTRAL_DRAWABLE = Integer.valueOf(R.drawable.neutral);
+	private static Integer WINK_DRAWABLE = Integer.valueOf(R.drawable.wink);
+	private static Integer LOL_DRAWABLE = Integer.valueOf(R.drawable.happy);
+//	private static Integer REDFACE_DRAWABLE = Integer.valueOf(R.drawable.icon_redface);
+	private static Integer CRY_DRAWABLE = Integer.valueOf(R.drawable.sad);
+	private static Integer EVIL_DRAWABLE = Integer.valueOf(R.drawable.evil);
+	private static Integer TWISTED_DRAWABLE = Integer.valueOf(R.drawable.evil);
+	private static Integer ROLLEYES_DRAWABLE = Integer.valueOf(R.drawable.wondering);
+	private static Integer EXCLAIM_DRAWABLE = Integer.valueOf(R.drawable.notification);
+	private static Integer QUESTION_DRAWABLE = Integer.valueOf(R.drawable.question);
+	private static Integer IDEA_DRAWABLE = Integer.valueOf(R.drawable.info);
+	private static Integer ARROW_DRAWABLE = Integer.valueOf(R.drawable.arrow_right);
+	private static Integer MRGREEN_DRAWABLE = Integer.valueOf(R.drawable.grin);
+	private static Integer COOL_DRAWABLE = Integer.valueOf(R.drawable.cool);
+	private static Integer CONFUSED_DRAWABLE = Integer.valueOf(R.drawable.confused);
 
 	private static HashMap<String, Integer> emoticons;
 
@@ -69,7 +71,7 @@ public class EmoticonDrawables {
 		emoticons.put(ROOT_URL + NEUTRAL_IMAGE_NAME, NEUTRAL_DRAWABLE);
 		emoticons.put(ROOT_URL + WINK_IMAGE_NAME, WINK_DRAWABLE);
 		emoticons.put(ROOT_URL + LOL_IMAGE_NAME, LOL_DRAWABLE);
-		emoticons.put(ROOT_URL + REDFACE_IMAGE_NAME, REDFACE_DRAWABLE);
+//		emoticons.put(ROOT_URL + REDFACE_IMAGE_NAME, REDFACE_DRAWABLE);
 		emoticons.put(ROOT_URL + CRY_IMAGE_NAME, CRY_DRAWABLE);
 		emoticons.put(ROOT_URL + EVIL_IMAGE_NAME, EVIL_DRAWABLE);
 		emoticons.put(ROOT_URL + TWISTED_IMAGE_NAME, TWISTED_DRAWABLE);

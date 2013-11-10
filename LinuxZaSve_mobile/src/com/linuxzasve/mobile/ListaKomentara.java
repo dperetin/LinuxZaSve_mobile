@@ -17,6 +17,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -86,17 +87,10 @@ public class ListaKomentara extends SherlockActivity {
 							if (id == null) {
 								return null;
 							}
-							
-							Drawable drawable = context.getResources().getDrawable(id);
-							Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
-							final float scale = context.getResources().getDisplayMetrics().scaledDensity;
-							// Convert the dps to pixels, based on density scale
-							int size = (int) (16 * scale * scale);
+							Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), id);
 
-							// 24;
-
-							Drawable d = new BitmapDrawable(Bitmap.createScaledBitmap(bitmap, size, size, false));
+							Drawable d = new BitmapDrawable(context.getResources(), bitmap);
 							int dWidth = d.getIntrinsicWidth();
 							int dHeight = d.getIntrinsicHeight();
 

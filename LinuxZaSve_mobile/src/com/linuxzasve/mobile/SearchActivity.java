@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.gson.Gson;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
@@ -38,7 +37,6 @@ public class SearchActivity extends SherlockActivity {
 	private SearchActivity ovaAct;
 	public static List<Post> values;
 	LinearLayout novostiProgressLayout;
-	private MenuItem refresh;
 
 	private class DownloadRssFeed extends AsyncTask<String, Void, LzsRestResponse> {
 		@Override
@@ -72,7 +70,6 @@ public class SearchActivity extends SherlockActivity {
 		@Override
 		protected void onPostExecute(final LzsRestResponse lzs_feed) {
 			novostiProgressLayout.setVisibility(View.GONE);
-			refresh.setActionView(null);
 			MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(ovaAct, lzs_feed.getPosts());
 
 			listaClanaka.setAdapter(adapter);
@@ -136,8 +133,12 @@ public class SearchActivity extends SherlockActivity {
 			holder.autor.setText(values.get(position).getAuthor().getNickname());
 			holder.broj_komentara.setText(Integer.toString(values.get(position).getComment_count()));
 
-			String thumbnailUrl = TimThumb.generateTimThumbUrl(values.get(position).getThumbnail_images().getFull().getUrl(), 256, 256, 1);
-			UrlImageViewHelper.setUrlDrawable(holder.thumbnail, thumbnailUrl);
+			if (values.get(position).getThumbnail_images() != null 
+					&& values.get(position).getThumbnail_images().getFull() != null 
+					&& values.get(position).getThumbnail_images().getFull().getUrl() != null) {
+				String thumbnailUrl = TimThumb.generateTimThumbUrl(values.get(position).getThumbnail_images().getFull().getUrl(), 256, 256, 1);
+				UrlImageViewHelper.setUrlDrawable(holder.thumbnail, thumbnailUrl);
+			}
 
 			return convertView;
 		}
@@ -167,10 +168,7 @@ public class SearchActivity extends SherlockActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.lista_novosti, menu);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		refresh = menu.findItem(R.id.menu_refresh);
 
 		return true;
 	}
@@ -182,10 +180,6 @@ public class SearchActivity extends SherlockActivity {
 
 			case android.R.id.home:
 				onBackPressed();
-				return true;
-		
-			case R.id.action_search:
-				onSearchRequested();
 				return true;
 
 			default:
@@ -202,10 +196,6 @@ public class SearchActivity extends SherlockActivity {
 			toast.show();
 			if (novostiProgressLayout != null) {
 				novostiProgressLayout.setVisibility(View.GONE);
-			}
-
-			if (refresh != null) {
-				refresh.setActionView(null);
 			}
 		}
 	}
