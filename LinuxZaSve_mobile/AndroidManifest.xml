@@ -27,13 +27,13 @@
 
             <meta-data
                 android:name="android.app.default_searchable"
-                android:value=".SearchActivity" />
+                android:value=".ArticleSearchActivity" />
         </activity>
         <activity android:name=".Clanak" />
         <activity android:name=".ListaKomentara" />
         <activity android:name=".NoviKomentar" />
         
-        <activity android:name=".SearchActivity" >
+        <activity android:name=".ArticleSearchActivity" >
         <intent-filter>
             <action android:name="android.intent.action.SEARCH" />
         </intent-filter>
