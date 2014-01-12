@@ -7,10 +7,23 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 
+/**
+ * TimThumb helper class. 
+ * @author dejan
+ *
+ */
 public class TimThumb {
 
 	static String baseUrl = "http://www.linuxzasve.com/wp-content/themes/bigfoot/includes/timthumb.php";
 
+	/**
+	 * For a given image url, height, width and mode returns url on which TimThum image will be generated. 
+	 * @param imageUrl
+	 * @param height
+	 * @param width
+	 * @param mode
+	 * @return
+	 */
 	public static String generateTimThumbUrl(final String imageUrl, final int height, final int width, final int mode) {
 		String url = baseUrl;
 
