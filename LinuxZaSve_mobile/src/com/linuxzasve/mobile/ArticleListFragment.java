@@ -3,6 +3,8 @@ package com.linuxzasve.mobile;
 import java.io.IOException;
 import java.util.List;
 
+import android.app.Activity;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -30,48 +33,94 @@ import com.linuxzasve.mobile.rest.Post;
 import com.linuxzasve.mobile.timthumb.TimThumb;
 
 /**
- * Fragmenst displays list of articles. Extends <b>android.support.v4.app.Fragment</b> for compatibility with android versions older than 3.0.
+ * Fragment displays list of articles. Extends <b>SherlockFragment</b> for compatibility with android versions older than 3.0.
+ * After instantiation articleListFragmentType argument must be passed.
  * @author dejan
  *
  */
 public class ArticleListFragment extends SherlockFragment {
-	private ListView articleList;
+	private ListView articleListView;
 	private Context context;
-	public static List<Post> values;
-	LinearLayout novostiProgressLayout;
+	private LinearLayout progressSpinner;
 	private MenuItem refresh;
+	
+	// Default behavior is LIST. Also, type SEARCH can be set.
+	private ArticleListFragmentType articleListFragmentType;
+	
+	private List<Post> articleList;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		
+		// fetching arguments. This is placed here because articleListFragmentType is being used in onCreateOptionsMenu (among
+		// other places) and this method is for some reason bing called before onCreateView.
+		articleListFragmentType = (ArticleListFragmentType) getArguments().getSerializable("articleListFragmentType");
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// This fragment participates in options menu creation, so it needs to announce it. 
 		setHasOptionsMenu(true);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.lista_novosti, container, false);
+		// inflating fragment layout
+		View rootView = inflater.inflate(R.layout.fragment_article_list, container, false);
 
-		articleList = (ListView) rootView.findViewById(R.id.mylist);
-		novostiProgressLayout = (LinearLayout) rootView.findViewById(R.id.novostiProgressLayout);
+		// fetching articleList view
+		articleListView = (ListView) rootView.findViewById(R.id.articleList);
+		
+		// fetching articleListProgressLayout and setting it to visible
+		progressSpinner = (LinearLayout) rootView.findViewById(R.id.articleListProgressLayout);
+		progressSpinner.setVisibility(View.VISIBLE);
+		
+		// storing activity to private variable to be used from inner classes
 		context = getActivity();
-		novostiProgressLayout.setVisibility(View.VISIBLE);
-
-		fetchArticles();
+		
+		String query = null;
+		if (ArticleListFragmentType.SEARCH.equals(articleListFragmentType)) {
+			Intent intent = getActivity().getIntent();
+			
+			if (Intent.ACTION_SEARCH.equals(intent.getAction()))
+				query = intent.getStringExtra(SearchManager.QUERY);
+		}
+		
+		fetchArticles(query);
 
 		return rootView;
 	}
 
 	@Override
 	public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.lista_novosti, menu);
-		refresh = menu.findItem(R.id.menu_refresh);
+		if (ArticleListFragmentType.LIST.equals(articleListFragmentType)) {
+			// inflating menu
+			inflater.inflate(R.menu.menu_fragment_article_list, menu);
+			
+			// storing refresh menu item to private variable for usage in inner classes
+			refresh = menu.findItem(R.id.menu_refresh);
+		}
+
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 	
-	public void fetchArticles() {
-		if (true) {
-			new DownloadRssFeed().execute("http://feeds.feedburner.com/linuxzasve");
+	/**
+	 * Instantiates AsyncTask class which fetches new posts and executes it.
+	 */
+	public void fetchArticles(String search) {
+		if (ActivityHelper.isOnline(context)) {
+			new DownloadRssFeed().execute(search);
+		}
+		else {
+			Toast toast = Toast.makeText(context, R.string.nedostupan_internet, Toast.LENGTH_LONG);
+			toast.show();
+			if (progressSpinner != null) {
+				progressSpinner.setVisibility(View.GONE);
+			}
 		}
 	}
 	
@@ -79,10 +128,14 @@ public class ArticleListFragment extends SherlockFragment {
 	public boolean onOptionsItemSelected(final MenuItem item) {
 
 		switch (item.getItemId()) {
+		
+		case android.R.id.home:
+			getActivity().onBackPressed();
+			return true;
 
 		case R.id.menu_refresh:
 			refresh.setActionView(R.layout.actionbar_indeterminate_progress);
-			fetchArticles();
+			fetchArticles(null);
 			return true;
 
 		case R.id.action_search:
@@ -94,7 +147,7 @@ public class ArticleListFragment extends SherlockFragment {
 		}
 	}
 	
-	// inner classes
+	// --------- inner classes
 	
 	private class DownloadRssFeed extends AsyncTask<String, Void, LzsRestResponse> {
 		@Override
@@ -107,8 +160,13 @@ public class ArticleListFragment extends SherlockFragment {
 			LzsRestApi api = null;
 			try {
 				api = new LzsRestApi();
-
-				String json = api.getRecentPosts();
+				String json = null;
+				
+				if (articleListFragmentType == ArticleListFragmentType.LIST) {
+					json = api.getRecentPosts();
+				} else if (articleListFragmentType == ArticleListFragmentType.SEARCH) {
+					json = api.getSearchResult(urls[0]);
+				}
 
 				Gson gson = new Gson();
 				obj2 = gson.fromJson(json, LzsRestResponse.class);
@@ -127,22 +185,24 @@ public class ArticleListFragment extends SherlockFragment {
 
 		@Override
 		protected void onPostExecute(final LzsRestResponse lzs_feed) {
-			novostiProgressLayout.setVisibility(View.GONE);
-			refresh.setActionView(null);
+			progressSpinner.setVisibility(View.GONE);
+			if (refresh != null) {
+				refresh.setActionView(null);
+			}
 			MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(context, lzs_feed.getPosts());
 
-			articleList.setAdapter(adapter);
+			articleListView.setAdapter(adapter);
 
-			articleList.setOnItemClickListener(new OnItemClickListener() {
+			articleListView.setOnItemClickListener(new OnItemClickListener() {
 
 				public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
 
 					Intent i = new Intent(getActivity().getApplicationContext(), Clanak.class);
 
-					i.putExtra("naslov", values.get(position).getTitle());
-					i.putExtra("sadrzaj", values.get(position).getContent());
-					i.putExtra("komentari", values.get(position).getUrl());
-					i.putExtra("origLink", values.get(position).getUrl());
+					i.putExtra("naslov", articleList.get(position).getTitle());
+					i.putExtra("sadrzaj", articleList.get(position).getContent());
+					i.putExtra("komentari", articleList.get(position).getUrl());
+					i.putExtra("origLink", articleList.get(position).getUrl());
 					startActivity(i);
 				}
 			});
@@ -164,7 +224,7 @@ public class ArticleListFragment extends SherlockFragment {
 		public MySimpleArrayAdapter(final Context context, final List<Post> naslovi) {
 			super(context, R.layout.novosti_redak, naslovi);
 //			this.context = context;
-			values = naslovi;
+			articleList = naslovi;
 		}
 
 		@Override
@@ -187,12 +247,12 @@ public class ArticleListFragment extends SherlockFragment {
 			else {
 				holder = (ViewHolder)convertView.getTag();
 			}
-			holder.neki_tekst.setText(values.get(position).getTitle());
-			holder.datum.setText(values.get(position).getDate("dd.MM.yyyy"));
-			holder.autor.setText(values.get(position).getAuthor().getNickname());
-			holder.broj_komentara.setText(Integer.toString(values.get(position).getComment_count()));
+			holder.neki_tekst.setText(articleList.get(position).getTitle());
+			holder.datum.setText(articleList.get(position).getDate("dd.MM.yyyy"));
+			holder.autor.setText(articleList.get(position).getAuthor().getNickname());
+			holder.broj_komentara.setText(Integer.toString(articleList.get(position).getComment_count()));
 
-			String thumbnailUrl = TimThumb.generateTimThumbUrl(values.get(position).getThumbnail_images().getFull().getUrl(), 256, 256, 1);
+			String thumbnailUrl = TimThumb.generateTimThumbUrl(articleList.get(position).getThumbnail_images().getFull().getUrl(), 256, 256, 1);
 			UrlImageViewHelper.setUrlDrawable(holder.thumbnail, thumbnailUrl);
 
 			return convertView;

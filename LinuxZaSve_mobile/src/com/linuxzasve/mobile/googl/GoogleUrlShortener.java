@@ -61,11 +61,11 @@ public class GoogleUrlShortener {
 		}
 		catch (MalformedURLException ex)
 		{
-
+			// TODO
 		}
 		catch (IOException ex)
 		{
-
+			// TODO
 		}
 
 		return skraceniUrl;

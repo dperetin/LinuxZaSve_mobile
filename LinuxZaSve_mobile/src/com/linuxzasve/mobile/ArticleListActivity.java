@@ -19,7 +19,11 @@ public class ArticleListActivity extends SherlockFragmentActivity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.activity_article_list);
+//		setContentView(R.layout.activity_article_list);
+		ArticleListFragment details = new ArticleListFragment();
+		getIntent().putExtra("articleListFragmentType", ArticleListFragmentType.LIST);
+		details.setArguments(getIntent().getExtras());
+		getSupportFragmentManager().beginTransaction().add(android.R.id.content, details).commit();
 		
 		// Creating action bar and setting subtitle
 		ActionBar ab = getSupportActionBar();
