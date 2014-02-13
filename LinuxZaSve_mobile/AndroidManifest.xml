@@ -30,6 +30,7 @@
                 android:value=".ArticleSearchActivity" />
         </activity>
         <activity android:name=".Clanak" />
+        <activity android:name=".ArticleDisplayActivity" />
         <activity android:name=".ListaKomentara" />
         <activity android:name=".NoviKomentar" />
         

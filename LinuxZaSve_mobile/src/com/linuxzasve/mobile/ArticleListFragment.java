@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -43,11 +44,25 @@ public class ArticleListFragment extends SherlockFragment {
 	private Context context;
 	private LinearLayout progressSpinner;
 	private MenuItem refresh;
+	 boolean mDualPane;
+	 SherlockFragment fragment;
 	
 	// Default behavior is LIST. Also, type SEARCH can be set.
 	private ArticleListFragmentType articleListFragmentType;
 	
 	private List<Post> articleList;
+
+	
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+		
+		View detailsFrame = getActivity().findViewById(R.id.details);
+        mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+	
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -55,7 +70,9 @@ public class ArticleListFragment extends SherlockFragment {
 		
 		// fetching arguments. This is placed here because articleListFragmentType is being used in onCreateOptionsMenu (among
 		// other places) and this method is for some reason bing called before onCreateView.
+		if (getArguments() != null) {
 		articleListFragmentType = (ArticleListFragmentType) getArguments().getSerializable("articleListFragmentType");
+		} else articleListFragmentType = ArticleListFragmentType.LIST;
 	}
 
 	@Override
@@ -64,6 +81,7 @@ public class ArticleListFragment extends SherlockFragment {
 		
 		// This fragment participates in options menu creation, so it needs to announce it. 
 		setHasOptionsMenu(true);
+		fragment = this;
 	}
 
 	@Override
@@ -81,6 +99,7 @@ public class ArticleListFragment extends SherlockFragment {
 		
 		// storing activity to private variable to be used from inner classes
 		context = getActivity();
+		
 		
 		String query = null;
 		if (ArticleListFragmentType.SEARCH.equals(articleListFragmentType)) {
@@ -196,14 +215,42 @@ public class ArticleListFragment extends SherlockFragment {
 			articleListView.setOnItemClickListener(new OnItemClickListener() {
 
 				public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+					if (mDualPane) {
+			            // We can display everything in-place with fragments, so update
+			            // the list to highlight the selected item and show the data.
+						articleListView.setItemChecked(position, true);
 
-					Intent i = new Intent(getActivity().getApplicationContext(), Clanak.class);
+			            // Check what fragment is currently shown, replace if needed.
+			            ArticleDisplayFragment details = (ArticleDisplayFragment)
+			                    getFragmentManager().findFragmentById(R.id.details);
+			            
+			                // Make new fragment to show this selection.
+			                details = new ArticleDisplayFragment();
+//			                fragment.getActivity().getIntent().putExtra(name, value)
+			                fragment.getActivity().getIntent().putExtra("naslov", articleList.get(position).getTitle());
+			                fragment.getActivity().getIntent().putExtra("sadrzaj", articleList.get(position).getContent());
+			                fragment.getActivity().getIntent().putExtra("komentari", articleList.get(position).getUrl());
+			                fragment.getActivity().getIntent().putExtra("origLink", articleList.get(position).getUrl());
+			                details.setArguments(fragment.getActivity().getIntent().getExtras());
+			                // Execute a transaction, replacing any existing fragment
+			                // with this one inside the frame.
+			                android.support.v4.app.FragmentTransaction ft = fragment.getFragmentManager().beginTransaction();
+			              
+			                    ft.replace(R.id.details, details);
+
+			                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			                ft.commit();
+			            
+
+			        } else {
+					Intent i = new Intent(getActivity().getApplicationContext(), ArticleDisplayActivity.class);
 
 					i.putExtra("naslov", articleList.get(position).getTitle());
 					i.putExtra("sadrzaj", articleList.get(position).getContent());
 					i.putExtra("komentari", articleList.get(position).getUrl());
 					i.putExtra("origLink", articleList.get(position).getUrl());
 					startActivity(i);
+			        }
 				}
 			});
 		}
@@ -252,8 +299,12 @@ public class ArticleListFragment extends SherlockFragment {
 			holder.autor.setText(articleList.get(position).getAuthor().getNickname());
 			holder.broj_komentara.setText(Integer.toString(articleList.get(position).getComment_count()));
 
-			String thumbnailUrl = TimThumb.generateTimThumbUrl(articleList.get(position).getThumbnail_images().getFull().getUrl(), 256, 256, 1);
-			UrlImageViewHelper.setUrlDrawable(holder.thumbnail, thumbnailUrl);
+			if (articleList.get(position).getThumbnail_images() != null 
+					&& articleList.get(position).getThumbnail_images().getFull() != null 
+					&& articleList.get(position).getThumbnail_images().getFull().getUrl() != null) {
+				String thumbnailUrl = TimThumb.generateTimThumbUrl(articleList.get(position).getThumbnail_images().getFull().getUrl(), 256, 256, 1);
+				UrlImageViewHelper.setUrlDrawable(holder.thumbnail, thumbnailUrl);
+			}
 
 			return convertView;
 		}

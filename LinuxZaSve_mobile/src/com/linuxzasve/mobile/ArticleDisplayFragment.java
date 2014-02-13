@@ -1,42 +1,51 @@
 package com.linuxzasve.mobile;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockActivity;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.linuxzasve.mobile.googl.GoogleUrlShortener;
 
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
+public class ArticleDisplayFragment extends SherlockFragment{
 
-public class Clanak extends SherlockActivity {
-	
 	private WebView clanak;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.clanak);
+		
+		// This fragment participates in options menu creation, so it needs to announce it. 
+		setHasOptionsMenu(true);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+//		setContentView(R.layout.clanak);
+		View rootView = inflater.inflate(R.layout.clanak, container, false);
 
-		Intent intent = getIntent();
+		Intent intent = getActivity().getIntent();
 		String message = intent.getStringExtra("naslov");
 		String body = intent.getStringExtra("sadrzaj");
 		String sadrzaj = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />" 
 							+ "<h1>" + message + "</h1>" + body;
 
-		clanak = (WebView) findViewById(R.id.sadrzaj_clanka);
+		clanak = (WebView) rootView.findViewById(R.id.sadrzaj_clanka);
 		WebSettings settings = clanak.getSettings();
 		settings.setDefaultTextEncodingName("utf-8");
 
 		clanak.loadDataWithBaseURL("file:///android_asset/", sadrzaj, 
 				"text/html", "UTF-8", null);
-		
-		ActionBar ab = getSupportActionBar();
-		ab.setSubtitle(message); 
+		return rootView;
 	}
 	
 	private class SkratiUrl extends AsyncTask<String, Void, String> {
@@ -49,7 +58,7 @@ public class Clanak extends SherlockActivity {
 
 		@Override
 		protected void onPostExecute(String skraceniUrl) {
-			Intent intent2 = getIntent();
+			Intent intent2 = getActivity().getIntent();
 			String naslov = intent2.getStringExtra("naslov");
 			Intent share = new Intent(Intent.ACTION_SEND);
 			share.setType("text/plain");
@@ -70,18 +79,25 @@ public class Clanak extends SherlockActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getSupportMenuInflater();
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// TODO Auto-generated method stub
+		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.clanak, menu);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		return true;
 	}
+
+//	@Override
+//	public void onCreateOptionsMenu(Menu menu) {
+////		MenuInflater inflater = getSupportMenuInflater();
+//		
+////		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//		
+////		return true;
+//	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		Intent intent2 = getIntent();
+		Intent intent2 = getActivity().getIntent();
 		String komentari = intent2.getStringExtra("komentari");
 		String origLink = intent2.getStringExtra("origLink");
 		String naslov = intent2.getStringExtra("naslov");
@@ -89,11 +105,11 @@ public class Clanak extends SherlockActivity {
 		switch (item.getItemId()) {
 		
 		case android.R.id.home:
-			onBackPressed();
+			getActivity().onBackPressed();
 			return true;
 		
 		case R.id.menu_pokazi_komentare:
-			Intent intent = new Intent(this, ListaKomentara.class);
+			Intent intent = new Intent(getActivity(), ListaKomentara.class);
 
 			intent.putExtra("komentari", komentari);
 			intent.putExtra("naslov", naslov);
@@ -110,4 +126,3 @@ public class Clanak extends SherlockActivity {
 		}
 	}
 }
-
