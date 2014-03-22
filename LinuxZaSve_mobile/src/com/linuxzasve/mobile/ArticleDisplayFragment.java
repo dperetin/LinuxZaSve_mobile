@@ -81,8 +81,10 @@ public class ArticleDisplayFragment extends SherlockFragment{
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		// TODO Auto-generated method stub
-		super.onCreateOptionsMenu(menu, inflater);
+		
 		inflater.inflate(R.menu.clanak, menu);
+		
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 //	@Override

@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="libs/httpcore-4.3.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry exported="true" kind="lib" path="/home/dejan/workspaces/lzs_android_app/androidApp/LinuxZaSve_mobile/libs/android-async-http-1.4.4.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -1,4 +1,4 @@
-package com.linuxzasve.mobile.rest;
+package com.linuxzasve.mobile.rest.model;
 
 public class Tag {
 	private int id;
@@ -6,12 +6,12 @@ public class Tag {
 	private String title;
 	private String description;
 	private String post_count;
-	
+
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 
@@ -19,7 +19,7 @@ public class Tag {
 		return slug;
 	}
 
-	public void setSlug(String slug) {
+	public void setSlug(final String slug) {
 		this.slug = slug;
 	}
 
@@ -27,7 +27,7 @@ public class Tag {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
@@ -35,7 +35,7 @@ public class Tag {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -43,9 +43,10 @@ public class Tag {
 		return post_count;
 	}
 
-	public void setPost_count(String post_count) {
+	public void setPost_count(final String post_count) {
 		this.post_count = post_count;
 	}
 
-	public Tag() {}
+	public Tag() {
+	}
 }
