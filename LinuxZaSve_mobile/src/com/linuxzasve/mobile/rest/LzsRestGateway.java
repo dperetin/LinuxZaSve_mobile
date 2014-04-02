@@ -6,7 +6,7 @@ import com.loopj.android.http.RequestParams;
 
 public class LzsRestGateway {
 
-	String[] include = { "author", "url", "content", "title", "date", "author", "comment_count", "thumbnail" };
+	String[] include = { "author", "url", "content", "title", "date", "comment_count", "thumbnail" };
 
 
 	public void getRecentPosts(final AsyncHttpResponseHandler responseHandler) {

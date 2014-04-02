@@ -15,7 +15,7 @@ import com.linuxzasve.mobile.rest.model.Post;
 import com.linuxzasve.mobile.timthumb.TimThumb;
 
 
-public class MySimpleArrayAdapter extends ArrayAdapter<Post> {
+public class ArticleListArrayAdapter extends ArrayAdapter<Post> {
 	// private final Context context;
 
 	private final List<Post> articleList;
@@ -30,7 +30,7 @@ public class MySimpleArrayAdapter extends ArrayAdapter<Post> {
 		boolean isSet = false;
 	}
 
-	public MySimpleArrayAdapter(final Context context, final List<Post> naslovi) {
+	public ArticleListArrayAdapter(final Context context, final List<Post> naslovi) {
 		super(context, R.layout.novosti_redak, naslovi);
 		// this.context = context;
 		articleList = naslovi;

@@ -11,7 +11,10 @@ h1 {
 }
 
 p {
-	font-family:"sans-serif-condensed";
+	 font-family: Georgia, Times, "Times New Roman", serif;
+
+
+
 }
 
 img {
@@ -22,3 +25,8 @@ pre {
 	white-space: pre-wrap;
 
 }
+
+a:link { color: #666666; text-decoration: none; }
+a:visited { color: #333333; }
+a:hover { text-decoration: underline; }
+a:active { color: #000000; }

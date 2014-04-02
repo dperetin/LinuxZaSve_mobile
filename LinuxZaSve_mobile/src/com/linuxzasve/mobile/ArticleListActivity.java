@@ -22,10 +22,12 @@ public class ArticleListActivity extends SherlockFragmentActivity {
 
 		if (savedInstanceState == null) {
 			ArticleListFragment details = new ArticleListFragment();
+
 			getIntent().putExtra("articleListFragmentType", ArticleListFragmentType.LIST);
 			details.setArguments(getIntent().getExtras());
+
 			getSupportFragmentManager().beginTransaction().add(android.R.id.content, details).commit();
-			//
+
 			// Creating action bar and setting subtitle
 			ActionBar ab = getSupportActionBar();
 			ab.setSubtitle(getResources().getString(R.string.action_bar_subtitle_article_list));
