@@ -68,6 +68,7 @@ public class GetRecentPostsResponseHandler extends JsonHttpResponseHandler {
 				i.putExtra("sadrzaj", articleList.get(position).getContent());
 				i.putExtra("komentari", articleList.get(position).getUrl());
 				i.putExtra("origLink", articleList.get(position).getUrl());
+				i.putExtra("post_id", articleList.get(position).getId());
 				context.startActivity(i);
 
 			}

@@ -9,6 +9,16 @@ public class LzsRestResponse {
 	private int count_total;
 	private int pages;
 	private List<Post> posts;
+	private Post post;
+	private String nonce;
+
+	public String getNonce() {
+		return nonce;
+	}
+
+	public void setNonce(String nonce) {
+		this.nonce = nonce;
+	}
 
 	public String getStatus() {
 		return status;
@@ -50,7 +60,18 @@ public class LzsRestResponse {
 		this.posts = posts;
 	}
 
+	
+	
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
+	}
+
 	LzsRestResponse() {
 	}
+	
 
 }

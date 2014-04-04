@@ -21,19 +21,21 @@ import android.widget.TextView;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.linuxzasve.mobile.emote.EmoticonDrawables;
+import com.linuxzasve.mobile.rest.model.Comment;
+import com.linuxzasve.mobile.rest.model.Post;
 import com.linuxzasve.mobile.wp_comment.Komentar;
 
-public class CommentListArrayAdapter extends ArrayAdapter<Komentar> {
+public class CommentListArrayAdapter extends ArrayAdapter<Comment> {
 	private final Context context;
-	private final List<Komentar> values;
+	private final List<Comment> values;
 
-	public CommentListArrayAdapter(final Context context, final List<Komentar> naslovi, String post_id, String akismet) {
-		super(context, R.layout.komentar_redak, naslovi);
+	public CommentListArrayAdapter(final Context context, final List<Comment> list) {
+		super(context, R.layout.komentar_redak, list);
 		this.context = context;
-		this.values = naslovi;
+		this.values = list;
 
-		post_id = naslovi.get(0).getCommentPostId();
-		akismet = naslovi.get(0).getAkismetCommentNounce();
+//		post_id = list.get(0).getCommentPostId();
+//		akismet = list.get(0).getAkismetCommentNounce();
 
 	}
 
@@ -54,8 +56,8 @@ public class CommentListArrayAdapter extends ArrayAdapter<Komentar> {
 		TextView autor = (TextView)rowView.findViewById(R.id.autor_komentar);
 //		ImageView thumbnail = (ImageView)rowView.findViewById(R.id.komentarThumbnail);
 		// datum.setText(values.get(values.size() - position - 1).datumDdmmyyy());
-		datum.setText(values.get(values.size() - position - 1).getPublishDate());
-		autor.setText(values.get(values.size() - position - 1).getCreator());
+		datum.setText(values.get(values.size() - position - 1).getDate());
+		autor.setText(values.get(values.size() - position - 1).getName());
 
 		// neki_tekst.setText(Html.fromHtml(values.get(values.size() - position - 1).getContent()));
 

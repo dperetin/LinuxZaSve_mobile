@@ -15,6 +15,9 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.linuxzasve.mobile.rest.LzsRestGateway;
+import com.linuxzasve.mobile.rest.response.GetPostCommentsResponseHandler;
+import com.linuxzasve.mobile.rest.response.GetRecentPostsResponseHandler;
 import com.linuxzasve.mobile.wp_comment.WordpressCommentParser;
 
 public class ListaKomentara extends SherlockActivity {
@@ -23,43 +26,43 @@ public class ListaKomentara extends SherlockActivity {
 	private ListaKomentara ovaAct;
 	LinearLayout komentariProgressLayout;
 	String message;
-	String post_id;
+	Integer post_id;
 	String akismet;
 	private MenuItem refresh;
 
-	private class DownloadRssFeed extends AsyncTask<String, Void, WordpressCommentParser> {
-		@Override
-		protected void onPreExecute() {
-		}
-
-		@Override
-		protected WordpressCommentParser doInBackground(final String... urls) {
-			WordpressCommentParser lzs_feed = null;
-			try {
-				lzs_feed = new WordpressCommentParser(urls[0]);
-			}
-			catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			return lzs_feed;
-		}
-
-		@Override
-		protected void onPostExecute(final WordpressCommentParser lzs_feed) {
-			komentariProgressLayout.setVisibility(View.GONE);
-			refresh.setActionView(null);
-
-			CommentListArrayAdapter adapter = new CommentListArrayAdapter(ovaAct, lzs_feed.getPosts(), post_id, akismet);
-
-			listView.setAdapter(adapter);
-		}
-	}
+//	private class DownloadRssFeed extends AsyncTask<String, Void, WordpressCommentParser> {
+//		@Override
+//		protected void onPreExecute() {
+//		}
+//
+//		@Override
+//		protected WordpressCommentParser doInBackground(final String... urls) {
+//			WordpressCommentParser lzs_feed = null;
+//			try {
+//				lzs_feed = new WordpressCommentParser(urls[0]);
+//			}
+//			catch (IllegalStateException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//
+//			return lzs_feed;
+//		}
+//
+//		@Override
+//		protected void onPostExecute(final WordpressCommentParser lzs_feed) {
+//			komentariProgressLayout.setVisibility(View.GONE);
+//			refresh.setActionView(null);
+//
+//			CommentListArrayAdapter adapter = new CommentListArrayAdapter(ovaAct, lzs_feed.getPosts(), post_id, akismet);
+//
+//			listView.setAdapter(adapter);
+//		}
+//	}
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -70,6 +73,8 @@ public class ListaKomentara extends SherlockActivity {
 		komentariProgressLayout = (LinearLayout)findViewById(R.id.komentariProgressLayout);
 		Intent intent = getIntent();
 		message = intent.getStringExtra("komentari");
+		post_id = intent.getIntExtra("post_id", 0);
+
 		komentariProgressLayout.setVisibility(View.VISIBLE);
 
 		ActionBar ab = getSupportActionBar();
@@ -107,6 +112,7 @@ public class ListaKomentara extends SherlockActivity {
 				intent.putExtra("post_id", post_id);
 				intent.putExtra("akismet", akismet);
 				intent.putExtra("orig_url", message);
+				intent.putExtra("post_id", String.valueOf(post_id));
 				startActivity(intent);
 				return true;
 
@@ -117,7 +123,11 @@ public class ListaKomentara extends SherlockActivity {
 
 	public void fetchArticles() {
 		if (ActivityHelper.isOnline(this)) {
-			new DownloadRssFeed().execute(message);
+//			new DownloadRssFeed().execute(message);
+			LzsRestGateway g = new LzsRestGateway();
+			GetPostCommentsResponseHandler responseHandler = new GetPostCommentsResponseHandler(this, listView, refresh, komentariProgressLayout);
+
+			g.getCommentsForPost(post_id, responseHandler);
 		}
 		else {
 			Toast toast = Toast.makeText(getBaseContext(), R.string.nedostupan_internet, Toast.LENGTH_LONG);

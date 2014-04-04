@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -28,19 +29,20 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.gson.Gson;
 import com.linuxzasve.mobile.db.LzsDbContract.NewCommentEmail;
 import com.linuxzasve.mobile.db.LzsDbContract.NewCommentName;
 import com.linuxzasve.mobile.db.LzsDbHelper;
+import com.linuxzasve.mobile.rest.LzsRestGateway;
+import com.linuxzasve.mobile.rest.model.LzsRestResponse;
+import com.linuxzasve.mobile.rest.response.SubmitCommentResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class NoviKomentar extends SherlockActivity {
 	private String name;
 	private String email;
-	private String url;
 	private String text;
 	private String post_id;
-	private String akismet;
-	private String orig_url;
-	private static final Integer RETURN_NOK = Integer.valueOf(500);
 
 	// names used in previous posts, used for name autocomplete
 	private String[] usedNames;
@@ -55,12 +57,9 @@ public class NoviKomentar extends SherlockActivity {
 
 		Intent intent = getIntent();
 		post_id = intent.getStringExtra("post_id");
-		akismet = intent.getStringExtra("akismet");
-		orig_url = intent.getStringExtra("orig_url");
 
 		usedNames = getUsedNames();
 		usedEmails = getUsedEmails();
-
 	}
 
 	@Override
@@ -94,9 +93,6 @@ public class NoviKomentar extends SherlockActivity {
 				AutoCompleteTextView et2 = (AutoCompleteTextView)findViewById(R.id.novi_komentar_email);
 				email = et2.getText().toString();
 
-				EditText et3 = (EditText)findViewById(R.id.novi_komentar_url);
-				url = et3.getText().toString();
-
 				EditText et4 = (EditText)findViewById(R.id.novi_komentar_tekst);
 				text = et4.getText().toString();
 
@@ -105,7 +101,8 @@ public class NoviKomentar extends SherlockActivity {
 					toast.show();
 				}
 				else {
-					new CommentPoster().execute(name, email, url, text, post_id, akismet, orig_url);
+					LzsRestGateway g = new LzsRestGateway();
+					g.submitComment(post_id, name, email, text, new SubmitCommentResponseHandler(name, email, usedNames, usedEmails, this));
 					onBackPressed();
 				}
 
@@ -161,129 +158,5 @@ public class NoviKomentar extends SherlockActivity {
 		allEmails = popisImena.toArray(allEmails);
 
 		return allEmails;
-	}
-
-	private class CommentPoster extends AsyncTask<String, Integer, Integer> {
-		@Override
-		protected Integer doInBackground(final String... urls) {
-			HttpResponse response = null;
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost("http://www.linuxzasve.com/wp-comments-post.php");
-			httppost.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-			httppost.setHeader("Accept-Encoding", "gzip, deflate");
-			httppost.setHeader("Accept-Language", "en-US,en;q=0.5");
-			httppost.setHeader("Connection", "keep-alive");
-			httppost.setHeader("Host", "www.linuxzasve.com");
-			httppost.setHeader("Referer", urls[6]);
-			httppost.setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:21.0) Gecko/20100101 Firefox/21.0");
-
-			try {
-				// Add your data
-				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(9);
-
-				nameValuePairs.add(new BasicNameValuePair("author", urls[0]));
-				nameValuePairs.add(new BasicNameValuePair("email", urls[1]));
-				nameValuePairs.add(new BasicNameValuePair("url", urls[2]));
-				nameValuePairs.add(new BasicNameValuePair("comment", urls[3]));
-
-				nameValuePairs.add(new BasicNameValuePair("submit", "Objavi komentar"));
-				nameValuePairs.add(new BasicNameValuePair("comment_post_ID", urls[4]));
-				nameValuePairs.add(new BasicNameValuePair("comment_post_ID", urls[4]));
-				nameValuePairs.add(new BasicNameValuePair("comment_parent", "0"));
-				nameValuePairs.add(new BasicNameValuePair("akismet_comment_nonce", urls[5]));
-
-				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-
-				response = httpclient.execute(httppost);
-
-			}
-			catch (ClientProtocolException e) {
-
-			}
-			catch (IOException e) {
-
-			}
-
-			if (!Integer.valueOf(response.getStatusLine().getStatusCode()).equals(RETURN_NOK)) {
-				insertEmailIfNew(urls[1]);
-				insertNameIfNew(urls[0]);
-			}
-
-			return Integer.valueOf(response.getStatusLine().getStatusCode());
-		}
-
-		@Override
-		protected void onPostExecute(final Integer result) {
-			if (!result.equals(RETURN_NOK)) {
-
-				Toast toast = Toast.makeText(getBaseContext(), "Komentar je poslan.", Toast.LENGTH_LONG);
-				toast.show();
-			}
-			else {
-
-				Toast toast = Toast.makeText(getBaseContext(), "Slanje komentara nije uspjelo.", Toast.LENGTH_LONG);
-				toast.show();
-			}
-		}
-
-		private void insertEmailIfNew(final String email) {
-			if (usedEmails.length == 0) {
-				insertEmail(email);
-				return;
-			}
-			for (String s : usedEmails) {
-				if ((s != null) && s.equals(email)) {
-					return;
-				}
-				else {
-					insertEmail(email);
-				}
-			}
-		}
-
-		private void insertEmail(final String email) {
-			LzsDbHelper mDbHelper = new LzsDbHelper(getBaseContext());
-			SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-			ContentValues values = new ContentValues();
-			values.put(NewCommentEmail.COLUMN_NAME_EMAIL, email);
-
-			db.insert(NewCommentEmail.TABLE_NAME, null, values);
-		}
-
-		/**
-		 * Checks if name is in database, if not inserts it.
-		 *
-		 * @param name
-		 */
-		private void insertNameIfNew(final String name) {
-			if (usedNames.length == 0) {
-				insertName(name);
-				return;
-			}
-			for (String s : usedNames) {
-				if ((s != null) && s.equals(name)) {
-					return;
-				}
-				else {
-					insertName(name);
-				}
-			}
-		}
-
-		/**
-		 * Inserts name in database
-		 *
-		 * @param name
-		 */
-		private void insertName(final String name) {
-			LzsDbHelper mDbHelper = new LzsDbHelper(getBaseContext());
-			SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-			ContentValues values = new ContentValues();
-			values.put(NewCommentName.COLUMN_NAME_IME, name);
-
-			db.insert(NewCommentName.TABLE_NAME, null, values);
-		}
 	}
 }

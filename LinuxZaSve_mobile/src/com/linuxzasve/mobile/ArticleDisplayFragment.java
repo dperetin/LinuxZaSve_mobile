@@ -103,6 +103,7 @@ public class ArticleDisplayFragment extends SherlockFragment{
 		String komentari = intent2.getStringExtra("komentari");
 		String origLink = intent2.getStringExtra("origLink");
 		String naslov = intent2.getStringExtra("naslov");
+		Integer post_id = intent2.getIntExtra("post_id", 0);
 
 		switch (item.getItemId()) {
 		
@@ -115,6 +116,7 @@ public class ArticleDisplayFragment extends SherlockFragment{
 
 			intent.putExtra("komentari", komentari);
 			intent.putExtra("naslov", naslov);
+			intent.putExtra("post_id", post_id);
 			startActivity(intent);
 			return true;
 
