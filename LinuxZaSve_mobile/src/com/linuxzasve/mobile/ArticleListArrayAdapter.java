@@ -14,7 +14,6 @@ import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.linuxzasve.mobile.rest.model.Post;
 import com.linuxzasve.mobile.timthumb.TimThumb;
 
-
 public class ArticleListArrayAdapter extends ArrayAdapter<Post> {
 	// private final Context context;
 

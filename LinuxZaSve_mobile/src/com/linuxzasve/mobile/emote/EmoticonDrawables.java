@@ -20,7 +20,7 @@ public class EmoticonDrawables {
 	private static String NEUTRAL_IMAGE_NAME = "icon_neutral.gif";
 	private static String WINK_IMAGE_NAME = "icon_wink.gif";
 	private static String LOL_IMAGE_NAME = "icon_lol.gif";
-//	private static String REDFACE_IMAGE_NAME = "icon_redface.gif";
+	// private static String REDFACE_IMAGE_NAME = "icon_redface.gif";
 	private static String CRY_IMAGE_NAME = "icon_cry.gif";
 	private static String EVIL_IMAGE_NAME = "icon_evil.gif";
 	private static String TWISTED_IMAGE_NAME = "icon_twisted.gif";
@@ -43,7 +43,7 @@ public class EmoticonDrawables {
 	private static Integer NEUTRAL_DRAWABLE = Integer.valueOf(R.drawable.neutral);
 	private static Integer WINK_DRAWABLE = Integer.valueOf(R.drawable.wink);
 	private static Integer LOL_DRAWABLE = Integer.valueOf(R.drawable.happy);
-//	private static Integer REDFACE_DRAWABLE = Integer.valueOf(R.drawable.icon_redface);
+	// private static Integer REDFACE_DRAWABLE = Integer.valueOf(R.drawable.icon_redface);
 	private static Integer CRY_DRAWABLE = Integer.valueOf(R.drawable.sad);
 	private static Integer EVIL_DRAWABLE = Integer.valueOf(R.drawable.evil);
 	private static Integer TWISTED_DRAWABLE = Integer.valueOf(R.drawable.evil);
@@ -71,7 +71,7 @@ public class EmoticonDrawables {
 		emoticons.put(ROOT_URL + NEUTRAL_IMAGE_NAME, NEUTRAL_DRAWABLE);
 		emoticons.put(ROOT_URL + WINK_IMAGE_NAME, WINK_DRAWABLE);
 		emoticons.put(ROOT_URL + LOL_IMAGE_NAME, LOL_DRAWABLE);
-//		emoticons.put(ROOT_URL + REDFACE_IMAGE_NAME, REDFACE_DRAWABLE);
+		// emoticons.put(ROOT_URL + REDFACE_IMAGE_NAME, REDFACE_DRAWABLE);
 		emoticons.put(ROOT_URL + CRY_IMAGE_NAME, CRY_DRAWABLE);
 		emoticons.put(ROOT_URL + EVIL_IMAGE_NAME, EVIL_DRAWABLE);
 		emoticons.put(ROOT_URL + TWISTED_IMAGE_NAME, TWISTED_DRAWABLE);

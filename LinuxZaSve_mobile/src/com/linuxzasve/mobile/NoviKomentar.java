@@ -1,24 +1,11 @@
 package com.linuxzasve.mobile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -29,14 +16,11 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.gson.Gson;
 import com.linuxzasve.mobile.db.LzsDbContract.NewCommentEmail;
 import com.linuxzasve.mobile.db.LzsDbContract.NewCommentName;
 import com.linuxzasve.mobile.db.LzsDbHelper;
 import com.linuxzasve.mobile.rest.LzsRestGateway;
-import com.linuxzasve.mobile.rest.model.LzsRestResponse;
 import com.linuxzasve.mobile.rest.response.SubmitCommentResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class NoviKomentar extends SherlockActivity {
 	private String name;

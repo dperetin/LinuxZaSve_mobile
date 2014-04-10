@@ -1,5 +1,8 @@
 package com.linuxzasve.mobile.rest.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Comment {
 	private int id;
 	private String name;
@@ -7,6 +10,8 @@ public class Comment {
 	private String date;
 	private String content;
 	private String parent;
+	private List<Comment> children;
+	private int depth;
 
 	public int getId() {
 		return id;
@@ -56,6 +61,32 @@ public class Comment {
 		this.parent = parent;
 	}
 
+	public List<Comment> getChildren() {
+		return children;
+	}
+
+	public void setChildren(final List<Comment> children) {
+		this.children = children;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(final int depth) {
+		this.depth = depth;
+	}
+
 	public Comment() {
-	};
+	}
+
+	public void addChild(final Comment comment) {
+		if (children == null) {
+			children = new ArrayList<Comment>();
+		}
+
+		children.add(comment);
+	}
+
+
 }

@@ -1,5 +1,8 @@
 package com.linuxzasve.mobile;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
@@ -14,16 +17,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.linuxzasve.mobile.emote.EmoticonDrawables;
 import com.linuxzasve.mobile.rest.model.Comment;
-import com.linuxzasve.mobile.rest.model.Post;
-import com.linuxzasve.mobile.wp_comment.Komentar;
 
 public class CommentListArrayAdapter extends ArrayAdapter<Comment> {
 	private final Context context;
@@ -32,11 +30,75 @@ public class CommentListArrayAdapter extends ArrayAdapter<Comment> {
 	public CommentListArrayAdapter(final Context context, final List<Comment> list) {
 		super(context, R.layout.komentar_redak, list);
 		this.context = context;
-		this.values = list;
 
-//		post_id = list.get(0).getCommentPostId();
-//		akismet = list.get(0).getAkismetCommentNounce();
+		values = new ArrayList<Comment>();
+		List<Comment> tmp = new ArrayList<Comment>();
 
+		// get all comments without parents
+		for (Comment c : list) {
+			if ("0".equals(c.getParent())) {
+				tmp.add(c);
+			}
+		}
+
+		// set all children
+		for (Comment c : list) {
+			if (!"0".equals(c.getParent())) {
+				insertChild(tmp, c);
+			}
+		}
+
+		// sort it all
+		sort(tmp);
+
+		// unroll
+		unroll(tmp, 0);
+
+	}
+
+	private void sort(final List<Comment> tmp) {
+		if (tmp == null) {
+			return;
+		}
+		Collections.sort(tmp, new Comparator<Comment>() {
+
+			@Override
+			public int compare(final Comment e1, final Comment e2) {
+				return e1.getDate().compareTo(e2.getDate());
+			}
+
+		});
+
+		for (Comment c : tmp) {
+			sort(c.getChildren());
+		}
+	}
+
+	private void unroll(final List<Comment> tmp, final int depth) {
+		if (tmp == null) {
+			return;
+		}
+		for (Comment c : tmp) {
+			c.setDepth(depth);
+			values.add(c);
+
+			unroll(c.getChildren(), depth + 1);
+		}
+	}
+
+	private void insertChild(final List<Comment> list, final Comment comment) {
+		if (list == null) {
+			return;
+		}
+
+		for (Comment c : list) {
+			if (comment.getParent().equals(String.valueOf(c.getId()))) {
+				c.addChild(comment);
+			}
+			else {
+				insertChild(c.getChildren(), comment);
+			}
+		}
 	}
 
 	@Override
@@ -45,27 +107,26 @@ public class CommentListArrayAdapter extends ArrayAdapter<Comment> {
 		View rowView = inflater.inflate(R.layout.komentar_redak, parent, false);
 		TextView view = (TextView)rowView.findViewById(R.id.crta);
 		view.setWidth((position + 1) * 12);
-		
+
 		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)view.getLayoutParams();
-		params.setMargins((position + 1) * 12, 0, 0, 0); //substitute parameters for left, top, right, bottom
+		params.setMargins((values.get(position).getDepth() + 1) * 12, 0, 0, 0);
 		view.setLayoutParams(params);
-		
+
 		TextView neki_tekst = (TextView)rowView.findViewById(R.id.tekst_komentar);
 		neki_tekst.setMovementMethod(LinkMovementMethod.getInstance());
 		TextView datum = (TextView)rowView.findViewById(R.id.datum_komentar);
 		TextView autor = (TextView)rowView.findViewById(R.id.autor_komentar);
-//		ImageView thumbnail = (ImageView)rowView.findViewById(R.id.komentarThumbnail);
-		// datum.setText(values.get(values.size() - position - 1).datumDdmmyyy());
-		datum.setText(values.get(values.size() - position - 1).getDate());
-		autor.setText(values.get(values.size() - position - 1).getName());
 
-		// neki_tekst.setText(Html.fromHtml(values.get(values.size() - position - 1).getContent()));
+		datum.setText(values.get(position).getDate());
+		autor.setText(values.get(position).getName());
 
-		neki_tekst.setText(Html.fromHtml(values.get(values.size() - position - 1).getContent(), new ImageGetter() {
+		neki_tekst.setText(Html.fromHtml(values.get(position).getContent(), new ImageGetter() {
 			@Override
 			public Drawable getDrawable(final String source) {
 
-				/* Dohvacam ID slike. Ako nema takovg smajla, vracam null */
+				/*
+				 * Dohvacam ID slike. Ako nema takovg smajla, vracam null
+				 */
 				Integer id = EmoticonDrawables.getDrawableId(source);
 
 				if (id == null) {
@@ -82,8 +143,6 @@ public class CommentListArrayAdapter extends ArrayAdapter<Comment> {
 				return d;
 			}
 		}, null));
-
-//		UrlImageViewHelper.setUrlDrawable(thumbnail, values.get(values.size() - position - 1).getThumbnail());
 
 		return rowView;
 	}

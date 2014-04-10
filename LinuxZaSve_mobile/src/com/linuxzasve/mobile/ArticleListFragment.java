@@ -117,7 +117,8 @@ public class ArticleListFragment extends SherlockFragment {
 
 			if (ArticleListFragmentType.LIST.equals(articleListFragmentType)) {
 				g.getRecentPosts(responseHandler);
-			} else if (ArticleListFragmentType.SEARCH.equals(articleListFragmentType)) {
+			}
+			else if (ArticleListFragmentType.SEARCH.equals(articleListFragmentType)) {
 				g.getSearchResult(search, responseHandler);
 			}
 

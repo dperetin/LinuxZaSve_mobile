@@ -92,8 +92,7 @@ public class GetRecentPostsResponseHandler extends JsonHttpResponseHandler {
 			values.put(LzsPost.COLUMN_NAME_URL, p.getUrl());
 
 			// Insert the new row, returning the primary key value of the new row
-			long newRowId;
-			newRowId = db.insert(LzsPost.TABLE_NAME, null, values);
+			db.insert(LzsPost.TABLE_NAME, null, values);
 		}
 	}
 }

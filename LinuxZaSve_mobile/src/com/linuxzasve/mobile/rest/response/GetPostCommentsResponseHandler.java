@@ -1,39 +1,26 @@
 package com.linuxzasve.mobile.rest.response;
 
-import java.util.List;
-
 import org.apache.http.Header;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.google.gson.Gson;
-import com.linuxzasve.mobile.ArticleDisplayActivity;
-import com.linuxzasve.mobile.ArticleListArrayAdapter;
 import com.linuxzasve.mobile.CommentListArrayAdapter;
-import com.linuxzasve.mobile.db.LzsDbContract.LzsPost;
-import com.linuxzasve.mobile.db.LzsDbHelper;
 import com.linuxzasve.mobile.rest.model.LzsRestResponse;
-import com.linuxzasve.mobile.rest.model.Post;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class GetPostCommentsResponseHandler extends JsonHttpResponseHandler {
 
 	private final Context context;
-	private ListView listView;
-	private MenuItem refresh;
-	private LinearLayout komentariProgressLayout;
+	private final ListView listView;
+	private final MenuItem refresh;
+	private final LinearLayout komentariProgressLayout;
 
-
-	public GetPostCommentsResponseHandler(final Context context, ListView listView, MenuItem refresh, LinearLayout komentariProgressLayout) {
+	public GetPostCommentsResponseHandler(final Context context, final ListView listView, final MenuItem refresh, final LinearLayout komentariProgressLayout) {
 		super();
 
 		this.context = context;

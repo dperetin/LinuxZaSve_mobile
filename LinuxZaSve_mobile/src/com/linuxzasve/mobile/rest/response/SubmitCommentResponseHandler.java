@@ -1,46 +1,34 @@
 package com.linuxzasve.mobile.rest.response;
 
-import java.util.List;
-
 import org.apache.http.Header;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.view.MenuItem;
 import com.google.gson.Gson;
-import com.linuxzasve.mobile.ArticleDisplayActivity;
-import com.linuxzasve.mobile.ArticleListArrayAdapter;
-import com.linuxzasve.mobile.db.LzsDbContract.LzsPost;
 import com.linuxzasve.mobile.db.LzsDbContract.NewCommentEmail;
 import com.linuxzasve.mobile.db.LzsDbContract.NewCommentName;
 import com.linuxzasve.mobile.db.LzsDbHelper;
 import com.linuxzasve.mobile.rest.model.LzsRestResponse;
-import com.linuxzasve.mobile.rest.model.Post;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class SubmitCommentResponseHandler extends JsonHttpResponseHandler {
 
 	Context context;
-	
+
 	String name;
 	String email;
-	
-	private String[] usedNames;
+
+	private final String[] usedNames;
 
 	// emails used in previous posts, used for email autocomplete
-	private String[] usedEmails;
-	
-	public SubmitCommentResponseHandler(String name, String email,  String[] usedNames, String[] usedEmails, Context context) {
+	private final String[] usedEmails;
+
+	public SubmitCommentResponseHandler(final String name, final String email, final String[] usedNames, final String[] usedEmails, final Context context) {
 		super();
-		
+
 		this.name = name;
 		this.email = email;
 		this.context = context;
@@ -54,12 +42,12 @@ public class SubmitCommentResponseHandler extends JsonHttpResponseHandler {
 
 		Gson gson = new Gson();
 		LzsRestResponse lzs_feed = gson.fromJson(responseBody, LzsRestResponse.class);
-		
+
 		if (lzs_feed.getStatus().equals("ok")) {
 
 			Toast toast = Toast.makeText(context, "Komentar je poslan.", Toast.LENGTH_LONG);
 			toast.show();
-			
+
 			insertEmailIfNew(email);
 			insertNameIfNew(name);
 		}
@@ -69,9 +57,8 @@ public class SubmitCommentResponseHandler extends JsonHttpResponseHandler {
 			toast.show();
 		}
 
-
 	}
-	
+
 	private void insertEmailIfNew(final String email) {
 		if (usedEmails.length == 0) {
 			insertEmail(email);
@@ -80,7 +67,8 @@ public class SubmitCommentResponseHandler extends JsonHttpResponseHandler {
 		for (String s : usedEmails) {
 			if ((s != null) && s.equals(email)) {
 				return;
-			} else {
+			}
+			else {
 				insertEmail(email);
 			}
 		}
@@ -98,7 +86,7 @@ public class SubmitCommentResponseHandler extends JsonHttpResponseHandler {
 
 	/**
 	 * Checks if name is in database, if not inserts it.
-	 * 
+	 *
 	 * @param name
 	 */
 	private void insertNameIfNew(final String name) {
@@ -109,7 +97,8 @@ public class SubmitCommentResponseHandler extends JsonHttpResponseHandler {
 		for (String s : usedNames) {
 			if ((s != null) && s.equals(name)) {
 				return;
-			} else {
+			}
+			else {
 				insertName(name);
 			}
 		}
@@ -117,7 +106,7 @@ public class SubmitCommentResponseHandler extends JsonHttpResponseHandler {
 
 	/**
 	 * Inserts name in database
-	 * 
+	 *
 	 * @param name
 	 */
 	private void insertName(final String name) {
