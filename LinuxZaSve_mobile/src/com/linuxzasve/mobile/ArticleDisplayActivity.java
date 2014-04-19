@@ -5,6 +5,11 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
+/**
+ *
+ * @author dejan
+ *
+ */
 public class ArticleDisplayActivity extends SherlockFragmentActivity {
 
 	@Override

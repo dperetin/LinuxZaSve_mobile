@@ -1,70 +1,56 @@
 package com.linuxzasve.mobile.googl;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.UnsupportedEncodingException;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.StringEntity;
+
+import android.content.Context;
+
+import com.google.gson.Gson;
+import com.linuxzasve.mobile.googl.model.GooGlRequest;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 /**
- * Skracuje url koristeci Google URL shortener (goo.gl)
+ *
+ * @author dejan
  *
  */
 public class GoogleUrlShortener {
 
+	private static final String postUrl = "https://www.googleapis.com/urlshortener/v1/url";
+	private static AsyncHttpClient client = new AsyncHttpClient();
+
 	/**
-	 * Funkcija skracuje url dugiUrl
 	 *
-	 * @return skraceni URL, oblika http://goo.gl/...
+	 * @param context
+	 * @param dugiUrl
+	 * @param handler
 	 */
-	public static String ShortenUrl(final String dugiUrl) {
+	public static void ShortenUrl(final Context context, final String dugiUrl, final AsyncHttpResponseHandler handler) {
 
-		// Saljem POST na https://www.googleapis.com/urlshortener/v1/url
-		String postUrl = "https://www.googleapis.com/urlshortener/v1/url";
+		GooGlRequest r = new GooGlRequest();
+		r.setLongUrl(dugiUrl);
 
-		// string koji treba skratiti se salje kao JSON, npr:
-		// {"longUrl": "http://www.google.com/"}
-		String jsonLongUrl = "{\"longUrl\":\"" + dugiUrl + "\"}";
-
-		String skraceniUrl = "";
+		Gson gson = new Gson();
 
 		try {
-			URLConnection conn = new URL(postUrl).openConnection();
-			conn.setDoOutput(true);
-
-			// Content-Type: application/json
-			conn.setRequestProperty("Content-Type", "application/json");
-			OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-			wr.write(jsonLongUrl);
-			wr.flush();
-
-			BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String line;
-
-			while ((line = rd.readLine()) != null) {
-				// "id": "http://goo.gl/fbsS",
-				Pattern p = Pattern.compile("id\": \"(.*)\",");
-				Matcher m = p.matcher(line);
-				if (m.find()) {
-					skraceniUrl = m.group(1);
-					break;
-				}
-			}
-
-			wr.close();
-			rd.close();
+			post(context, postUrl, new StringEntity(gson.toJson(r)), handler);
 		}
-		catch (MalformedURLException ex) {
-			// TODO
+		catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
-		catch (IOException ex) {
-			// TODO
-		}
+	}
 
-		return skraceniUrl;
+	/**
+	 *
+	 * @param context
+	 * @param url
+	 * @param entity
+	 * @param responseHandler
+	 */
+	private static void post(final Context context, final String url, final HttpEntity entity, final AsyncHttpResponseHandler responseHandler) {
+		client.post(context, url, entity, "application/json", responseHandler);
 	}
 }

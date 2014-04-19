@@ -1,7 +1,8 @@
 package com.linuxzasve.mobile;
 
+import org.apache.http.Header;
+
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,10 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.gson.Gson;
 import com.linuxzasve.mobile.googl.GoogleUrlShortener;
+import com.linuxzasve.mobile.googl.model.GooGlResponse;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class ArticleDisplayFragment extends SherlockFragment {
 
@@ -46,51 +50,12 @@ public class ArticleDisplayFragment extends SherlockFragment {
 		return rootView;
 	}
 
-	private class SkratiUrl extends AsyncTask<String, Void, String> {
-
-		@Override
-		protected String doInBackground(final String... urls) {
-			String skraceniUrl = GoogleUrlShortener.ShortenUrl(urls[0]);
-			return skraceniUrl;
-		}
-
-		@Override
-		protected void onPostExecute(final String skraceniUrl) {
-			Intent intent2 = getActivity().getIntent();
-			String naslov = intent2.getStringExtra("naslov");
-			Intent share = new Intent(Intent.ACTION_SEND);
-			share.setType("text/plain");
-
-			// kreiram naslov za dijeljenje
-			String shareNaslov = "LZS | " + naslov;
-
-			// kreiram tekst za dijeljenje
-			String shareText = "Linux za sve | " + naslov + " " + skraceniUrl;
-
-			share.putExtra(Intent.EXTRA_TEXT, shareText);
-			share.putExtra(Intent.EXTRA_SUBJECT, shareNaslov);
-			startActivity(Intent.createChooser(share, "Podijeli članak!"));
-
-		}
-	}
-
 	@Override
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-		// TODO Auto-generated method stub
-
 		inflater.inflate(R.menu.clanak, menu);
 
 		super.onCreateOptionsMenu(menu, inflater);
 	}
-
-	// @Override
-	// public void onCreateOptionsMenu(Menu menu) {
-	// // MenuInflater inflater = getSupportMenuInflater();
-	//
-	// // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-	//
-	// // return true;
-	// }
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
@@ -117,7 +82,31 @@ public class ArticleDisplayFragment extends SherlockFragment {
 				return true;
 
 			case R.id.menu_share:
-				new SkratiUrl().execute(origLink);
+				GoogleUrlShortener.ShortenUrl(getActivity(), origLink, new JsonHttpResponseHandler() {
+
+					@Override
+					public void onSuccess(final int statusCode, final Header[] headers, final String responseBody) {
+						Gson gson = new Gson();
+
+						String skraceniUrl = gson.fromJson(responseBody, GooGlResponse.class).getId();
+
+						Intent intent2 = getActivity().getIntent();
+						String naslov = intent2.getStringExtra("naslov");
+						Intent share = new Intent(Intent.ACTION_SEND);
+						share.setType("text/plain");
+
+						// kreiram naslov za dijeljenje
+						String shareNaslov = "LZS | " + naslov;
+
+						// kreiram tekst za dijeljenje
+						String shareText = "Linux za sve | " + naslov + " " + skraceniUrl;
+
+						share.putExtra(Intent.EXTRA_TEXT, shareText);
+						share.putExtra(Intent.EXTRA_SUBJECT, shareNaslov);
+						startActivity(Intent.createChooser(share, "Podijeli članak!"));
+					}
+
+				});
 
 				return true;
 
