@@ -1,24 +1,46 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.linuxzasve.mobile"
-    android:versionCode="8"
-    android:versionName="0.0.6"
-    android:installLocation="auto">
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+    android:installLocation="auto"
+    android:versionCode="12"
+    android:versionName="0.1.0" >
 
-    <application android:icon="@drawable/ic_launcher_lzs" android:label="@string/app_name" 
-        android:theme="@style/Theme.Sherlock.Light" android:allowBackup="true">
-        <activity android:name=".ListaNovosti" android:label="@string/title_activity_lista_novosti" >
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher_lzs"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Sherlock.Light" >
+        <activity
+            android:name=".ArticleListActivity"
+            android:label="@string/title_activity_lista_novosti" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".ArticleSearchActivity" />
         </activity>
-        <activity android:name="com.linuxzasve.mobile.Clanak" />
-        <activity android:name="com.linuxzasve.mobile.ListaKomentara" />
-        <activity android:name="com.linuxzasve.mobile.NoviKomentar" />
+        <activity android:name=".Clanak" />
+        <activity android:name=".ArticleDisplayActivity" />
+        <activity android:name=".ListaKomentara" />
+        <activity android:name=".NoviKomentar" />
+        
+        <activity android:name=".ArticleSearchActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.SEARCH" />
+        </intent-filter>
+        <meta-data android:name="android.app.searchable"
+                   android:resource="@xml/searchable"/>
+    </activity>
     </application>
+
 </manifest>

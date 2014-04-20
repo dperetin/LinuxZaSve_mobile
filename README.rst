@@ -1,4 +1,4 @@
-Linux za sve Android aplikacija
+﻿Linux za sve Android aplikacija
 ========================
 
 Android aplikacija za linuxzasve.com
@@ -30,3 +30,4 @@ Kako buildati
 Upute za buildanje su dostupne na https://github.com/linuxzasve/androidApp/wiki/Upute-za-buildanje
 
 
+Ikone: Riceballs autora David Lanham

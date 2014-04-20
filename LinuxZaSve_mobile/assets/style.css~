@@ -1,0 +1,32 @@
+body {
+	background-color:#ffffff;
+	font-family:"sans-serif-condensed";
+}
+
+h1 {
+	color:#000000;
+	text-align:center;
+	font-family:"sans-serif-condensed";
+	font-size:175%;
+}
+
+p {
+	 font-family: Georgia, Times, "Times New Roman", serif;
+
+
+
+}
+
+img {
+	max-width: 100%;
+}
+
+pre {
+	white-space: pre-wrap;
+
+}
+
+a:link { color: #666666; text-decoration: none; }
+a:visited { color: #333333; }
+a:hover { text-decoration: underline; }
+a:active { color: #000000; }
