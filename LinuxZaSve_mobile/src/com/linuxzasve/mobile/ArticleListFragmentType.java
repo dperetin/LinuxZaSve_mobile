@@ -5,8 +5,7 @@ package com.linuxzasve.mobile;
  * passed to a ArticleListFragment constructor to tell them apart.
  *
  * @author dejan
- *
  */
 public enum ArticleListFragmentType {
-	LIST, SEARCH
+    LIST, SEARCH
 }

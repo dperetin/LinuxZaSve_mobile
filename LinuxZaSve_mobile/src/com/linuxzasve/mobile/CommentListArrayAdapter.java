@@ -24,126 +24,125 @@ import com.linuxzasve.mobile.emote.EmoticonDrawables;
 import com.linuxzasve.mobile.rest.model.Comment;
 
 public class CommentListArrayAdapter extends ArrayAdapter<Comment> {
-	private final Context context;
-	private final List<Comment> values;
+    private final Context context;
+    private final List<Comment> values;
 
-	public CommentListArrayAdapter(final Context context, final List<Comment> list) {
-		super(context, R.layout.komentar_redak, list);
-		this.context = context;
+    public CommentListArrayAdapter(final Context context, final List<Comment> list) {
+        super(context, R.layout.komentar_redak, list);
+        this.context = context;
 
-		values = new ArrayList<Comment>();
-		List<Comment> tmp = new ArrayList<Comment>();
+        values = new ArrayList<Comment>();
+        List<Comment> tmp = new ArrayList<Comment>();
 
-		// get all comments without parents
-		for (Comment c : list) {
-			if ("0".equals(c.getParent())) {
-				tmp.add(c);
-			}
-		}
+        // get all comments without parents
+        for (Comment c : list) {
+            if ("0".equals(c.getParent())) {
+                tmp.add(c);
+            }
+        }
 
-		// set all children
-		for (Comment c : list) {
-			if (!"0".equals(c.getParent())) {
-				insertChild(tmp, c);
-			}
-		}
+        // set all children
+        for (Comment c : list) {
+            if (!"0".equals(c.getParent())) {
+                insertChild(tmp, c);
+            }
+        }
 
-		// sort it all
-		sort(tmp);
+        // sort it all
+        sort(tmp);
 
-		// unroll
-		unroll(tmp, 0);
+        // unroll
+        unroll(tmp, 0);
 
-	}
+    }
 
-	private void sort(final List<Comment> tmp) {
-		if (tmp == null) {
-			return;
-		}
-		Collections.sort(tmp, new Comparator<Comment>() {
+    private void sort(final List<Comment> tmp) {
+        if (tmp == null) {
+            return;
+        }
+        Collections.sort(tmp, new Comparator<Comment>() {
 
-			@Override
-			public int compare(final Comment e1, final Comment e2) {
-				return e1.getDate().compareTo(e2.getDate());
-			}
+            @Override
+            public int compare(final Comment e1, final Comment e2) {
+                return e1.getDate().compareTo(e2.getDate());
+            }
 
-		});
+        });
 
-		for (Comment c : tmp) {
-			sort(c.getChildren());
-		}
-	}
+        for (Comment c : tmp) {
+            sort(c.getChildren());
+        }
+    }
 
-	private void unroll(final List<Comment> tmp, final int depth) {
-		if (tmp == null) {
-			return;
-		}
-		for (Comment c : tmp) {
-			c.setDepth(depth);
-			values.add(c);
+    private void unroll(final List<Comment> tmp, final int depth) {
+        if (tmp == null) {
+            return;
+        }
+        for (Comment c : tmp) {
+            c.setDepth(depth);
+            values.add(c);
 
-			unroll(c.getChildren(), depth + 1);
-		}
-	}
+            unroll(c.getChildren(), depth + 1);
+        }
+    }
 
-	private void insertChild(final List<Comment> list, final Comment comment) {
-		if (list == null) {
-			return;
-		}
+    private void insertChild(final List<Comment> list, final Comment comment) {
+        if (list == null) {
+            return;
+        }
 
-		for (Comment c : list) {
-			if (comment.getParent().equals(String.valueOf(c.getId()))) {
-				c.addChild(comment);
-			}
-			else {
-				insertChild(c.getChildren(), comment);
-			}
-		}
-	}
+        for (Comment c : list) {
+            if (comment.getParent().equals(String.valueOf(c.getId()))) {
+                c.addChild(comment);
+            } else {
+                insertChild(c.getChildren(), comment);
+            }
+        }
+    }
 
-	@Override
-	public View getView(final int position, final View convertView, final ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.komentar_redak, parent, false);
-		TextView view = (TextView)rowView.findViewById(R.id.crta);
-		view.setWidth((position + 1) * 12);
+    @Override
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View rowView = inflater.inflate(R.layout.komentar_redak, parent, false);
+        TextView view = (TextView) rowView.findViewById(R.id.crta);
+        view.setWidth((position + 1) * 12);
 
-		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)view.getLayoutParams();
-		params.setMargins((values.get(position).getDepth() + 1) * 12, 0, 0, 0);
-		view.setLayoutParams(params);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
+        params.setMargins((values.get(position).getDepth() + 1) * 12, 0, 0, 0);
+        view.setLayoutParams(params);
 
-		TextView neki_tekst = (TextView)rowView.findViewById(R.id.tekst_komentar);
-		neki_tekst.setMovementMethod(LinkMovementMethod.getInstance());
-		TextView datum = (TextView)rowView.findViewById(R.id.datum_komentar);
-		TextView autor = (TextView)rowView.findViewById(R.id.autor_komentar);
+        TextView neki_tekst = (TextView) rowView.findViewById(R.id.tekst_komentar);
+        neki_tekst.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView datum = (TextView) rowView.findViewById(R.id.datum_komentar);
+        TextView autor = (TextView) rowView.findViewById(R.id.autor_komentar);
 
-		datum.setText(values.get(position).getDate());
-		autor.setText(values.get(position).getName());
+        datum.setText(values.get(position).getDate());
+        autor.setText(values.get(position).getName());
 
-		neki_tekst.setText(Html.fromHtml(values.get(position).getContent(), new ImageGetter() {
-			@Override
-			public Drawable getDrawable(final String source) {
+        neki_tekst.setText(Html.fromHtml(values.get(position).getContent(), new ImageGetter() {
+            @Override
+            public Drawable getDrawable(final String source) {
 
 				/*
-				 * Dohvacam ID slike. Ako nema takovg smajla, vracam null
+                 * Dohvacam ID slike. Ako nema takovg smajla, vracam null
 				 */
-				Integer id = EmoticonDrawables.getDrawableId(source);
+                Integer id = EmoticonDrawables.getDrawableId(source);
 
-				if (id == null) {
-					return null;
-				}
+                if (id == null) {
+                    return null;
+                }
 
-				Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), id);
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), id);
 
-				Drawable d = new BitmapDrawable(context.getResources(), bitmap);
-				int dWidth = d.getIntrinsicWidth();
-				int dHeight = d.getIntrinsicHeight();
+                Drawable d = new BitmapDrawable(context.getResources(), bitmap);
+                int dWidth = d.getIntrinsicWidth();
+                int dHeight = d.getIntrinsicHeight();
 
-				d.setBounds(0, -dHeight, dWidth, 0);
-				return d;
-			}
-		}, null));
+                d.setBounds(0, -dHeight, dWidth, 0);
+                return d;
+            }
+        }, null));
 
-		return rowView;
-	}
+        return rowView;
+    }
 }
