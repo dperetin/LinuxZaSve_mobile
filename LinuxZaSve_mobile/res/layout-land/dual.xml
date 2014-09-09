@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <fragment class="com.linuxzasve.mobile.ArticleListFragment"
+    <fragment class="com.linuxzasve.mobile.fragments.ArticleListFragment"
             android:id="@+id/titles" android:layout_weight="4"
             android:layout_width="0px" android:layout_height="match_parent" />
 

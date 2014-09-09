@@ -1,11 +1,11 @@
 package com.linuxzasve.mobile.rest;
 
-import com.linuxzasve.mobile.Constants;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class LzsRestClient {
+    public static final String BASE_REST_URL = "http://www.linuxzasve.com/api/";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
@@ -18,6 +18,6 @@ public class LzsRestClient {
     }
 
     private static String getAbsoluteUrl(final String relativeUrl) {
-        return Constants.BASE_REST_URL + relativeUrl;
+        return BASE_REST_URL + relativeUrl;
     }
 }

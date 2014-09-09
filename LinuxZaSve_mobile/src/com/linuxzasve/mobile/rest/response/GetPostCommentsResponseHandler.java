@@ -3,11 +3,11 @@ package com.linuxzasve.mobile.rest.response;
 import org.apache.http.Header;
 
 import android.content.Context;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.actionbarsherlock.view.MenuItem;
 import com.google.gson.Gson;
 import com.linuxzasve.mobile.CommentListArrayAdapter;
 import com.linuxzasve.mobile.rest.model.LzsRestResponse;

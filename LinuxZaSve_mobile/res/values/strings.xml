@@ -7,7 +7,7 @@
 	<string name="menu_share">Dijeli</string>
 	<string name="menu_new">Ostavi komentar</string>
 	<string name="menu_send">Pošalji komentar</string>
-	<string name="nedostupan_internet">Internet je nedostupan!</string>
+	<string name="network_not_available">Internet je nedostupan!</string>
 	<string name="novi_komentar_hint_name">Ime *</string>
 	<string name="novi_komentar_hint_email">E-mail (neće biti prikazano) *</string>
 	<string name="novi_komentar_hint_url">Web stranica</string>
@@ -15,4 +15,5 @@
 	<string name="search_hint">Pretraži Linux za sve</string>
 	<string name="app_label">Linux za sve</string>
 	<string name="action_bar_subtitle_article_list">Najnoviji članci</string>
+    <string name="action_bar_subtitle_article_search">Tražim: %1$s</string>
 </resources>

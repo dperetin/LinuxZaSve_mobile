@@ -32,7 +32,7 @@ public class Post {
     private int comment_count;
     private String comment_status;
     private String thumbnail;
-    private CustomFiels custom_fields;
+    private CustomFields custom_fields;
     private String thumbnail_size;
     private Thumbnail thumbnail_images;
 
@@ -188,11 +188,11 @@ public class Post {
         this.thumbnail = thumbnail;
     }
 
-    public CustomFiels getCustom_fields() {
+    public CustomFields getCustom_fields() {
         return custom_fields;
     }
 
-    public void setCustom_fields(final CustomFiels custom_fields) {
+    public void setCustom_fields(final CustomFields custom_fields) {
         this.custom_fields = custom_fields;
     }
 

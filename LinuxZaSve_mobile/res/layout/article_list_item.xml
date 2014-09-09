@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -8,13 +7,10 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_marginLeft="0dp"
-        
-        android:layout_toRightOf="@id/thumbnail"
-        android:contentDescription="@+id/neki_tekst"
         />
     
     <TextView
-        android:id="@+id/neki_tekst"
+        android:id="@+id/article_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -32,12 +28,12 @@
         />
 
     <TextView
-        android:id="@+id/autor"
+        android:id="@+id/author"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/neki_tekst"
+        android:layout_alignLeft="@+id/article_title"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/neki_tekst"
+        android:layout_below="@+id/article_title"
         android:layout_marginBottom="5dp"
         android:alpha="1"
         android:textColor="#6000"
@@ -46,14 +42,14 @@
         android:textAllCaps="true"/>
 
     <TextView
-        android:id="@+id/datum"
+        android:id="@+id/publish_date"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/neki_tekst"
+        android:layout_below="@+id/article_title"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="20dp"
-        android:layout_toRightOf="@id/autor"
+        android:layout_toRightOf="@id/author"
         android:alpha="1"
         android:fontFamily="sans-serif-condensed"
         android:gravity="center"
@@ -62,25 +58,24 @@
         android:textAllCaps="true" />
 
     <TextView
-        android:id="@+id/broj_komentara"
+        android:id="@+id/comment_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/neki_tekst"
-        android:layout_below="@+id/neki_tekst"
-        android:text="0000"
+        android:layout_alignRight="@+id/article_title"
+        android:layout_below="@+id/article_title"
         android:textColor="#6000"
         android:textSize="12sp" 
         android:fontFamily="sans-serif-condensed"/>
 
     <ImageView
-        android:id="@+id/ikona_komentara"
+        android:id="@+id/comment_count_icon"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/neki_tekst"
-        android:layout_toLeftOf="@+id/broj_komentara"
-        android:src="@drawable/komentari" 
+        android:layout_below="@+id/article_title"
+        android:layout_toLeftOf="@+id/comment_count"
+        android:src="@drawable/comment_count_icon"
         android:fontFamily="sans-serif-condensed"/>
-    
+
 </RelativeLayout>

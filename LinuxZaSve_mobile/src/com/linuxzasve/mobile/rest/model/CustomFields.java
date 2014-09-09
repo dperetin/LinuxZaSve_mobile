@@ -2,7 +2,7 @@ package com.linuxzasve.mobile.rest.model;
 
 import java.util.List;
 
-public class CustomFiels {
+public class CustomFields {
     private List<String> views;
 
     public List<String> getViews() {
@@ -13,7 +13,7 @@ public class CustomFiels {
         this.views = views;
     }
 
-    public CustomFiels() {
+    public CustomFields() {
     }
 
     ;

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false" >
-    <fragment android:name="com.linuxzasve.mobile.ArticleListFragment"
+    <fragment android:name="com.linuxzasve.mobile.fragments.ArticleListFragment"
             android:id="@+id/article_list_fragment"
             android:layout_weight="1"
             android:layout_width="0dp"
