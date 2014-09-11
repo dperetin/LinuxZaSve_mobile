@@ -1,6 +1,11 @@
 package com.linuxzasve.mobile.rest.model;
 
-public class Thumbnail {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class Thumbnail implements Parcelable {
     private DetailedImage full;
     private DetailedImage thumbnail;
     private DetailedImage medium;
@@ -50,5 +55,37 @@ public class Thumbnail {
     public Thumbnail() {
     }
 
-    ;
+    // parcelable
+
+    public Thumbnail(Parcel in) {
+        full = in.readParcelable(DetailedImage.class.getClassLoader());
+        thumbnail = in.readParcelable(DetailedImage.class.getClassLoader());
+        medium = in.readParcelable(DetailedImage.class.getClassLoader());
+        large = in.readParcelable(DetailedImage.class.getClassLoader());
+        wptouch_new_thumbnail = in.readParcelable(DetailedImage.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Thumbnail createFromParcel(Parcel in) {
+            return new Thumbnail(in);
+        }
+
+        public Thumbnail[] newArray(int size) {
+            return new Thumbnail[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeParcelable(full, flags);
+        parcel.writeParcelable(thumbnail, flags);
+        parcel.writeParcelable(medium, flags);
+        parcel.writeParcelable(large, flags);
+        parcel.writeParcelable(wptouch_new_thumbnail, flags);
+    }
 }

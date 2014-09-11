@@ -14,6 +14,7 @@ import com.linuxzasve.mobile.rest.model.LzsRestResponse;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 
 public class GetPostCommentsResponseHandler extends AsyncHttpResponseHandler {
 

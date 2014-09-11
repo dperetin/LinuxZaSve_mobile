@@ -1,14 +1,19 @@
 package com.linuxzasve.mobile.rest.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class LzsRestResponse {
+public class LzsRestResponse implements Parcelable {
     private String status;
     private int count;
     private int count_total;
     private int pages;
-    private List<Post> posts;
+    private ArrayList<Post> posts;
     private Post post;
     private String nonce;
 
@@ -52,11 +57,11 @@ public class LzsRestResponse {
         this.pages = pages;
     }
 
-    public List<Post> getPosts() {
+    public ArrayList<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(final List<Post> posts) {
+    public void setPosts(final ArrayList<Post> posts) {
         this.posts = posts;
     }
 
@@ -72,5 +77,42 @@ public class LzsRestResponse {
     LzsRestResponse() {
     }
 
+    // parcelable
+
+    public LzsRestResponse(Parcel in) {
+        status = in.readString();
+        count = in.readInt();
+        count_total = in.readInt();
+        pages = in.readInt();
+        in.readList(posts, Post.class.getClassLoader());
+        post = in.readParcelable(Post.class.getClassLoader());
+        nonce = in.readString();
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public LzsRestResponse createFromParcel(Parcel in) {
+            return new LzsRestResponse(in);
+        }
+
+        public LzsRestResponse[] newArray(int size) {
+            return new LzsRestResponse[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeString(status);
+        parcel.writeInt(count);
+        parcel.writeInt(count_total);
+        parcel.writeInt(pages);
+        parcel.writeList(posts);
+        parcel.writeParcelable(post, flags);
+        parcel.writeString(nonce);
+    }
 
 }

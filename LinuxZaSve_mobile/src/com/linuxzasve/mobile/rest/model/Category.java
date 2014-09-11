@@ -1,6 +1,9 @@
 package com.linuxzasve.mobile.rest.model;
 
-public class Category {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Category implements Parcelable {
     private int id;
     private String slug;
     private String title;
@@ -57,5 +60,41 @@ public class Category {
     }
 
     public Category() {
+    }
+
+    // parcelable
+
+    public Category(Parcel in) {
+        id  = in.readInt();
+        slug = in.readString();
+        title = in.readString();
+        description = in.readString();
+        parent = in.readInt();
+        post_count = in.readInt();
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Category createFromParcel(Parcel in) {
+            return new Category(in);
+        }
+
+        public Category[] newArray(int size) {
+            return new Category[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(id);
+        parcel.writeString(slug);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeInt(parent);
+        parcel.writeInt(post_count);
     }
 }

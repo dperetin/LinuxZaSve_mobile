@@ -1,6 +1,9 @@
 package com.linuxzasve.mobile.rest.model;
 
-public class Author {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Author implements Parcelable {
     private int id;
     private String slug;
     private String name;
@@ -77,5 +80,43 @@ public class Author {
     public Author() {
     }
 
-    ;
+    // parcelable
+
+    public Author(Parcel in) {
+        id = in.readInt();
+        slug = in.readString();
+        name = in.readString();
+        first_name = in.readString();
+        last_name = in.readString();
+        nickname = in.readString();
+        url = in.readString();
+        description = in.readString();
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Author createFromParcel(Parcel in) {
+            return new Author(in);
+        }
+
+        public Author[] newArray(int size) {
+            return new Author[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(id);
+        parcel.writeString(slug);
+        parcel.writeString(name);
+        parcel.writeString(first_name);
+        parcel.writeString(last_name);
+        parcel.writeString(nickname);
+        parcel.writeString(url);
+        parcel.writeString(description);
+    }
 }

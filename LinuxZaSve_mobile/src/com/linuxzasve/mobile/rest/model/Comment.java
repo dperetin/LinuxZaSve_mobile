@@ -1,9 +1,13 @@
 package com.linuxzasve.mobile.rest.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Comment {
+public class Comment implements Parcelable {
     private int id;
     private String name;
     private String url;
@@ -89,4 +93,44 @@ public class Comment {
     }
 
 
+    // parcelable
+
+    public Comment(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        url = in.readString();
+        date = in.readString();
+        content = in.readString();
+        parent = in.readString();
+        in.readList(children, Comment.class.getClassLoader());
+
+
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Comment createFromParcel(Parcel in) {
+            return new Comment(in);
+        }
+
+        public Comment[] newArray(int size) {
+            return new Comment[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeString(url);
+        parcel.writeString(date);
+        parcel.writeString(content);
+        parcel.writeString(parent);
+        parcel.writeList(children);
+        parcel.writeInt(depth);
+    }
 }

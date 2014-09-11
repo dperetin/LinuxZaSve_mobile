@@ -7,11 +7,14 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
+
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher_lzs"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light">
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

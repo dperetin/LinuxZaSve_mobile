@@ -1,5 +1,7 @@
 package com.linuxzasve.mobile.rest.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.Html;
 
 import java.text.ParseException;
@@ -12,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class Post {
+public class Post implements Parcelable {
     private int id;
     private String type;
     private String slug;
@@ -93,7 +95,7 @@ public class Post {
     }
 
     public String getContent() {
-        return ClanakRemoveHardcodedDim(content);
+        return removeHardcodedDimensions(content);
     }
 
     public void setContent(final String content) {
@@ -215,30 +217,30 @@ public class Post {
     public Post() {
     }
 
-    private String ClanakRemoveHardcodedDim(final String clanak) {
-        String filtriraniClanak = clanak;
+    private String removeHardcodedDimensions(final String content) {
+        String filteredContent = content;
 
-        List<Pattern> uzorciZaIzbaciti = new ArrayList<Pattern>();
+        List<Pattern> patternsToRemove = new ArrayList<Pattern>();
 
-        uzorciZaIzbaciti.add(Pattern.compile("width=\"\\d+\""));
-        uzorciZaIzbaciti.add(Pattern.compile("height=\"\\d+\""));
-        uzorciZaIzbaciti.add(Pattern.compile("\"width: \\d+px\""));
+        patternsToRemove.add(Pattern.compile("width=\"\\d+\""));
+        patternsToRemove.add(Pattern.compile("height=\"\\d+\""));
+        patternsToRemove.add(Pattern.compile("\"width: \\d+px\""));
 
-        Iterator<Pattern> it = uzorciZaIzbaciti.iterator();
+        Iterator<Pattern> it = patternsToRemove.iterator();
         while (it.hasNext()) {
-            Pattern uzorak = it.next();
-            Matcher htmlClanka = uzorak.matcher(filtriraniClanak);
+            Pattern pattern = it.next();
+            Matcher articleHtml = pattern.matcher(filteredContent);
 
-            while (htmlClanka.find()) {
-                int poc = htmlClanka.start();
-                int kraj = htmlClanka.end();
+            while (articleHtml.find()) {
+                int startIndex = articleHtml.start();
+                int endIndex = articleHtml.end();
 
-                filtriraniClanak = filtriraniClanak.substring(0, poc) + filtriraniClanak.substring(kraj);
-                htmlClanka = uzorak.matcher(filtriraniClanak);
+                filteredContent = filteredContent.substring(0, startIndex) + filteredContent.substring(endIndex);
+                articleHtml = pattern.matcher(filteredContent);
             }
 
         }
-        return filtriraniClanak;
+        return filteredContent;
     }
 
     public String getDate(final String format) {
@@ -256,5 +258,73 @@ public class Post {
             return null;
         }
         return result;
+    }
+
+    // parcelable
+
+    public Post(Parcel in) {
+        id = in.readInt();
+        type = in.readString();
+        slug = in.readString();
+        url = in.readString();
+        status = in.readString();
+        title = in.readString();
+        title_plain = in.readString();
+        content = in.readString();
+        excerpt = in.readString();
+        date = in.readString();
+        modified = in.readString();
+        in.readList(categories, Category.class.getClassLoader());
+        in.readList(tags, Tag.class.getClassLoader());
+        author = in.readParcelable(Author.class.getClassLoader());
+        in.readList(comments, Comment.class.getClassLoader());
+        in.readList(attachments, Attachment.class.getClassLoader());
+        comment_count = in.readInt();
+        comment_status = in.readString();
+        thumbnail = in.readString();
+        custom_fields = in.readParcelable(CustomFields.class.getClassLoader());
+        thumbnail_size = in.readString();
+        thumbnail_images = in.readParcelable(Thumbnail.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(id);
+        parcel.writeString(type);
+        parcel.writeString(slug);
+        parcel.writeString(url);
+        parcel.writeString(status);
+        parcel.writeString(title);
+        parcel.writeString(title_plain);
+        parcel.writeString(content);
+        parcel.writeString(excerpt);
+        parcel.writeString(date);
+        parcel.writeString(modified);
+        parcel.writeList(categories);
+        parcel.writeList(tags);
+        parcel.writeParcelable(author, flags);
+        parcel.writeList(comments);
+        parcel.writeList(attachments);
+        parcel.writeInt(comment_count);
+        parcel.writeString(comment_status);
+        parcel.writeString(thumbnail);
+        parcel.writeParcelable(custom_fields, flags);
+        parcel.writeString(thumbnail_size);
+        parcel.writeParcelable(thumbnail_images, flags);
     }
 }

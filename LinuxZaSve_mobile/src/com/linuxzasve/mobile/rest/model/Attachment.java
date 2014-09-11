@@ -1,7 +1,10 @@
 package com.linuxzasve.mobile.rest.model;
 
 
-public class Attachment {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Attachment implements Parcelable {
     private int id;
     private String url;
     private String slug;
@@ -87,5 +90,45 @@ public class Attachment {
     public Attachment() {
     }
 
-    ;
+    // parcelable
+
+    public Attachment(Parcel in) {
+        id = in.readInt();
+        url = in.readString();
+        slug = in.readString();
+        title = in.readString();
+        description = in.readString();
+        caption = in.readString();
+        parent = in.readInt();
+        mime_type = in.readString();
+        images = in.readParcelable(Image.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Attachment createFromParcel(Parcel in) {
+            return new Attachment(in);
+        }
+
+        public Attachment[] newArray(int size) {
+            return new Attachment[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(id);
+        parcel.writeString(url);
+        parcel.writeString(slug);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeString(caption);
+        parcel.writeInt(parent);
+        parcel.writeString(mime_type);
+        parcel.writeParcelable(images, flags);
+    }
 }

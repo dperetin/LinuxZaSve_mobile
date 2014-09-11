@@ -6,7 +6,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +29,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import org.apache.http.Header;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -48,8 +49,9 @@ public class ArticleListFragment extends Fragment {
     private ArticleListFragmentType articleListFragmentType;
 
     public static final String ARTICLE_LIST_FRAGMENT_TYPE = "articleListFragmentType";
+    public static final String ARTICLE_LIST = "article_list";
 
-    private List<Post> articleList;
+    private ArrayList<Post> articleList;
 
     @Override
     public void onResume() {
@@ -210,6 +212,13 @@ public class ArticleListFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putParcelableArrayList(ARTICLE_LIST, articleList);
     }
 
     public interface ArticleFragmentListener {

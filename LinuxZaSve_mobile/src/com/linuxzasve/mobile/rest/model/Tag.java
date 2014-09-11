@@ -1,6 +1,11 @@
 package com.linuxzasve.mobile.rest.model;
 
-public class Tag {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class Tag implements Parcelable {
     private int id;
     private String slug;
     private String title;
@@ -48,5 +53,39 @@ public class Tag {
     }
 
     public Tag() {
+    }
+
+    // parcelable
+
+    public Tag(Parcel in) {
+        id = in.readInt();
+        slug = in.readString();
+        title = in.readString();
+        description = in.readString();
+        post_count = in.readString();
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Tag createFromParcel(Parcel in) {
+            return new Tag(in);
+        }
+
+        public Tag[] newArray(int size) {
+            return new Tag[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(id);
+        parcel.writeString(slug);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeString(post_count);
     }
 }
