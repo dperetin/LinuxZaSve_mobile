@@ -9,11 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
-import com.linuxzasve.mobile.CommentListArrayAdapter;
+import com.linuxzasve.mobile.adapters.CommentListArrayAdapter;
 import com.linuxzasve.mobile.rest.model.LzsRestResponse;
-import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
-public class GetPostCommentsResponseHandler extends JsonHttpResponseHandler {
+import java.io.UnsupportedEncodingException;
+
+public class GetPostCommentsResponseHandler extends AsyncHttpResponseHandler {
 
 	private final Context context;
 	private final ListView listView;
@@ -31,9 +33,17 @@ public class GetPostCommentsResponseHandler extends JsonHttpResponseHandler {
 	}
 
 	@Override
-	public void onSuccess(final int statusCode, final Header[] headers, final String responseBody) {
+	public void onSuccess(final int statusCode, final Header[] headers, final byte[] bytes) {
 
-		Gson gson = new Gson();
+        String responseBody = null;
+
+        try {
+            responseBody = new String(bytes, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        Gson gson = new Gson();
 		LzsRestResponse lzs_feed = gson.fromJson(responseBody, LzsRestResponse.class);
 
 		komentariProgressLayout.setVisibility(View.GONE);
@@ -44,4 +54,9 @@ public class GetPostCommentsResponseHandler extends JsonHttpResponseHandler {
 
 		listView.setAdapter(adapter);
 	}
+
+    @Override
+    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+    }
 }

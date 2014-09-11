@@ -16,8 +16,10 @@ import com.google.gson.Gson;
 import com.linuxzasve.mobile.R;
 import com.linuxzasve.mobile.googl.GoogleUrlShortener;
 import com.linuxzasve.mobile.googl.model.GooGlResponse;
-import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import org.apache.http.Header;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * This fragment is responsible for fetching and displaying list of articles
@@ -76,7 +78,7 @@ public class ArticleDisplayFragment extends Fragment {
 
     super.onCreate(savedInstanceState);
 
-    View rootView = inflater.inflate(R.layout.article_display, container, false);
+    View rootView = inflater.inflate(R.layout.article_display_fragment, container, false);
 
     String articleWebViewContent = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />"
         + "<h1>"
@@ -94,7 +96,7 @@ public class ArticleDisplayFragment extends Fragment {
 
   @Override
   public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-    inflater.inflate(R.menu.clanak, menu);
+    inflater.inflate(R.menu.article_display_menu, menu);
 
     super.onCreateOptionsMenu(menu, inflater);
   }
@@ -108,36 +110,47 @@ public class ArticleDisplayFragment extends Fragment {
         articleFragmentListener.onArticleDisplayFragmentUpNavPressed();
         return true;
 
-      case R.id.menu_pokazi_komentare:
+      case R.id.menu_comment_list:
 
         articleFragmentListener.onCommentsListButtonPressed(postId, postTitle);
 
         return true;
 
       case R.id.menu_share:
-        GoogleUrlShortener.ShortenUrl(getActivity(), originalLink, new JsonHttpResponseHandler() {
+        GoogleUrlShortener.ShortenUrl(getActivity(), originalLink, new AsyncHttpResponseHandler() {
 
           @Override
           public void onSuccess(final int statusCode, final Header[] headers,
-              final String responseBody) {
-            Gson gson = new Gson();
+              final byte[] bytes) {
 
-            String skraceniUrl = gson.fromJson(responseBody, GooGlResponse.class).getId();
+              String responseBody = null;
 
-            Intent intent2 = getActivity().getIntent();
+              try {
+                  responseBody = new String(bytes, "UTF-8");
+              } catch (UnsupportedEncodingException e) {
+                  e.printStackTrace();
+              }
+
+              Gson gson = new Gson();
+
+            String shortenedUrl = gson.fromJson(responseBody, GooGlResponse.class).getId();
+
             Intent share = new Intent(Intent.ACTION_SEND);
             share.setType("text/plain");
 
-            // kreiram naslov za dijeljenje
-            String shareNaslov = "LZS | " + postTitle;
+            String shareTitle = "LZS | " + postTitle;
 
-            // kreiram tekst za dijeljenje
-            String shareText = "Linux za sve | " + postTitle + " " + skraceniUrl;
+            String shareText = "Linux za sve | " + postTitle + " " + shortenedUrl;
 
             share.putExtra(Intent.EXTRA_TEXT, shareText);
-            share.putExtra(Intent.EXTRA_SUBJECT, shareNaslov);
-            startActivity(Intent.createChooser(share, "Podijeli članak!"));
+            share.putExtra(Intent.EXTRA_SUBJECT, shareTitle);
+            startActivity(Intent.createChooser(share, getResources().getString(R.string.share_article)));
           }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
         });
 
         articleFragmentListener.onShareButtonPressed();

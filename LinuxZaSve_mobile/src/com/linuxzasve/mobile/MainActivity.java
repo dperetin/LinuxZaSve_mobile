@@ -1,10 +1,10 @@
 package com.linuxzasve.mobile;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import com.linuxzasve.mobile.fragments.ArticleDisplayFragment;
 import com.linuxzasve.mobile.fragments.ArticleListFragment;
@@ -18,7 +18,7 @@ import com.linuxzasve.mobile.rest.model.Post;
  *
  * @author dperetin
  */
-public class MainActivity extends FragmentActivity implements
+public class MainActivity extends Activity implements
         ArticleListFragment.ArticleFragmentListener,
         ArticleDisplayFragment.ArticleDisplayFragmentListener,
         CommentListFragment.CommentListFragmentListener,
@@ -68,12 +68,23 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void setArticleFragmentActionBarTitle() {
-        ActionBar ab = getActionBar();
-        if (Intent.ACTION_SEARCH.equals(intentAction)) {
-            ab.setSubtitle(getResources().getString(R.string.action_bar_subtitle_article_search,
-                searchQuery));
-        } else {
-            ab.setSubtitle(getResources().getString(R.string.action_bar_subtitle_article_list));
+        ActionBar actionBar = getActionBar();
+
+        if (actionBar != null) {
+            if (Intent.ACTION_SEARCH.equals(intentAction)) {
+                actionBar.setSubtitle(getResources().getString(R.string.action_bar_subtitle_article_search,
+                        searchQuery));
+
+                actionBar.setHomeButtonEnabled(true);
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            } else {
+                actionBar.setSubtitle(getResources().getString(R.string.action_bar_subtitle_article_list));
+
+                actionBar.setHomeButtonEnabled(false);
+                actionBar.setDisplayHomeAsUpEnabled(false);
+            }
+
+
         }
     }
 
@@ -94,8 +105,6 @@ public class MainActivity extends FragmentActivity implements
                 .replace(android.R.id.content, articleDisplayFragment)
                 .addToBackStack(null)
                 .commit();
-
-
     }
 
     @Override
@@ -112,11 +121,13 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void setUpArticleDisplayFragmentActionBar(String title) {
-        ActionBar ab = getActionBar();
-        ab.setSubtitle(title);
+        ActionBar actionBar = getActionBar();
 
-        ab.setHomeButtonEnabled(true);
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setSubtitle(title);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -142,8 +153,6 @@ public class MainActivity extends FragmentActivity implements
 
     }
 
-    //
-
     @Override
     public void onCommentListFragmentUpNavPressed() {
         onBackPressed();
@@ -151,11 +160,13 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void setCommentListFragmentActionBarTitle(String title) {
-        ActionBar ab = getActionBar();
-        ab.setSubtitle(title);
+        ActionBar actionBar = getActionBar();
 
-        ab.setHomeButtonEnabled(true);
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setSubtitle(title);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -183,8 +194,10 @@ public class MainActivity extends FragmentActivity implements
     public void setCommentEditFragmentActionBarTitle() {
         ActionBar ab = getActionBar();
 
-        ab.setHomeButtonEnabled(true);
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setHomeButtonEnabled(true);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override

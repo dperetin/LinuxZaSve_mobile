@@ -5,7 +5,7 @@ import com.loopj.android.http.RequestParams;
 
 public class LzsRestGateway {
 
-    String[] defaultInclude = {"author", "url", "title", "date", "comment_count", "thumbnail"};
+    String[] defaultInclude = {"author", "url", "title", "date", "comment_count", "thumbnail", "content"};
     String[] commentInclude = {"comments"};
 
     public static final String GET_RECENT_POSTS_URI = "get_recent_posts/";

@@ -78,7 +78,7 @@ public class CommentEditFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         // inflating fragment layout
-        return inflater.inflate(R.layout.novi_komentar, container, false);
+        return inflater.inflate(R.layout.comment_edit_fragment, container, false);
     }
 
     @Override
@@ -87,18 +87,18 @@ public class CommentEditFragment extends Fragment {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, usedNames);
         AutoCompleteTextView et1 = (AutoCompleteTextView) getActivity().findViewById(
-                R.id.novi_komentar_name);
+                R.id.comment_author_name);
         et1.setAdapter(adapter);
 
         ArrayAdapter<String> adapterEmails = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, usedEmails);
         AutoCompleteTextView et2 = (AutoCompleteTextView) getActivity().findViewById(
-                R.id.novi_komentar_email);
+                R.id.comment_author_email);
         et2.setAdapter(adapterEmails);
     }
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-            inflater.inflate(R.menu.novi_komentar, menu);
+            inflater.inflate(R.menu.comment_edit_menu, menu);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -113,14 +113,14 @@ public class CommentEditFragment extends Fragment {
 
             case R.id.menu_send:
                 AutoCompleteTextView et1 = (AutoCompleteTextView) getActivity().findViewById(
-                        R.id.novi_komentar_name);
+                        R.id.comment_author_name);
                 String name = et1.getText().toString();
 
                 AutoCompleteTextView et2 = (AutoCompleteTextView) getActivity().findViewById(
-                        R.id.novi_komentar_email);
+                        R.id.comment_author_email);
                 String email = et2.getText().toString();
 
-                EditText et4 = (EditText) getActivity().findViewById(R.id.novi_komentar_tekst);
+                EditText et4 = (EditText) getActivity().findViewById(R.id.comment_text);
                 String text = et4.getText().toString();
 
                 if ((email == null) || (name == null) || email.equals("") || name.equals("")) {

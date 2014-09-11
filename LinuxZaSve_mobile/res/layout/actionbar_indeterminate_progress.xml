@@ -2,8 +2,10 @@
     android:layout_width="64dp"
     android:layout_height="wrap_content"
     android:gravity="center">
-    <ProgressBar android:layout_width="32dp"
+
+    <ProgressBar
+        style="?android:attr/progressBarStyle"
+        android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_gravity="center"
-        style="?android:attr/progressBarStyle" />
+        android:layout_gravity="center" />
 </FrameLayout>

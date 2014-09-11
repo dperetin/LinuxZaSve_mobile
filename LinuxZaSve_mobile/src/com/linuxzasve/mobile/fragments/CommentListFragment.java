@@ -65,15 +65,15 @@ public class CommentListFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         // inflating fragment layout
-        return inflater.inflate(R.layout.lista_komentara, container, false);
+        return inflater.inflate(R.layout.comment_list_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        listView = (ListView) getActivity().findViewById(R.id.komentari);
-        komentariProgressLayout = (LinearLayout) getActivity().findViewById(R.id.komentariProgressLayout);
+        listView = (ListView) getActivity().findViewById(R.id.commentsList);
+        komentariProgressLayout = (LinearLayout) getActivity().findViewById(R.id.commentsProgressLayout);
 
         komentariProgressLayout.setVisibility(View.VISIBLE);
 
@@ -82,7 +82,7 @@ public class CommentListFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-            inflater.inflate(R.menu.lista_komentara, menu);
+            inflater.inflate(R.menu.comment_list_menu, menu);
 
             refresh = menu.findItem(R.id.menu_refresh_item);
 

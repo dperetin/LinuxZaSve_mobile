@@ -3,8 +3,10 @@ package com.linuxzasve.mobile.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,15 +20,16 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.linuxzasve.mobile.ActivityHelper;
-import com.linuxzasve.mobile.ArticleListArrayAdapter;
+import com.linuxzasve.mobile.adapters.ArticleListArrayAdapter;
 import com.linuxzasve.mobile.R;
 import com.linuxzasve.mobile.rest.LzsRestGateway;
 import com.linuxzasve.mobile.rest.model.LzsRestResponse;
 import com.linuxzasve.mobile.rest.model.Post;
-import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.http.Header;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -86,7 +89,7 @@ public class ArticleListFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_article_list, container, false);
+        View rootView = inflater.inflate(R.layout.article_list_fragment, container, false);
 
         articleListView = (ListView) rootView.findViewById(R.id.articleList);
 
@@ -110,7 +113,7 @@ public class ArticleListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         if (ArticleListFragmentType.LIST.equals(articleListFragmentType)) {
-            inflater.inflate(R.menu.menu_fragment_article_list, menu);
+            inflater.inflate(R.menu.article_list_menu, menu);
 
             refresh = menu.findItem(R.id.menu_refresh_item);
         }
@@ -118,20 +121,29 @@ public class ArticleListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    public void fetchArticles(final String search) {
+    private void fetchArticles(final String search) {
 
         if (ActivityHelper.isOnline(getActivity())) {
 
             LzsRestGateway g = new LzsRestGateway();
 
-            JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            AsyncHttpResponseHandler responseHandler = new AsyncHttpResponseHandler() {
 
                 @Override
                 public void onSuccess(final int statusCode, final Header[] headers,
-                                      final String responseBody) {
+                                      final byte[] responseBody) {
+
+
+                    String response = null;
+                    try {
+                        response = new String(responseBody, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
 
                     Gson gson = new Gson();
-                    LzsRestResponse lzsRecentPosts = gson.fromJson(responseBody, LzsRestResponse.class);
+                    LzsRestResponse lzsRecentPosts = gson.fromJson(response, LzsRestResponse.class);
                     articleList = lzsRecentPosts.getPosts();
 
                     progressSpinner.setVisibility(View.GONE);
@@ -153,6 +165,11 @@ public class ArticleListFragment extends Fragment {
                             articleFragmentListener.onListItemSelected(articleList.get(position));
                         }
                     });
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
                 }
             };
 

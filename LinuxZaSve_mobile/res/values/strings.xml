@@ -1,19 +1,21 @@
 <resources>
 	<string name="app_name">Linux za sve</string>
-	<string name="title_activity_lista_novosti">Linux za sve</string>
-	<string name="gumb_komentari">Komentari</string>
+	<string name="comment_list_menu_item">Komentari</string>
 	<string name="menu_refresh">Osvježi</string>
 	<string name="menu_search">Pretraži</string>
 	<string name="menu_share">Dijeli</string>
 	<string name="menu_new">Ostavi komentar</string>
 	<string name="menu_send">Pošalji komentar</string>
 	<string name="network_not_available">Internet je nedostupan!</string>
-	<string name="novi_komentar_hint_name">Ime *</string>
-	<string name="novi_komentar_hint_email">E-mail (neće biti prikazano) *</string>
-	<string name="novi_komentar_hint_url">Web stranica</string>
-	<string name="novi_komentar_hint_komentar">Komentar</string>
+	<string name="new_comment_name_hint">Ime *</string>
+	<string name="new_comment_email_hint">E-mail (neće biti prikazano) *</string>
+	<string name="new_comment_url_hint">Web stranica</string>
+	<string name="new_comment_text_hint">Komentar</string>
 	<string name="search_hint">Pretraži Linux za sve</string>
 	<string name="app_label">Linux za sve</string>
 	<string name="action_bar_subtitle_article_list">Najnoviji članci</string>
     <string name="action_bar_subtitle_article_search">Tražim: %1$s</string>
+    <string name="thumbnail">Thumbnail</string>
+    <string name="comment_count">Broj komentara</string>
+    <string name="share_article">Podijeli članak!</string>
 </resources>
