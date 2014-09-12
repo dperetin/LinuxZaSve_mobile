@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,31 +18,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.linuxzasve.mobile.R;
-import com.linuxzasve.mobile.db.LzsDbContract;
-import com.linuxzasve.mobile.db.LzsDbHelper;
+import com.linuxzasve.mobile.db.Comment;
 import com.linuxzasve.mobile.rest.LzsRestGateway;
 import com.linuxzasve.mobile.rest.response.SubmitCommentResponseHandler;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- * Fragment displays list of articles. Extends <b>SherlockFragment</b> for compatibility with android versions older
- * than 3.0. After instantiation articleListFragmentType argument must be passed.
- *
- * @author dejan
- */
 public class CommentEditFragment extends Fragment {
 
     private CommentEditFragmentListener commentEditFragmentListener;
-
-    private Integer post_id;
-
-    // names used in previous posts, used for name autocomplete
+    private Integer postId;
     private String[] usedNames;
-
-    // emails used in previous posts, used for email autocomplete
     private String[] usedEmails;
+
+    private AutoCompleteTextView authorEmailAutocomplete;
+    private AutoCompleteTextView authorNameAutocomplete;
 
     @Override
     public void onResume() {
@@ -65,19 +57,17 @@ public class CommentEditFragment extends Fragment {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        post_id = getArguments().getInt(ArticleDisplayFragment.BUNDLE_POST_ID);
+        postId = getArguments().getInt(ArticleDisplayFragment.BUNDLE_POST_ID);
 
         usedNames = getUsedNames();
         usedEmails = getUsedEmails();
 
-        // This fragment participates in options menu creation, so it needs to announce it.
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-        // inflating fragment layout
         return inflater.inflate(R.layout.comment_edit_fragment, container, false);
     }
 
@@ -86,14 +76,14 @@ public class CommentEditFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, usedNames);
-        AutoCompleteTextView et1 = (AutoCompleteTextView) getActivity().findViewById(
+        authorNameAutocomplete = (AutoCompleteTextView) getActivity().findViewById(
                 R.id.comment_author_name);
-        et1.setAdapter(adapter);
+        authorNameAutocomplete.setAdapter(adapter);
 
         ArrayAdapter<String> adapterEmails = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, usedEmails);
-        AutoCompleteTextView et2 = (AutoCompleteTextView) getActivity().findViewById(
+        authorEmailAutocomplete = (AutoCompleteTextView) getActivity().findViewById(
                 R.id.comment_author_email);
-        et2.setAdapter(adapterEmails);
+        authorEmailAutocomplete.setAdapter(adapterEmails);
     }
 
     @Override
@@ -112,25 +102,20 @@ public class CommentEditFragment extends Fragment {
                 return true;
 
             case R.id.menu_send:
-                AutoCompleteTextView et1 = (AutoCompleteTextView) getActivity().findViewById(
-                        R.id.comment_author_name);
-                String name = et1.getText().toString();
 
-                AutoCompleteTextView et2 = (AutoCompleteTextView) getActivity().findViewById(
-                        R.id.comment_author_email);
-                String email = et2.getText().toString();
+                String name = authorNameAutocomplete.getText().toString();
+                String email = authorEmailAutocomplete.getText().toString();
 
                 EditText et4 = (EditText) getActivity().findViewById(R.id.comment_text);
                 String text = et4.getText().toString();
 
-                if ((email == null) || (name == null) || email.equals("") || name.equals("")) {
-                    Toast toast = Toast.makeText(getActivity(), "Nisu popunjena sva obavezna polja.", Toast.LENGTH_SHORT);
+                if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email)) {
+                    Toast toast = Toast.makeText(getActivity(), R.string.mandatory_fields_empty, Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
                     LzsRestGateway g = new LzsRestGateway();
-                    g.submitComment(post_id, name, email, text,
-                                    new SubmitCommentResponseHandler(name, email, usedNames,
-                                                                     usedEmails, getActivity()));
+                    g.submitComment(postId, name, email, text,
+                                    new SubmitCommentResponseHandler(name, email, getActivity()));
                     commentEditFragmentListener.onSendCommentButtonPressed();
                 }
 
@@ -142,46 +127,23 @@ public class CommentEditFragment extends Fragment {
     }
 
     private String[] getUsedNames() {
-        String[] allNames;
-        LzsDbHelper mDbHelper = new LzsDbHelper(getActivity());
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Set<String> allNames = new HashSet<String>();
 
-        String[] projection = {LzsDbContract.NewCommentName._ID, LzsDbContract.NewCommentName.COLUMN_NAME_IME};
-
-        List<String> popisImena = new ArrayList<String>();
-
-        Cursor c = db.query(LzsDbContract.NewCommentName.TABLE_NAME, projection, null, null, null, null, null);
-
-        while (c.moveToNext()) {
-            popisImena.add(c.getString(c.getColumnIndex(LzsDbContract.NewCommentName.COLUMN_NAME_IME)));
+        for (Comment c : Comment.all()) {
+            allNames.add(c.name);
         }
-        allNames = new String[popisImena.size()];
-        allNames = popisImena.toArray(allNames);
 
-        return allNames;
+        return allNames.toArray(new String[allNames.size()]);
     }
 
-    /**
-     * Populates email autocomplete field
-     */
     private String[] getUsedEmails() {
-        String[] allEmails;
-        LzsDbHelper mDbHelper = new LzsDbHelper(getActivity());
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Set<String> allEmails = new HashSet<String>();
 
-        String[] projection = {LzsDbContract.NewCommentEmail._ID, LzsDbContract.NewCommentEmail.COLUMN_NAME_EMAIL};
-
-        List<String> popisImena = new ArrayList<String>();
-
-        Cursor c = db.query(LzsDbContract.NewCommentEmail.TABLE_NAME, projection, null, null, null, null, null);
-
-        while (c.moveToNext()) {
-            popisImena.add(c.getString(c.getColumnIndex(LzsDbContract.NewCommentEmail.COLUMN_NAME_EMAIL)));
+        for (Comment c : Comment.all()) {
+            allEmails.add(c.email);
         }
-        allEmails = new String[popisImena.size()];
-        allEmails = popisImena.toArray(allEmails);
 
-        return allEmails;
+        return allEmails.toArray(new String[allEmails.size()]);
     }
 
     public interface CommentEditFragmentListener {

@@ -75,6 +75,7 @@
     <orderEntry type="jdk" jdkName="Android API 20 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="UrlImageViewHelper-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="activeandroid-3.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.6" level="project" />
   </component>

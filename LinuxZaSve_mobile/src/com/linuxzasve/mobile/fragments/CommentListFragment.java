@@ -26,9 +26,9 @@ import com.linuxzasve.mobile.rest.response.GetPostCommentsResponseHandler;
  */
 public class CommentListFragment extends Fragment {
     private ListView listView;
-    LinearLayout komentariProgressLayout;
-    Integer post_id;
-    String postTitle;
+    private LinearLayout commentProgressLayout;
+    private Integer postId;
+    private String postTitle;
     private MenuItem refresh;
     private CommentListFragmentListener commentListFragmentListener;
 
@@ -54,7 +54,7 @@ public class CommentListFragment extends Fragment {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        post_id = getArguments().getInt(ArticleDisplayFragment.BUNDLE_POST_ID);
+        postId = getArguments().getInt(ArticleDisplayFragment.BUNDLE_POST_ID);
         postTitle = getArguments().getString(ArticleDisplayFragment.BUNDLE_POST_TITLE);
 
         // This fragment participates in options menu creation, so it needs to announce it.
@@ -73,11 +73,11 @@ public class CommentListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         listView = (ListView) getActivity().findViewById(R.id.commentsList);
-        komentariProgressLayout = (LinearLayout) getActivity().findViewById(R.id.commentsProgressLayout);
+        commentProgressLayout = (LinearLayout) getActivity().findViewById(R.id.commentsProgressLayout);
 
-        komentariProgressLayout.setVisibility(View.VISIBLE);
+        commentProgressLayout.setVisibility(View.VISIBLE);
 
-        fetchArticles();
+        fetchComments();
     }
 
     @Override
@@ -93,17 +93,17 @@ public class CommentListFragment extends Fragment {
     /**
      * Instantiates AsyncTask class which fetches new posts and executes it.
      */
-    public void fetchArticles() {
+    public void fetchComments() {
         if (ActivityHelper.isOnline(getActivity())) {
             LzsRestGateway g = new LzsRestGateway();
-            GetPostCommentsResponseHandler responseHandler = new GetPostCommentsResponseHandler(getActivity(), listView, refresh, komentariProgressLayout);
+            GetPostCommentsResponseHandler responseHandler = new GetPostCommentsResponseHandler(getActivity(), listView, refresh, commentProgressLayout);
 
-            g.getCommentsForPost(post_id, responseHandler);
+            g.getCommentsForPost(postId, responseHandler);
         } else {
             Toast toast = Toast.makeText(getActivity(), R.string.network_not_available, Toast.LENGTH_LONG);
             toast.show();
-            if (komentariProgressLayout != null) {
-                komentariProgressLayout.setVisibility(View.GONE);
+            if (commentProgressLayout != null) {
+                commentProgressLayout.setVisibility(View.GONE);
             }
 
             if (refresh != null) {
@@ -122,11 +122,11 @@ public class CommentListFragment extends Fragment {
 
             case R.id.menu_refresh_item:
                 refresh.setActionView(R.layout.actionbar_indeterminate_progress);
-                fetchArticles();
+                fetchComments();
                 return true;
 
             case R.id.menu_new_comment:
-                commentListFragmentListener.onNewCommentPressed(post_id);
+                commentListFragmentListener.onNewCommentPressed(postId);
 
             default:
                 return super.onOptionsItemSelected(item);

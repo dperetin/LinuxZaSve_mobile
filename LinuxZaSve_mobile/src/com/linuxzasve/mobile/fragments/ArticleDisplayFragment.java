@@ -17,6 +17,8 @@ import com.linuxzasve.mobile.R;
 import com.linuxzasve.mobile.googl.GoogleUrlShortener;
 import com.linuxzasve.mobile.googl.model.GooGlResponse;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
 import org.apache.http.Header;
 
 import java.io.UnsupportedEncodingException;
@@ -131,7 +133,7 @@ public class ArticleDisplayFragment extends Fragment {
                   e.printStackTrace();
               }
 
-              Gson gson = new Gson();
+            Gson gson = new Gson();
 
             String shortenedUrl = gson.fromJson(responseBody, GooGlResponse.class).getId();
 

@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -226,9 +225,7 @@ public class Post implements Parcelable {
         patternsToRemove.add(Pattern.compile("height=\"\\d+\""));
         patternsToRemove.add(Pattern.compile("\"width: \\d+px\""));
 
-        Iterator<Pattern> it = patternsToRemove.iterator();
-        while (it.hasNext()) {
-            Pattern pattern = it.next();
+        for (Pattern pattern : patternsToRemove) {
             Matcher articleHtml = pattern.matcher(filteredContent);
 
             while (articleHtml.find()) {
@@ -245,7 +242,7 @@ public class Post implements Parcelable {
 
     public String getDate(final String format) {
         Date date;
-        String result = "";
+        String result;
         try {
 
             date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(this.date);

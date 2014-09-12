@@ -3,7 +3,6 @@ package com.linuxzasve.mobile.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,8 +29,6 @@ import org.apache.http.Header;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * This fragment is responsible for fetching and displaying article list.
@@ -76,6 +73,10 @@ public class ArticleListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        if (getArguments() != null) {
+            articleList = getArguments().getParcelableArrayList(ARTICLE_LIST);
+        }
 
         if (getArguments() != null) {
 

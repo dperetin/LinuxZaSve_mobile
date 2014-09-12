@@ -18,4 +18,7 @@
     <string name="thumbnail">Thumbnail</string>
     <string name="comment_count">Broj komentara</string>
     <string name="share_article">Podijeli članak!</string>
+    <string name="mandatory_fields_empty">Nisu popunjena sva obavezna polja.</string>
+    <string name="comment_sent">Komentar je poslan.</string>
+    <string name="comment_send_failed">Slanje komentara nije uspjelo.</string>
 </resources>

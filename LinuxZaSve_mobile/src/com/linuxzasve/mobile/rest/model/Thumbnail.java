@@ -3,8 +3,6 @@ package com.linuxzasve.mobile.rest.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 public class Thumbnail implements Parcelable {
     private DetailedImage full;
     private DetailedImage thumbnail;
