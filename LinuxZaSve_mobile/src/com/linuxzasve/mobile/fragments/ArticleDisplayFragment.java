@@ -23,15 +23,8 @@ import com.linuxzasve.mobile.googl.model.GooGlResponse;
 import com.linuxzasve.mobile.rest.model.Post;
 import com.linuxzasve.mobile.timthumb.TimThumb;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.Base64;
 
 import org.apache.http.Header;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.zip.GZIPInputStream;
 
 /**
  * This fragment is responsible for fetching and displaying list of articles
@@ -96,8 +89,11 @@ public class ArticleDisplayFragment extends Fragment {
         postWebView.loadDataWithBaseURL("file:///android_asset/", articleWebViewContent, "text/html", "UTF-8", null);
 
         thumbnail = (ImageView) rootView.findViewById(R.id.thumbnail);
-        String thumbnailUrl = TimThumb.generateTimThumbUrl(post.getThumbnail_images().getFull().getUrl(), 320, 512, 1);
-        UrlImageViewHelper.setUrlDrawable(thumbnail, thumbnailUrl);
+
+        if (post.getThumbnail_images() != null) {
+            String thumbnailUrl = TimThumb.generateTimThumbUrl(post.getThumbnail_images().getFull().getUrl(), 320, 512, 1);
+            UrlImageViewHelper.setUrlDrawable(thumbnail, thumbnailUrl);
+        }
 
         articleTitle = (TextView) rootView.findViewById(R.id.article_title);
         articleTitle.setText(post.getTitle());
@@ -177,21 +173,6 @@ public class ArticleDisplayFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public static String decompress(byte[] compressed) throws IOException {
-        final int BUFFER_SIZE = 32;
-        ByteArrayInputStream is = new ByteArrayInputStream(compressed);
-        GZIPInputStream gis = new GZIPInputStream(is, BUFFER_SIZE);
-        StringBuilder string = new StringBuilder();
-        byte[] data = new byte[BUFFER_SIZE];
-        int bytesRead;
-        while ((bytesRead = gis.read(data)) != -1) {
-            string.append(new String(data, 0, bytesRead));
-        }
-        gis.close();
-        is.close();
-        return string.toString();
     }
 
     public interface ArticleDisplayFragmentListener {
