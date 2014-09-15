@@ -45,7 +45,7 @@ public class ArticleListArrayAdapter extends ArrayAdapter<Post> {
 
             holder.articleTitle = (TextView) convertView.findViewById(R.id.article_title);
             holder.publishDate = (TextView) convertView.findViewById(R.id.publish_date);
-            holder.author = (TextView) convertView.findViewById(R.id.author);
+            //holder.author = (TextView) convertView.findViewById(R.id.author);
             holder.commentCount = (TextView) convertView.findViewById(R.id.comment_count);
             holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
 
@@ -55,11 +55,11 @@ public class ArticleListArrayAdapter extends ArrayAdapter<Post> {
         }
         holder.articleTitle.setText(articleList.get(position).getTitle());
         holder.publishDate.setText(articleList.get(position).getDate("dd.MM.yyyy"));
-        holder.author.setText(articleList.get(position).getAuthor().getNickname());
+        //holder.author.setText(articleList.get(position).getAuthor().getNickname());
         holder.commentCount.setText(Integer.toString(articleList.get(position).getComment_count()));
 
         if ((articleList.get(position).getThumbnail_images() != null) && (articleList.get(position).getThumbnail_images().getFull() != null) && (articleList.get(position).getThumbnail_images().getFull().getUrl() != null)) {
-            String thumbnailUrl = TimThumb.generateTimThumbUrl(articleList.get(position).getThumbnail_images().getFull().getUrl(), 256, 256, 1);
+            String thumbnailUrl = TimThumb.generateTimThumbUrl(articleList.get(position).getThumbnail_images().getFull().getUrl(), 384, 512, 1);
             UrlImageViewHelper.setUrlDrawable(holder.thumbnail, thumbnailUrl);
         }
 

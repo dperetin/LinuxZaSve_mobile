@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.linuxzasve.mobile.R;
 import com.linuxzasve.mobile.db.Comment;
 import com.linuxzasve.mobile.rest.LzsRestGateway;
+import com.linuxzasve.mobile.rest.model.Post;
 import com.linuxzasve.mobile.rest.response.SubmitCommentResponseHandler;
 
 import java.util.HashSet;
@@ -28,7 +29,7 @@ import java.util.Set;
 public class CommentEditFragment extends Fragment {
 
     private CommentEditFragmentListener commentEditFragmentListener;
-    private Integer postId;
+    private Post post;
     private String[] usedNames;
     private String[] usedEmails;
 
@@ -57,7 +58,7 @@ public class CommentEditFragment extends Fragment {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        postId = getArguments().getInt(ArticleDisplayFragment.BUNDLE_POST_ID);
+        post = getArguments().getParcelable(ArticleDisplayFragment.BUNDLE_POST);
 
         usedNames = getUsedNames();
         usedEmails = getUsedEmails();
@@ -114,7 +115,7 @@ public class CommentEditFragment extends Fragment {
                     toast.show();
                 } else {
                     LzsRestGateway g = new LzsRestGateway();
-                    g.submitComment(postId, name, email, text,
+                    g.submitComment(post.getId(), name, email, text,
                                     new SubmitCommentResponseHandler(name, email, getActivity()));
                     commentEditFragmentListener.onSendCommentButtonPressed();
                 }

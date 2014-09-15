@@ -12,6 +12,7 @@ import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicHeader;
 
 import java.io.UnsupportedEncodingException;
 
@@ -40,17 +41,18 @@ public class GoogleUrlShortener {
         Gson gson = new Gson();
 
         StringEntity entity = null;
+
+        Header[] headers = new Header[1];
+        headers[0] = new BasicHeader("Content-Type", "application/json");
+
         try {
-            entity = new StringEntity(gson.toJson(r), "utf8");
+            entity = new StringEntity(gson.toJson(r));
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        if (entity != null) {
-            entity.setContentType("application/json");
-        }
-
-        post(context, POST_URL, entity, handler);
+        post(context, POST_URL, headers, entity, handler);
 
     }
 
@@ -63,7 +65,7 @@ public class GoogleUrlShortener {
      * @param entity          request body
      * @param responseHandler response handler
      */
-    private static void post(final Context context, final String url, final HttpEntity entity, final AsyncHttpResponseHandler responseHandler) {
-        client.post(context, url, entity, "application/json", responseHandler);
+    private static void post(final Context context, final String url, final Header[] headers, final HttpEntity entity, final AsyncHttpResponseHandler responseHandler) {
+        client.post(context, url, headers, entity, "application/json", responseHandler);
     }
 }

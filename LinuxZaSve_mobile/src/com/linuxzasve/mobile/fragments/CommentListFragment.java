@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.linuxzasve.mobile.ActivityHelper;
 import com.linuxzasve.mobile.R;
 import com.linuxzasve.mobile.rest.LzsRestGateway;
+import com.linuxzasve.mobile.rest.model.Post;
 import com.linuxzasve.mobile.rest.response.GetPostCommentsResponseHandler;
 
 /**
@@ -27,8 +28,8 @@ import com.linuxzasve.mobile.rest.response.GetPostCommentsResponseHandler;
 public class CommentListFragment extends Fragment {
     private ListView listView;
     private LinearLayout commentProgressLayout;
-    private Integer postId;
-    private String postTitle;
+
+    private Post post;
     private MenuItem refresh;
     private CommentListFragmentListener commentListFragmentListener;
 
@@ -36,7 +37,7 @@ public class CommentListFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        commentListFragmentListener.setCommentListFragmentActionBarTitle(postTitle);
+        commentListFragmentListener.setCommentListFragmentActionBarTitle(post.getTitle());
     }
 
     @Override
@@ -54,8 +55,7 @@ public class CommentListFragment extends Fragment {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        postId = getArguments().getInt(ArticleDisplayFragment.BUNDLE_POST_ID);
-        postTitle = getArguments().getString(ArticleDisplayFragment.BUNDLE_POST_TITLE);
+        post = getArguments().getParcelable(ArticleDisplayFragment.BUNDLE_POST);
 
         // This fragment participates in options menu creation, so it needs to announce it.
         setHasOptionsMenu(true);
@@ -98,7 +98,7 @@ public class CommentListFragment extends Fragment {
             LzsRestGateway g = new LzsRestGateway();
             GetPostCommentsResponseHandler responseHandler = new GetPostCommentsResponseHandler(getActivity(), listView, refresh, commentProgressLayout);
 
-            g.getCommentsForPost(postId, responseHandler);
+            g.getCommentsForPost(post.getId(), responseHandler);
         } else {
             Toast toast = Toast.makeText(getActivity(), R.string.network_not_available, Toast.LENGTH_LONG);
             toast.show();
@@ -126,7 +126,7 @@ public class CommentListFragment extends Fragment {
                 return true;
 
             case R.id.menu_new_comment:
-                commentListFragmentListener.onNewCommentPressed(postId);
+                commentListFragmentListener.onNewCommentPressed(post);
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -136,6 +136,6 @@ public class CommentListFragment extends Fragment {
     public interface CommentListFragmentListener {
         public void onCommentListFragmentUpNavPressed();
         public void setCommentListFragmentActionBarTitle(String title);
-        public void onNewCommentPressed(Integer postId);
+        public void onNewCommentPressed(Post post);
     }
 }

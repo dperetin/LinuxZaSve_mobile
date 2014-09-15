@@ -93,10 +93,7 @@ public class MainActivity extends Activity implements
         ArticleDisplayFragment articleDisplayFragment = new ArticleDisplayFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString(ArticleDisplayFragment.BUNDLE_POST_CONTENT, post.getContent());
-        bundle.putString(ArticleDisplayFragment.BUNDLE_POST_TITLE, post.getTitle());
-        bundle.putInt(ArticleDisplayFragment.BUNDLE_POST_ID, post.getId());
-        bundle.putString(ArticleDisplayFragment.BUNDLE_POST_ORIGINAL_LINK, post.getUrl());
+        bundle.putParcelable(ArticleDisplayFragment.BUNDLE_POST, post);
 
         articleDisplayFragment.setArguments(bundle);
 
@@ -136,12 +133,11 @@ public class MainActivity extends Activity implements
     }
 
     @Override
-    public void onCommentsListButtonPressed(Integer postId, String postTitle) {
+    public void onCommentsListButtonPressed(Post post) {
         CommentListFragment fragment = new CommentListFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putInt(ArticleDisplayFragment.BUNDLE_POST_ID, postId);
-        bundle.putString(ArticleDisplayFragment.BUNDLE_POST_TITLE, postTitle);
+        bundle.putParcelable(ArticleDisplayFragment.BUNDLE_POST, post);
 
         fragment.setArguments(bundle);
 
@@ -170,11 +166,11 @@ public class MainActivity extends Activity implements
     }
 
     @Override
-    public void onNewCommentPressed(Integer postId) {
+    public void onNewCommentPressed(Post post) {
         CommentEditFragment fragment = new CommentEditFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putInt(ArticleDisplayFragment.BUNDLE_POST_ID, postId);
+        bundle.putParcelable(ArticleDisplayFragment.BUNDLE_POST, post);
 
         fragment.setArguments(bundle);
 

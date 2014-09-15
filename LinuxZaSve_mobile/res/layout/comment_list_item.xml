@@ -34,7 +34,8 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:fontFamily="sans-serif-condensed"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textColorLink="#79821F"/>
 
     <TextView
         android:id="@+id/comment_publish_date"

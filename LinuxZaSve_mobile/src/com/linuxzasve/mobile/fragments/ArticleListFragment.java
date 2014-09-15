@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
  * @author dperetin
  */
 public class ArticleListFragment extends Fragment {
-    private ListView articleListView;
+    private GridView articleListView;
     private LinearLayout progressSpinner;
     private MenuItem refresh;
 
@@ -94,7 +95,7 @@ public class ArticleListFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.article_list_fragment, container, false);
 
-        articleListView = (ListView) rootView.findViewById(R.id.articleList);
+        articleListView = (GridView) rootView.findViewById(R.id.articleList);
 
         progressSpinner = (LinearLayout) rootView.findViewById(R.id.articleListProgressLayout);
         progressSpinner.setVisibility(View.VISIBLE);
