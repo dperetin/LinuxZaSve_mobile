@@ -94,7 +94,8 @@ public class Post implements Parcelable {
     }
 
     public String getContent() {
-        return removeHardcodedDimensions(content);
+        return "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />"
+                + removeHardcodedDimensions(content).replace("//www.youtube.com/", "http://www.youtube.com/");
     }
 
     public void setContent(final String content) {

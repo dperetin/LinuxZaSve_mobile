@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -80,11 +81,12 @@ public class ArticleDisplayFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.article_display_fragment, container, false);
 
-        String articleWebViewContent = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />" + post.getContent();
+        String articleWebViewContent = post.getContent();
 
         WebView postWebView = (WebView) rootView.findViewById(R.id.article_content);
         WebSettings settings = postWebView.getSettings();
         settings.setDefaultTextEncodingName("utf-8");
+        settings.setJavaScriptEnabled(true);
 
         postWebView.loadDataWithBaseURL("file:///android_asset/", articleWebViewContent, "text/html", "UTF-8", null);
 
