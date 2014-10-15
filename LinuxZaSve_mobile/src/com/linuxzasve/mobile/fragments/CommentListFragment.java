@@ -2,6 +2,7 @@ package com.linuxzasve.mobile.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,9 +16,14 @@ import android.widget.Toast;
 
 import com.linuxzasve.mobile.ActivityHelper;
 import com.linuxzasve.mobile.R;
+import com.linuxzasve.mobile.adapters.CommentListArrayAdapter;
 import com.linuxzasve.mobile.rest.LzsRestGateway;
+import com.linuxzasve.mobile.rest.model.LzsRestResponse;
 import com.linuxzasve.mobile.rest.model.Post;
-import com.linuxzasve.mobile.rest.response.GetPostCommentsResponseHandler;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Fragment displays list of articles. Extends <b>SherlockFragment</b> for compatibility with android versions older
@@ -32,6 +38,7 @@ public class CommentListFragment extends Fragment {
     private Post post;
     private MenuItem refresh;
     private CommentListFragmentListener commentListFragmentListener;
+    private Context context;
 
     @Override
     public void onResume() {
@@ -43,6 +50,8 @@ public class CommentListFragment extends Fragment {
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
+
+        context = activity;
 
         try {
             commentListFragmentListener = (CommentListFragmentListener) activity;
@@ -96,9 +105,32 @@ public class CommentListFragment extends Fragment {
     public void fetchComments() {
         if (ActivityHelper.isOnline(getActivity())) {
             LzsRestGateway g = new LzsRestGateway();
-            GetPostCommentsResponseHandler responseHandler = new GetPostCommentsResponseHandler(getActivity(), listView, refresh, commentProgressLayout);
 
-            g.getCommentsForPost(post.getId(), responseHandler);
+            g.getCommentsForPost(post.getId(), new Callback<LzsRestResponse>() {
+                @Override
+                public void success(LzsRestResponse lzsRestResponse, Response response) {
+                        commentProgressLayout.setVisibility(View.GONE);
+                        if (refresh != null) {
+                            refresh.setActionView(null);
+                        }
+                        CommentListArrayAdapter adapter = new CommentListArrayAdapter(context, lzsRestResponse.getPost().getComments());
+
+                        listView.setAdapter(adapter);
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    commentProgressLayout.setVisibility(View.GONE);
+
+                    if (refresh != null) {
+                        refresh.setActionView(null);
+                    }
+
+                    Toast toast =
+                            Toast.makeText(getActivity(), R.string.comment_fetch_fail, Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
         } else {
             Toast toast = Toast.makeText(getActivity(), R.string.network_not_available, Toast.LENGTH_LONG);
             toast.show();

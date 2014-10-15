@@ -3,6 +3,7 @@ package com.linuxzasve.mobile.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,22 +15,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.linuxzasve.mobile.ActivityHelper;
 import com.linuxzasve.mobile.adapters.ArticleListArrayAdapter;
 import com.linuxzasve.mobile.R;
 import com.linuxzasve.mobile.rest.LzsRestGateway;
 import com.linuxzasve.mobile.rest.model.LzsRestResponse;
 import com.linuxzasve.mobile.rest.model.Post;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.apache.http.Header;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * This fragment is responsible for fetching and displaying article list.
@@ -40,6 +39,7 @@ public class ArticleListFragment extends Fragment {
     private GridView articleListView;
     private LinearLayout progressSpinner;
     private MenuItem refresh;
+    private Context context;
 
     private ArticleFragmentListener articleFragmentListener;
 
@@ -61,6 +61,8 @@ public class ArticleListFragment extends Fragment {
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
+
+        context = activity;
 
         try {
             articleFragmentListener = (ArticleFragmentListener) activity;
@@ -131,56 +133,51 @@ public class ArticleListFragment extends Fragment {
 
             LzsRestGateway g = new LzsRestGateway();
 
-            AsyncHttpResponseHandler responseHandler = new AsyncHttpResponseHandler() {
+
+            Callback<LzsRestResponse> callback = new Callback<LzsRestResponse>() {
+                @Override
+                public void success(LzsRestResponse lzsRecentPosts, Response response) {
+                        articleList = lzsRecentPosts.getPosts();
+
+                        progressSpinner.setVisibility(View.GONE);
+
+                        if (refresh != null) {
+                            refresh.setActionView(null);
+                        }
+
+                        ArticleListArrayAdapter adapter = new ArticleListArrayAdapter(context, articleList);
+
+                        articleListView.setAdapter(adapter);
+
+                        articleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                            @Override
+                            public void onItemClick(final AdapterView<?> parent, final View view,
+                                                    final int position, final long id) {
+
+                                articleFragmentListener.onListItemSelected(articleList.get(position));
+                            }
+                        });
+                }
 
                 @Override
-                public void onSuccess(final int statusCode, final Header[] headers,
-                                      final byte[] responseBody) {
-
-
-                    String response = null;
-                    try {
-                        response = new String(responseBody, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    Gson gson = new Gson();
-                    LzsRestResponse lzsRecentPosts = gson.fromJson(response, LzsRestResponse.class);
-                    articleList = lzsRecentPosts.getPosts();
-
+                public void failure(RetrofitError error) {
                     progressSpinner.setVisibility(View.GONE);
 
                     if (refresh != null) {
                         refresh.setActionView(null);
                     }
 
-                    ArticleListArrayAdapter adapter = new ArticleListArrayAdapter(getActivity(), articleList);
-
-                    articleListView.setAdapter(adapter);
-
-                    articleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                        @Override
-                        public void onItemClick(final AdapterView<?> parent, final View view,
-                                                final int position, final long id) {
-
-                            articleFragmentListener.onListItemSelected(articleList.get(position));
-                        }
-                    });
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                    Toast toast =
+                            Toast.makeText(getActivity(), R.string.article_fetch_fail, Toast.LENGTH_LONG);
+                    toast.show();
                 }
             };
 
             if (ArticleListFragmentType.LIST.equals(articleListFragmentType)) {
-                g.getRecentPosts(responseHandler);
+                g.getRecentPosts(callback);
             } else if (ArticleListFragmentType.SEARCH.equals(articleListFragmentType)) {
-                g.getSearchResult(search, responseHandler);
+                g.getSearchResult(search, callback);
             }
         } else {
 

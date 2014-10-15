@@ -16,8 +16,7 @@ apply plugin: 'com.android.application'
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 
-    compile 'com.google.code.gson:gson:2.3'
-    compile 'com.loopj.android:android-async-http:1.4.5'
+    compile 'com.squareup.retrofit:retrofit:1.7.0'
     compile 'com.koushikdutta.urlimageviewhelper:UrlImageViewHelper:1.0.2'
     compile 'com.android.support:cardview-v7:+'
     compile 'com.android.support:recyclerview-v7:+'

@@ -2,8 +2,7 @@ package com.linuxzasve.mobile.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,11 +19,15 @@ import android.widget.Toast;
 import com.linuxzasve.mobile.R;
 import com.linuxzasve.mobile.db.Comment;
 import com.linuxzasve.mobile.rest.LzsRestGateway;
+import com.linuxzasve.mobile.rest.model.LzsRestResponse;
 import com.linuxzasve.mobile.rest.model.Post;
-import com.linuxzasve.mobile.rest.response.SubmitCommentResponseHandler;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class CommentEditFragment extends Fragment {
 
@@ -36,6 +39,8 @@ public class CommentEditFragment extends Fragment {
     private AutoCompleteTextView authorEmailAutocomplete;
     private AutoCompleteTextView authorNameAutocomplete;
 
+    private Context context;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -46,6 +51,8 @@ public class CommentEditFragment extends Fragment {
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
+
+        context = activity;
 
         try {
             commentEditFragmentListener = (CommentEditFragmentListener) activity;
@@ -104,8 +111,8 @@ public class CommentEditFragment extends Fragment {
 
             case R.id.menu_send:
 
-                String name = authorNameAutocomplete.getText().toString();
-                String email = authorEmailAutocomplete.getText().toString();
+                final String name = authorNameAutocomplete.getText().toString();
+                final String email = authorEmailAutocomplete.getText().toString();
 
                 EditText et4 = (EditText) getActivity().findViewById(R.id.comment_text);
                 String text = et4.getText().toString();
@@ -116,8 +123,33 @@ public class CommentEditFragment extends Fragment {
                 } else {
                     LzsRestGateway g = new LzsRestGateway();
                     g.submitComment(post.getId(), name, email, text,
-                                    new SubmitCommentResponseHandler(name, email, getActivity()));
+                                    new Callback<LzsRestResponse>() {
+                                        @Override
+                                        public void success(LzsRestResponse lzsRestResponse, Response response) {
+                                            if ("ok".equals(lzsRestResponse.getStatus())) {
+
+                                                Toast toast = Toast.makeText(context, R.string.comment_sent, Toast.LENGTH_LONG);
+                                                toast.show();
+
+                                                Comment comment = new Comment(name, email);
+                                                comment.save();
+                                            } else {
+
+                                                Toast toast = Toast.makeText(context, R.string.comment_send_failed, Toast.LENGTH_LONG);
+                                                toast.show();
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            Toast toast = Toast.makeText(context, R.string.comment_send_failed, Toast.LENGTH_LONG);
+                                            toast.show();
+
+                                        }
+                                    });
                     commentEditFragmentListener.onSendCommentButtonPressed();
+
                 }
 
                 return true;

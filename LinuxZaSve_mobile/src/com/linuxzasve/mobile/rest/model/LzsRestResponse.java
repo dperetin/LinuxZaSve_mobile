@@ -3,9 +3,7 @@ package com.linuxzasve.mobile.rest.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class LzsRestResponse implements Parcelable {

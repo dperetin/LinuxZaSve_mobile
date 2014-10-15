@@ -1,7 +1,5 @@
 package com.linuxzasve.mobile.googl.model;
 
-import com.google.gson.Gson;
-
 public class GooGlResponse {
     private String kind;
     private String id;
@@ -29,10 +27,5 @@ public class GooGlResponse {
 
     public void setLongUrl(final String longUrl) {
         this.longUrl = longUrl;
-    }
-
-    public static GooGlResponse fromJson(final String json) {
-        Gson g = new Gson();
-        return g.fromJson(json, GooGlResponse.class);
     }
 }

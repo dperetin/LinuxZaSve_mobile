@@ -2,6 +2,7 @@ package com.linuxzasve.mobile.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +11,22 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.linuxzasve.mobile.R;
 import com.linuxzasve.mobile.googl.GoogleUrlShortener;
 import com.linuxzasve.mobile.googl.model.GooGlResponse;
 import com.linuxzasve.mobile.rest.model.Post;
 import com.linuxzasve.mobile.timthumb.TimThumb;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.apache.http.Header;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * This fragment is responsible for fetching and displaying list of articles
@@ -44,6 +45,7 @@ public class ArticleDisplayFragment extends Fragment {
     private TextView articleTitle;
     private TextView articleAuthor;
     private TextView articlePublishDate;
+    private Context context;
 
     @Override
     public void onResume() {
@@ -55,6 +57,8 @@ public class ArticleDisplayFragment extends Fragment {
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
+
+        context = activity;
 
         try {
             articleFragmentListener = (ArticleDisplayFragmentListener) activity;
@@ -132,44 +136,37 @@ public class ArticleDisplayFragment extends Fragment {
                 return true;
 
             case R.id.menu_share:
-                GoogleUrlShortener.ShortenUrl(getActivity(), post.getUrl(), new AsyncHttpResponseHandler() {
 
+                GoogleUrlShortener shortener = new GoogleUrlShortener();
+
+                shortener.shortenUrl(post.getUrl(), new Callback<GooGlResponse>() {
                     @Override
-                    public void onSuccess(final int statusCode, final Header[] headers,
-                                          final byte[] bytes) {
+                    public void success(GooGlResponse gooGlResponse, Response response) {
 
-                        String responseBody = null;
 
-                        try {
-                            responseBody = new String(bytes, "UTF8");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                            String shortenedUrl = gooGlResponse.getId();
 
-                        Gson gson = new Gson();
+                            Intent share = new Intent(Intent.ACTION_SEND);
+                            share.setType("text/plain");
 
-                        String shortenedUrl = gson.fromJson(responseBody, GooGlResponse.class).getId();
+                            String shareTitle = "LZS | " + post.getTitle();
 
-                        Intent share = new Intent(Intent.ACTION_SEND);
-                        share.setType("text/plain");
+                            String shareText = "Linux za sve | " + post.getTitle() + " " + shortenedUrl;
 
-                        String shareTitle = "LZS | " + post.getTitle();
-
-                        String shareText = "Linux za sve | " + post.getTitle() + " " + shortenedUrl;
-
-                        share.putExtra(Intent.EXTRA_TEXT, shareText);
-                        share.putExtra(Intent.EXTRA_SUBJECT, shareTitle);
-                        startActivity(Intent.createChooser(share, getResources().getString(R.string.share_article)));
+                            share.putExtra(Intent.EXTRA_TEXT, shareText);
+                            share.putExtra(Intent.EXTRA_SUBJECT, shareTitle);
+                            context.startActivity(Intent.createChooser(share, context.getResources().getString(R.string.share_article)));
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                    public void failure(RetrofitError error) {
+                        Toast toast =
+                                Toast.makeText(getActivity(), R.string.article_share_fail, Toast.LENGTH_LONG);
+                        toast.show();
                     }
                 });
 
                 articleFragmentListener.onShareButtonPressed();
-
                 return true;
 
             default:
