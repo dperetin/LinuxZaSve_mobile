@@ -21,4 +21,7 @@
     <string name="mandatory_fields_empty">Nisu popunjena sva obavezna polja.</string>
     <string name="comment_sent">Komentar je poslan.</string>
     <string name="comment_send_failed">Slanje komentara nije uspjelo.</string>
+    <string name="article_fetch_fail">Dohvat članaka nije uspio.</string>
+    <string name="article_share_fail">Dijeljenje članka nije uspjelo</string>
+    <string name="comment_fetch_fail">Dohvat komentara nije uspio.</string>
 </resources>
