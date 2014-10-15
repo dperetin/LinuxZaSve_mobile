@@ -1,73 +1,36 @@
 package com.linuxzasve.mobile.googl;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.linuxzasve.mobile.googl.model.GooGlRequest;
+import com.linuxzasve.mobile.googl.model.GooGlResponse;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
 
 /**
- * Skracuje url koristeci Google URL shortener (goo.gl)
+ * Class is used to shorten URL via goo.gl service.
  *
+ * @author dejan
  */
 public class GoogleUrlShortener {
-	
-	/**
-	 * Funkcija skracuje url dugiUrl
-	 *
-	 * @return skraceni URL, oblika http://goo.gl/...
-	 */
-	public static String ShortenUrl(String dugiUrl) {
 
-		// Saljem POST na https://www.googleapis.com/urlshortener/v1/url
-		String postUrl = "https://www.googleapis.com/urlshortener/v1/url";
-		
-		// string koji treba skratiti se salje kao JSON, npr:
-		// {"longUrl": "http://www.google.com/"}
-		String jsonLongUrl = "{\"longUrl\":\"" + dugiUrl + "\"}";
+    private static final String BASE_URL = "https://www.googleapis.com";
 
-		String skraceniUrl = "";
+    /**
+     * Method shortens url
+     *
+     * @param longUrl  long url to be shortened
+     * @param callback response handler
+     */
+    public void shortenUrl(final String longUrl, final Callback<GooGlResponse> callback) {
+        GooGlRequest r = new GooGlRequest();
+        r.setLongUrl(longUrl);
 
-		try
-		{
-			URLConnection conn = new URL(postUrl).openConnection();
-			conn.setDoOutput(true);
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(BASE_URL)
+                .build();
 
-			// Content-Type: application/json
-			conn.setRequestProperty("Content-Type", "application/json");
-			OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-			wr.write(jsonLongUrl);
-			wr.flush();
+        GooGlService service = restAdapter.create(GooGlService.class);
 
-			BufferedReader rd =  new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String line;
-
-			while ((line = rd.readLine()) != null) {
-				// "id": "http://goo.gl/fbsS",
-				Pattern p = Pattern.compile("id\": \"(.*)\",");
-				Matcher m = p.matcher(line);
-				if (m.find()) {
-					skraceniUrl = m.group(1);
-					break;
-				}
-			}
-
-			wr.close();
-			rd.close();
-		}
-		catch (MalformedURLException ex)
-		{
-
-		}
-		catch (IOException ex)
-		{
-
-		}
-
-		return skraceniUrl;
-	}
+        service.shortenUrl(r, callback);
+    }
 }
