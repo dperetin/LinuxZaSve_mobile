@@ -112,15 +112,15 @@ public class CommentListArrayAdapter extends ArrayAdapter<Comment> {
         params.setMargins((values.get(position).getDepth() + 1) * 12, 0, 0, 0);
         view.setLayoutParams(params);
 
-        TextView neki_tekst = (TextView) rowView.findViewById(R.id.comment_text);
-        neki_tekst.setMovementMethod(LinkMovementMethod.getInstance());
-        TextView datum = (TextView) rowView.findViewById(R.id.comment_publish_date);
-        TextView autor = (TextView) rowView.findViewById(R.id.comment_author);
+        TextView commentText = (TextView) rowView.findViewById(R.id.comment_text);
+        commentText.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView date = (TextView) rowView.findViewById(R.id.comment_publish_date);
+        TextView author = (TextView) rowView.findViewById(R.id.comment_author);
 
-        datum.setText(values.get(position).getDate());
-        autor.setText(values.get(position).getName());
+        date.setText(values.get(position).getDate());
+        author.setText(values.get(position).getName());
 
-        neki_tekst.setText(Html.fromHtml(values.get(position).getContent(), new ImageGetter() {
+        commentText.setText(Html.fromHtml(values.get(position).getContent(), new ImageGetter() {
             @Override
             public Drawable getDrawable(final String source) {
 
