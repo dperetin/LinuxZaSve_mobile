@@ -6,13 +6,8 @@ Android aplikacija za linuxzasve.com
 Najsvježiji build
 =================
 
-Najsvježiji build appa se može preuzeti `ovdje <http://goo.gl/hU2ul>`_
 
-
-
-.. image:: https://chart.googleapis.com/chart?cht=qr&chs=150x150&choe=UTF-8&chld=H&chl=https://goo.gl/hU2ul
-
-Testna verzija aplikacije je dostupna i na Google Play trgovini. Kako bi ju instalirali, slijedite ove upute:
+Testna verzija aplikacije je dostupna na Google Play trgovini. Kako bi ju instalirali, slijedite ove upute:
 
 
 1. izbrisati app ako je prije instaliran iz apk datoteke
