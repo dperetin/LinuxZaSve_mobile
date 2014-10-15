@@ -40,8 +40,8 @@ android {
         applicationId 'com.linuxzasve.mobile.android'
         minSdkVersion 14
         targetSdkVersion 20
-        versionCode 14
-        versionName '0.2.1'
+        versionCode 15
+        versionName '0.2.2'
     }
 
     sourceSets {
