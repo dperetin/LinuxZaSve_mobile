@@ -17,12 +17,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.linuxzasve.mobile.R;
 import com.linuxzasve.mobile.googl.GoogleUrlShortener;
 import com.linuxzasve.mobile.googl.model.GooGlResponse;
 import com.linuxzasve.mobile.rest.model.Post;
 import com.linuxzasve.mobile.timthumb.TimThumb;
+import com.squareup.picasso.Picasso;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -98,7 +98,7 @@ public class ArticleDisplayFragment extends Fragment {
 
         if (post.getThumbnail_images() != null) {
             String thumbnailUrl = TimThumb.generateTimThumbUrl(post.getThumbnail_images().getFull().getUrl(), 320, 512, 1);
-            UrlImageViewHelper.setUrlDrawable(thumbnail, thumbnailUrl);
+            Picasso.with(context).load(thumbnailUrl).into(thumbnail);
         }
 
         articleTitle = (TextView) rootView.findViewById(R.id.article_title);

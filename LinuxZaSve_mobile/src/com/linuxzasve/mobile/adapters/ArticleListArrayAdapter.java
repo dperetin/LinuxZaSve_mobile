@@ -10,10 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.linuxzasve.mobile.R;
 import com.linuxzasve.mobile.rest.model.Post;
 import com.linuxzasve.mobile.timthumb.TimThumb;
+import com.squareup.picasso.Picasso;
 
 public class ArticleListArrayAdapter extends ArrayAdapter<Post> {
 
@@ -60,7 +60,7 @@ public class ArticleListArrayAdapter extends ArrayAdapter<Post> {
 
         if ((articleList.get(position).getThumbnail_images() != null) && (articleList.get(position).getThumbnail_images().getFull() != null) && (articleList.get(position).getThumbnail_images().getFull().getUrl() != null)) {
             String thumbnailUrl = TimThumb.generateTimThumbUrl(articleList.get(position).getThumbnail_images().getFull().getUrl(), 384, 512, 1);
-            UrlImageViewHelper.setUrlDrawable(holder.thumbnail, thumbnailUrl);
+            Picasso.with(context).load(thumbnailUrl).into(holder.thumbnail);
         }
 
         return convertView;
