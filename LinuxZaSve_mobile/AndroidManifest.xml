@@ -19,7 +19,7 @@
         android:name="com.activeandroid.app.Application">
 
         <meta-data android:name="AA_DB_NAME" android:value="lzs_database.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data android:name="AA_DB_VERSION" android:value="2" />
 
         <activity
             android:name=".MainActivity"
